@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { HeroParticles } from "@/components/marketing/hero-particles";
 import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 import { TOOL_ROUTES } from "@/lib/seo/tools";
@@ -48,6 +49,7 @@ export function PreciosLanding() {
           className="pointer-events-none absolute inset-0 -z-10 hero-atmosphere"
           aria-hidden
         />
+        <HeroParticles variant="precios" />
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-background to-transparent"
           aria-hidden

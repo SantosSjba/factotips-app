@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { HeroParticles } from "@/components/marketing/hero-particles";
 import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 
@@ -13,6 +14,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10 hero-atmosphere"
         aria-hidden
       />
+      <HeroParticles variant="hub" />
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-background to-transparent"
         aria-hidden
