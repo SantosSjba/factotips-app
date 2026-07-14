@@ -12,9 +12,11 @@ import {
 import {
   ArrowLeft,
   ChevronDown,
+  Clock3,
   Download,
   ExternalLink,
   Loader2,
+  MapPin,
   Search,
   Tag,
   X,
@@ -28,6 +30,17 @@ import {
   fetchDistritos,
   fetchProvincias,
 } from "@/lib/precios/api";
+import {
+  loadNextSearchAt,
+  loadSavedLocation,
+  matchDepartamento,
+  matchUbigeoItem,
+  normalizePlace,
+  saveLocation,
+  saveNextSearchAt,
+  secondsUntil,
+  type ReverseGeoResult,
+} from "@/lib/precios/location";
 import {
   computePriceStats,
   exportPreciosXlsx,
@@ -44,9 +57,10 @@ import type {
 } from "@/lib/types/precios";
 import { cn } from "@/lib/utils";
 import { DetailModal } from "./detail-modal";
+import { LocationPickerModal } from "./location-picker-modal";
+import { Select, fieldControlClass } from "@/components/ui/select";
 
-const fieldClass =
-  "w-full rounded-xl border border-border bg-surface px-3 py-2.5 text-sm text-foreground outline-none transition placeholder:text-muted/70 focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:opacity-60";
+const fieldClass = fieldControlClass;
 
 const labelClass = "mb-1.5 block text-xs font-medium text-foreground/80";
 
@@ -75,12 +89,19 @@ export function PreciosTool() {
   const [loadingProvincias, setLoadingProvincias] = useState(false);
   const [loadingDistritos, setLoadingDistritos] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(true);
+  const [locationLabel, setLocationLabel] = useState("");
+  const [locationMsg, setLocationMsg] = useState("");
+  const [locationHydrated, setLocationHydrated] = useState(false);
+  const [locationModalOpen, setLocationModalOpen] = useState(false);
 
   const [resultados, setResultados] = useState<PrecioRow[]>([]);
   const [buscado, setBuscado] = useState(false);
   const [loadingPrecios, setLoadingPrecios] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [retryAfter, setRetryAfter] = useState(0);
+  const [retryAfter, setRetryAfter] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    return secondsUntil(loadNextSearchAt());
+  });
 
   const [busquedaTabla, setBusquedaTabla] = useState("");
   const [filtroTabla, setFiltroTabla] = useState("");
@@ -96,8 +117,113 @@ export function PreciosTool() {
   const puedeConsultar = Boolean(producto && codigoDepartamento);
   const rateLimited = retryAfter > 0;
 
+  const applyUbigeoCodes = useCallback(
+    async (
+      deptCode: string,
+      provCode: string,
+      distCode: string,
+      label?: string,
+      deptList?: DepartamentoOption[],
+    ) => {
+      const depts = deptList ?? departamentos;
+      setCodigoDepartamento(deptCode);
+      setCodigoProvincia("");
+      setCodigoUbigeo("");
+      setProvincias([]);
+      setDistritos([]);
+
+      let provs: UbigeoItem[] = [];
+      if (deptCode) {
+        setLoadingProvincias(true);
+        try {
+          provs = await fetchProvincias(deptCode);
+          setProvincias(provs);
+        } finally {
+          setLoadingProvincias(false);
+        }
+      }
+
+      let resolvedProv = provCode;
+      if (resolvedProv && !provs.some((p) => p.codigo === resolvedProv)) {
+        resolvedProv = "";
+      }
+      setCodigoProvincia(resolvedProv);
+
+      let dists: UbigeoItem[] = [];
+      if (deptCode && resolvedProv) {
+        setLoadingDistritos(true);
+        try {
+          dists = await fetchDistritos(deptCode, resolvedProv);
+          setDistritos(dists);
+        } finally {
+          setLoadingDistritos(false);
+        }
+      }
+
+      let resolvedDist = distCode;
+      if (resolvedDist && !dists.some((d) => d.codigo === resolvedDist)) {
+        resolvedDist = "";
+      }
+      setCodigoUbigeo(resolvedDist);
+
+      const autoLabel =
+        label ||
+        [
+          depts.find((d) => d.codigo === deptCode)?.nombre,
+          provs.find((p) => p.codigo === resolvedProv)?.descripcion,
+          dists.find((d) => d.codigo === resolvedDist)?.descripcion,
+        ]
+          .filter(Boolean)
+          .join(" · ");
+
+      if (autoLabel) setLocationLabel(autoLabel);
+      saveLocation({
+        codigoDepartamento: deptCode,
+        codigoProvincia: resolvedProv,
+        codigoUbigeo: resolvedDist,
+        label: autoLabel || undefined,
+      });
+    },
+    [departamentos],
+  );
+
   useEffect(() => {
-    fetchDepartamentos().then(setDepartamentos).catch(() => setDepartamentos([]));
+    fetchDepartamentos()
+      .then(async (list) => {
+        setDepartamentos(list);
+        const saved = loadSavedLocation();
+        if (saved?.codigoDepartamento) {
+          await applyUbigeoCodes(
+            saved.codigoDepartamento,
+            saved.codigoProvincia || "",
+            saved.codigoUbigeo || "",
+            saved.label,
+            list,
+          );
+        }
+        setLocationHydrated(true);
+      })
+      .catch(() => {
+        setDepartamentos([]);
+        setLocationHydrated(true);
+      });
+    // Solo al montar
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const remaining = secondsUntil(loadNextSearchAt());
+    if (remaining <= 0) return;
+    countdownRef.current = setInterval(() => {
+      const left = secondsUntil(loadNextSearchAt());
+      setRetryAfter(left);
+      if (left <= 0 && countdownRef.current) {
+        clearInterval(countdownRef.current);
+      }
+    }, 1000);
+    return () => {
+      if (countdownRef.current) clearInterval(countdownRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -123,17 +249,93 @@ export function PreciosTool() {
 
   const startCountdown = useCallback((seconds: number) => {
     if (countdownRef.current) clearInterval(countdownRef.current);
+    const nextAt = Date.now() + seconds * 1000;
+    saveNextSearchAt(nextAt);
     setRetryAfter(seconds);
     countdownRef.current = setInterval(() => {
-      setRetryAfter((prev) => {
-        if (prev <= 1) {
-          if (countdownRef.current) clearInterval(countdownRef.current);
-          return 0;
-        }
-        return prev - 1;
-      });
+      const left = secondsUntil(loadNextSearchAt());
+      if (left <= 0) {
+        if (countdownRef.current) clearInterval(countdownRef.current);
+        setRetryAfter(0);
+        return;
+      }
+      setRetryAfter(left);
     }, 1000);
   }, []);
+
+  const onUsarMiUbicacion = () => {
+    setLocationMsg("");
+    setLocationModalOpen(true);
+  };
+
+  const applyGeoResult = async (geo: ReverseGeoResult) => {
+    const dept =
+      matchDepartamento(geo.departamento, departamentos) ||
+      matchDepartamento(geo.provincia || geo.distrito, departamentos);
+
+    if (!dept) {
+      setLocationMsg(
+        `Detectamos “${geo.departamento || "ubicación"}”, pero no pudimos mapearlo. Selecciona el departamento manualmente.`,
+      );
+      return;
+    }
+
+    await applyResolvedPlaces(dept, geo.provincia, geo.distrito);
+    setLocationMsg(
+      "Ubicación aplicada. Puedes ajustar provincia o distrito si hace falta.",
+    );
+  };
+
+  const applyResolvedPlaces = async (
+    dept: DepartamentoOption,
+    provinciaRaw: string,
+    distritoRaw: string,
+  ) => {
+    setLoadingProvincias(true);
+    let provs: UbigeoItem[] = [];
+    try {
+      provs = await fetchProvincias(dept.codigo);
+      setProvincias(provs);
+    } finally {
+      setLoadingProvincias(false);
+    }
+
+    let provincia =
+      matchUbigeoItem(provinciaRaw, provs) ||
+      matchUbigeoItem(distritoRaw, provs) ||
+      // Lima / Callao: a menudo la primera provincia coincide con el dpto
+      provs.find(
+        (p) =>
+          normalizePlace(p.descripcion) === normalizePlace(dept.nombre),
+      ) ||
+      null;
+
+    // Si no hay match de provincia pero solo hay una, úsala
+    if (!provincia && provs.length === 1) provincia = provs[0] ?? null;
+
+    let dists: UbigeoItem[] = [];
+    let distrito: UbigeoItem | null = null;
+    if (provincia) {
+      setLoadingDistritos(true);
+      try {
+        dists = await fetchDistritos(dept.codigo, provincia.codigo);
+        setDistritos(dists);
+      } finally {
+        setLoadingDistritos(false);
+      }
+      distrito =
+        matchUbigeoItem(distritoRaw, dists) ||
+        matchUbigeoItem(provinciaRaw, dists);
+    }
+
+    await applyUbigeoCodes(
+      dept.codigo,
+      provincia?.codigo ?? "",
+      distrito?.codigo ?? "",
+      undefined,
+      departamentos,
+    );
+  };
 
   const runAutocomplete = useCallback(async (q: string) => {
     if (q.length < 2) return;
@@ -190,10 +392,23 @@ export function PreciosTool() {
     setCodigoUbigeo("");
     setProvincias([]);
     setDistritos([]);
-    if (!codigo) return;
+    setLocationMsg("");
+    if (!codigo) {
+      setLocationLabel("");
+      return;
+    }
     setLoadingProvincias(true);
     try {
-      setProvincias(await fetchProvincias(codigo));
+      const provs = await fetchProvincias(codigo);
+      setProvincias(provs);
+      const nombre = departamentos.find((d) => d.codigo === codigo)?.nombre;
+      setLocationLabel(nombre ?? "");
+      saveLocation({
+        codigoDepartamento: codigo,
+        codigoProvincia: "",
+        codigoUbigeo: "",
+        label: nombre,
+      });
     } finally {
       setLoadingProvincias(false);
     }
@@ -203,13 +418,54 @@ export function PreciosTool() {
     setCodigoProvincia(codigo);
     setCodigoUbigeo("");
     setDistritos([]);
-    if (!codigo || !codigoDepartamento) return;
+    if (!codigo || !codigoDepartamento) {
+      saveLocation({
+        codigoDepartamento,
+        codigoProvincia: "",
+        codigoUbigeo: "",
+        label:
+          departamentos.find((d) => d.codigo === codigoDepartamento)?.nombre,
+      });
+      return;
+    }
     setLoadingDistritos(true);
     try {
-      setDistritos(await fetchDistritos(codigoDepartamento, codigo));
+      const dists = await fetchDistritos(codigoDepartamento, codigo);
+      setDistritos(dists);
+      const label = [
+        departamentos.find((d) => d.codigo === codigoDepartamento)?.nombre,
+        provincias.find((p) => p.codigo === codigo)?.descripcion,
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      setLocationLabel(label);
+      saveLocation({
+        codigoDepartamento,
+        codigoProvincia: codigo,
+        codigoUbigeo: "",
+        label,
+      });
     } finally {
       setLoadingDistritos(false);
     }
+  };
+
+  const onDistritoChange = (codigo: string) => {
+    setCodigoUbigeo(codigo);
+    const label = [
+      departamentos.find((d) => d.codigo === codigoDepartamento)?.nombre,
+      provincias.find((p) => p.codigo === codigoProvincia)?.descripcion,
+      distritos.find((d) => d.codigo === codigo)?.descripcion,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    setLocationLabel(label);
+    saveLocation({
+      codigoDepartamento,
+      codigoProvincia,
+      codigoUbigeo: codigo,
+      label,
+    });
   };
 
   const onConsultar = async () => {
@@ -253,6 +509,8 @@ export function PreciosTool() {
 
       if (payload.success) {
         setResultados((payload.data ?? []).filter(Boolean));
+        // 1 consulta / min: arranca contador también tras éxito
+        startCountdown(60);
       } else {
         setErrorMsg(payload.message ?? "Error al consultar DIGEMID.");
       }
@@ -266,20 +524,16 @@ export function PreciosTool() {
 
   const limpiarFiltros = () => {
     limpiarProducto();
-    setCodigoDepartamento("");
-    setCodigoProvincia("");
-    setCodigoUbigeo("");
     setCodTipoEstablecimiento("");
     setNombreEstablecimiento("");
     setNombreLaboratorio("");
-    setProvincias([]);
-    setDistritos([]);
     setResultados([]);
     setBuscado(false);
     setErrorMsg("");
     setBusquedaTabla("");
     setOrdenPrecio("asc");
     setPaginaActual(1);
+    // Conserva la ubicación (departamento / provincia / distrito)
   };
 
   const resultadosFiltrados = useMemo(() => {
@@ -370,6 +624,28 @@ export function PreciosTool() {
         .
       </p>
 
+      {rateLimited ? (
+        <div
+          className="mt-4 flex items-center gap-3 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-4 text-amber-950"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-800">
+            <Clock3 className="h-6 w-6" aria-hidden />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold">Próxima consulta disponible en</p>
+            <p className="mt-0.5 font-display text-3xl font-semibold tabular-nums tracking-tight">
+              {String(Math.floor(retryAfter / 60)).padStart(2, "0")}:
+              {String(retryAfter % 60).padStart(2, "0")}
+            </p>
+            <p className="mt-1 text-xs text-amber-800/80">
+              Tras cada búsqueda hay que esperar 1 minuto.
+            </p>
+          </div>
+        </div>
+      ) : null}
+
       {/* Formulario */}
       <section className="mt-6 rounded-2xl border border-border bg-surface p-4 sm:p-6">
         <button
@@ -390,10 +666,50 @@ export function PreciosTool() {
 
         <div
           className={cn(
-            "mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3",
-            !filtersOpen && "hidden md:grid",
+            "mt-4 space-y-4",
+            !filtersOpen && "hidden md:block",
           )}
         >
+          <div className="rounded-2xl border border-brand/20 bg-brand-soft/50 p-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-foreground">
+                  Tu ubicación
+                </p>
+                <p className="mt-1 text-sm text-muted">
+                  {locationLabel ? (
+                    <>
+                      <span className="font-medium text-brand-dark">
+                        {locationLabel}
+                      </span>
+                      <span className="text-muted">
+                        {" "}
+                        — puedes ajustar provincia o distrito abajo
+                      </span>
+                    </>
+                  ) : locationHydrated ? (
+                    "Usa tu GPS o elige departamento / provincia / distrito."
+                  ) : (
+                    "Cargando ubicación guardada..."
+                  )}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={onUsarMiUbicacion}
+                disabled={!departamentos.length}
+                className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-brand/30 bg-surface px-4 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft disabled:opacity-55"
+              >
+                <MapPin className="h-4 w-4" />
+                Usar mi ubicación
+              </button>
+            </div>
+            {locationMsg ? (
+              <p className="mt-3 text-xs text-brand-dark/90">{locationMsg}</p>
+            ) : null}
+          </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div ref={productRef} className="relative lg:col-span-2">
             <label className={labelClass} htmlFor="producto">
               Producto / principio activo <span className="text-danger">*</span>
@@ -537,7 +853,7 @@ export function PreciosTool() {
             id="distrito"
             label="Distrito"
             value={codigoUbigeo}
-            onChange={setCodigoUbigeo}
+            onChange={onDistritoChange}
             disabled={!codigoProvincia || loadingDistritos}
           >
             <option value="">— Todos —</option>
@@ -573,6 +889,7 @@ export function PreciosTool() {
               placeholder="Nombre establecimiento..."
             />
           </div>
+        </div>
         </div>
 
         <div
@@ -679,8 +996,9 @@ export function PreciosTool() {
                   placeholder="Filtrar por farmacia o laboratorio..."
                   aria-label="Filtrar tabla"
                 />
-                <select
-                  className={cn(fieldClass, "w-auto min-w-[8rem]")}
+                <Select
+                  wrapperClassName="w-full min-w-[8rem] sm:w-auto"
+                  className="w-full"
                   value={filtroTabla}
                   onChange={(e) => {
                     setFiltroTabla(e.target.value);
@@ -691,9 +1009,10 @@ export function PreciosTool() {
                   <option value="">Todos los tipos</option>
                   <option value="Privado">Privado</option>
                   <option value="Público">Público</option>
-                </select>
-                <select
-                  className={cn(fieldClass, "w-auto min-w-[10rem]")}
+                </Select>
+                <Select
+                  wrapperClassName="w-full min-w-[10rem] sm:w-auto"
+                  className="w-full"
                   value={ordenPrecio}
                   onChange={(e) => {
                     setOrdenPrecio(e.target.value as "asc" | "desc");
@@ -703,9 +1022,10 @@ export function PreciosTool() {
                 >
                   <option value="asc">Menor precio primero</option>
                   <option value="desc">Mayor precio primero</option>
-                </select>
-                <select
-                  className={cn(fieldClass, "w-auto min-w-[8rem]")}
+                </Select>
+                <Select
+                  wrapperClassName="w-full min-w-[8rem] sm:w-auto"
+                  className="w-full"
                   value={porPagina}
                   onChange={(e) => {
                     setPorPagina(Number(e.target.value));
@@ -716,7 +1036,7 @@ export function PreciosTool() {
                   <option value={10}>10 por página</option>
                   <option value={20}>20 por página</option>
                   <option value={50}>50 por página</option>
-                </select>
+                </Select>
                 <button
                   type="button"
                   onClick={() => void onExport()}
@@ -938,6 +1258,14 @@ export function PreciosTool() {
         detalle={detalle}
         onClose={() => setModalOpen(false)}
       />
+
+      <LocationPickerModal
+        open={locationModalOpen}
+        onClose={() => setLocationModalOpen(false)}
+        onConfirm={async ({ geo }) => {
+          await applyGeoResult(geo);
+        }}
+      />
     </div>
   );
 }
@@ -964,16 +1292,15 @@ function FieldSelect({
       <label className={labelClass} htmlFor={id}>
         {label}
       </label>
-      <select
+      <Select
         id={id}
-        className={fieldClass}
         value={value}
         disabled={disabled}
         required={required}
         onChange={(e) => onChange(e.target.value)}
       >
         {children}
-      </select>
+      </Select>
     </div>
   );
 }
