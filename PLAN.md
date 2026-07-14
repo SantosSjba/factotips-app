@@ -234,42 +234,42 @@ DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 
 ---
 
-## Fase 2 — Landing hub FactoTips
+## Fase 2 — Landing hub FactoTips ✅
 
 **Objetivo:** `/` presenta la marca y da acceso a herramientas.
 
 ### 2.1 Layout global
 
-- [ ] Header: logo/nombre **FactoTips**, nav (Inicio, Herramientas)
-- [ ] Footer: © Factosys Perú · aviso de que los precios provienen de DIGEMID/MINSA · “FactoTips no vende medicamentos”
-- [ ] Responsive (mobile menu si hace falta)
+- [x] Header: logo/nombre **FactoTips**, nav (Inicio, Herramientas)
+- [x] Footer: © Factosys Perú · aviso de que los precios provienen de DIGEMID/MINSA · “FactoTips no vende medicamentos”
+- [x] Responsive (mobile menu si hace falta)
 
 ### 2.2 Hero (primera viewport)
 
-- [ ] Marca FactoTips como señal principal (no solo nav)
-- [ ] Un headline + una frase de apoyo
-- [ ] Un grupo de CTA (ej. “Ver herramientas” / “Comparar precios”)
-- [ ] Un ancla visual dominante (full-bleed o atmósfera), sin clutter de stats/cards en el hero
-- [ ] Full responsive
+- [x] Marca FactoTips como señal principal (no solo nav)
+- [x] Un headline + una frase de apoyo
+- [x] Un grupo de CTA (ej. “Ver herramientas” / “Comparar precios”)
+- [x] Un ancla visual dominante (full-bleed o atmósfera), sin clutter de stats/cards en el hero
+- [x] Full responsive
 
 ### 2.3 Sección herramientas
 
-- [ ] Título + frase corta (hub de utilidades)
-- [ ] Card/item activo: **Comparador de precios de medicamentos** → `/herramientas/precios`
-- [ ] Placeholders “Próximamente” para futuras herramientas
-- [ ] Responsive
+- [x] Título + frase corta (hub de utilidades)
+- [x] Card/item activo: **Comparador de precios de medicamentos** → `/herramientas/precios`
+- [x] Placeholders “Próximamente” para futuras herramientas
+- [x] Responsive
 
 ### 2.4 Cómo funciona / confianza (sección secundaria)
 
-- [ ] 3 pasos breves: buscar medicamento → filtrar región → comparar precio unitario
-- [ ] Disclaimer DIGEMID + enlace a portal oficial OPM si aplica
+- [x] 3 pasos breves: buscar medicamento → filtrar región → comparar precio unitario
+- [x] Disclaimer DIGEMID + enlace a portal oficial OPM si aplica
 
 ### 2.5 SEO / metadata
 
-- [ ] `title` / `description` orientados a FactoTips
-- [ ] Open Graph básico
+- [x] `title` / `description` orientados a FactoTips
+- [x] Open Graph básico
 
-**Criterio de hecho:** landing legible en móvil y desktop; CTA lleva a la herramienta (aunque esta aún sea stub).
+**Criterio de hecho:** landing legible en móvil y desktop; CTA lleva a la herramienta (aunque esta aún sea stub). ✅
 
 ---
 
@@ -432,6 +432,7 @@ Ideas para el hub (sin checklist de MVP):
 | 2026-07-14 | Plan creado. Decisiones de producto cerradas. |
 | 2026-07-14 | **Fase 0 completada:** metadata, tokens marca (teal), tipos, departamentos, env, paquetes base, `/api/health`, stub home. Build OK. |
 | 2026-07-14 | **Fase 1 completada:** proxy DIGEMID, 6 endpoints, Zod, caché autocomplete/ubigeo, rate limit 1/min en `/buscar` (cookie `ft_uid` + IP). Smoke test OK (PARACETAMOL Lima → 270 filas; 2.ª busca → 429). |
+| 2026-07-14 | **Fase 2 completada:** landing hub (hero FactoTips, herramientas, cómo funciona), header/footer responsive, OG metadata, stub `/herramientas/precios`. |
 
 <!-- Añadir filas aquí conforme se complete cada fase -->
 `)
