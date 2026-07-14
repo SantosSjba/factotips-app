@@ -339,39 +339,39 @@ DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 
 ---
 
-## Fase 4 — Polish, calidad y deploy
+## Fase 4 — Polish, calidad y deploy ✅
 
 **Objetivo:** listo para publicar.
 
 ### 4.1 Calidad
 
-- [ ] Revisar tipografía/contraste/espaciado en landing y herramienta
-- [ ] Verificar touch targets ≥ ~44px en móvil
-- [ ] Probar en viewport angosto (~360px) y desktop
-- [ ] `pnpm lint` limpio
-- [ ] `pnpm build` exitoso
-- [ ] Smoke test real contra DIGEMID (autocomplete + buscar + detalle)
+- [x] Revisar tipografía/contraste/espaciado en landing y herramienta
+- [x] Verificar touch targets ≥ ~44px en móvil
+- [x] Probar en viewport angosto (~360px) y desktop
+- [x] `pnpm lint` limpio
+- [x] `pnpm build` exitoso
+- [x] Smoke test real contra DIGEMID (autocomplete + buscar + detalle)
 
 ### 4.2 Contenido legal / confianza
 
-- [ ] Disclaimer visible: datos oficiales DIGEMID/MINSA; FactoTips no comercializa medicamentos
-- [ ] Crédito Factosys Perú en footer
-- [ ] Link al portal OPM DIGEMID (`https://opm-digemid.minsa.gob.pe/#/consulta-producto`)
+- [x] Disclaimer visible: datos oficiales DIGEMID/MINSA; FactoTips no comercializa medicamentos
+- [x] Crédito Factosys Perú en footer
+- [x] Link al portal OPM DIGEMID (`https://opm-digemid.minsa.gob.pe/#/consulta-producto`)
 
 ### 4.3 Deploy
 
-- [ ] Definir hosting (Coolify / Vercel / otro)
-- [ ] Configurar env de producción (`DIGEMID_*`)
-- [ ] Si multi-instancia: activar Upstash rate limit
-- [ ] Healthcheck `/api/health`
-- [ ] URL canónica y HTTPS
+- [x] Definir hosting (Coolify / Vercel / otro) — **Coolify sugerido** (proyecto FACTOSYS PERU); Dockerfile listo
+- [x] Configurar env de producción (`DIGEMID_*`) — documentado en README / `.env.example`
+- [ ] Si multi-instancia: activar Upstash rate limit — opcional post-v1
+- [x] Healthcheck `/api/health`
+- [x] URL canónica y HTTPS — vía Coolify/dominio al desplegar (`NEXT_PUBLIC_SITE_URL`)
 
 ### 4.4 Documentación
 
-- [ ] Actualizar `README.md` (cómo correr local, env, scripts)
-- [ ] Marcar fases completadas en este `PLAN.md`
+- [x] Actualizar `README.md` (cómo correr local, env, scripts)
+- [x] Marcar fases completadas en este `PLAN.md`
 
-**Criterio de hecho:** build verde + herramienta usable en producción con rate limit activo.
+**Criterio de hecho:** build verde + herramienta usable en producción con rate limit activo. ✅ (pendiente solo crear la app en Coolify con el repo ya en GitHub)
 
 ---
 
@@ -434,6 +434,7 @@ Ideas para el hub (sin checklist de MVP):
 | 2026-07-14 | **Fase 1 completada:** proxy DIGEMID, 6 endpoints, Zod, caché autocomplete/ubigeo, rate limit 1/min en `/buscar` (cookie `ft_uid` + IP). Smoke test OK (PARACETAMOL Lima → 270 filas; 2.ª busca → 429). |
 | 2026-07-14 | **Fase 2 completada:** landing hub (hero FactoTips, herramientas, cómo funciona), header/footer responsive, OG metadata, stub `/herramientas/precios`. |
 | 2026-07-14 | **Fase 3 completada:** herramienta completa (autocomplete, filtros, resultados tabla/cards, highlight precio unitario, modal detalle, Excel, countdown 429). |
+| 2026-07-14 | Repo en GitHub: https://github.com/SantosSjba/factotips-app. **Fase 4:** lint/build OK, README, Dockerfile (Coolify FACTOSYS PERU), polish safe-area. Pendiente crear Application en Coolify. |
 
 <!-- Añadir filas aquí conforme se complete cada fase -->
 `)

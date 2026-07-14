@@ -1,0 +1,9 @@
+Dockerfile
+.next
+node_modules
+.git
+.env*
+!.env.example
+README.md
+PLAN.md
+**/__tests__

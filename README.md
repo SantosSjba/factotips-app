@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FactoTips
 
-## Getting Started
+Hub de **herramientas de utilidad** de [Factosys Perú](https://github.com/SantosSjba).  
+Primera herramienta: **comparador de precios de medicamentos** (datos oficiales DIGEMID / MINSA).
 
-First, run the development server:
+- Repo: https://github.com/SantosSjba/factotips-app  
+- Plan de trabajo: [`PLAN.md`](./PLAN.md)
+
+## Requisitos
+
+- Node.js 22+
+- pnpm 9+ (recomendado; el proyecto usa `pnpm-lock.yaml`)
+
+## Arranque local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+cp .env.example .env.local
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Comando | Descripción |
+|---------|-------------|
+| `pnpm dev` | Desarrollo (Turbopack) |
+| `pnpm build` | Build de producción |
+| `pnpm start` | Servir build |
+| `pnpm lint` | ESLint |
 
-## Learn More
+### Variables de entorno
 
-To learn more about Next.js, take a look at the following resources:
+Ver `.env.example`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variable | Uso |
+|----------|-----|
+| `DIGEMID_BASE_URL` | API OPM DIGEMID |
+| `DIGEMID_ORIGIN` | Origin/Referer oficiales |
+| `NEXT_PUBLIC_SITE_URL` | URL pública (Open Graph / metadata) |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Opcional (multi-instancia): `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` — aún no cableado; el rate limit v1 es en memoria.
 
-## Deploy on Vercel
+## Funcionalidad
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Ruta | Descripción |
+|------|-------------|
+| `/` | Landing hub FactoTips |
+| `/herramientas/precios` | Comparador DIGEMID |
+| `/api/health` | Healthcheck |
+| `/api/precios/*` | Proxy DIGEMID + rate limit |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Límite:** 1 consulta de precios (`POST /api/precios/buscar`) por minuto y usuario (cookie `ft_uid` + IP).
+
+**Importante:** FactoTips no vende medicamentos. Los precios provienen del [Observatorio DIGEMID](https://opm-digemid.minsa.gob.pe/#/consulta-producto).
+
+## Deploy (Coolify)
+
+Proyecto sugerido en Coolify: **FACTOSYS PERU**.
+
+1. Nueva **Application** → recurso GitHub `SantosSjba/factotips-app` (branch `main`).
+2. Build pack: **Dockerfile** (incluido en el repo).
+3. Puerto: `3000`.
+4. Healthcheck path: `/api/health`.
+5. Variables de entorno de producción:
+
+```bash
+DIGEMID_BASE_URL=https://ms-opm.minsa.gob.pe/msopmcovid
+DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
+NEXT_PUBLIC_SITE_URL=https://TU-DOMINIO
+NODE_ENV=production
+```
+
+6. Dominio HTTPS en Coolify (Let's Encrypt).
+
+> Nota: con varias réplicas el rate limit en memoria no se comparte. Para eso, migrar a Upstash (opcional en `PLAN.md`).
+
+### Alternativa: Vercel
+
+Conectar el mismo repo en Vercel, definir las mismas env vars y desplegar. El `output: "standalone"` del `next.config` es compatible; Vercel usa su propio build.
+
+## Stack
+
+- Next.js 16 (App Router) — UI + Route Handlers
+- React 19, TypeScript, Tailwind CSS 4
+- Zod, Lucide, SheetJS (`xlsx`)

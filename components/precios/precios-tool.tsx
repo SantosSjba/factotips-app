@@ -304,10 +304,6 @@ export function PreciosTool() {
     paginaActual * porPagina,
   );
 
-  useEffect(() => {
-    setPaginaActual(1);
-  }, [busquedaTabla, filtroTabla, ordenPrecio, porPagina]);
-
   const verDetalle = async (item: PrecioRow) => {
     if (item.codProdE == null || item.codEstab == null) return;
     setModalOpen(true);
@@ -619,7 +615,7 @@ export function PreciosTool() {
       </section>
 
       {/* Sticky CTA móvil */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 p-3 backdrop-blur md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur md:hidden">
         <button
           type="button"
           onClick={() => void onConsultar()}
@@ -676,14 +672,20 @@ export function PreciosTool() {
                 <input
                   className={cn(fieldClass, "sm:min-w-[180px] sm:flex-1")}
                   value={busquedaTabla}
-                  onChange={(e) => setBusquedaTabla(e.target.value)}
+                  onChange={(e) => {
+                    setBusquedaTabla(e.target.value);
+                    setPaginaActual(1);
+                  }}
                   placeholder="Filtrar por farmacia o laboratorio..."
                   aria-label="Filtrar tabla"
                 />
                 <select
                   className={cn(fieldClass, "w-auto min-w-[8rem]")}
                   value={filtroTabla}
-                  onChange={(e) => setFiltroTabla(e.target.value)}
+                  onChange={(e) => {
+                    setFiltroTabla(e.target.value);
+                    setPaginaActual(1);
+                  }}
                   aria-label="Tipo"
                 >
                   <option value="">Todos los tipos</option>
@@ -693,9 +695,10 @@ export function PreciosTool() {
                 <select
                   className={cn(fieldClass, "w-auto min-w-[10rem]")}
                   value={ordenPrecio}
-                  onChange={(e) =>
-                    setOrdenPrecio(e.target.value as "asc" | "desc")
-                  }
+                  onChange={(e) => {
+                    setOrdenPrecio(e.target.value as "asc" | "desc");
+                    setPaginaActual(1);
+                  }}
                   aria-label="Ordenar"
                 >
                   <option value="asc">Menor precio primero</option>
@@ -704,7 +707,10 @@ export function PreciosTool() {
                 <select
                   className={cn(fieldClass, "w-auto min-w-[8rem]")}
                   value={porPagina}
-                  onChange={(e) => setPorPagina(Number(e.target.value))}
+                  onChange={(e) => {
+                    setPorPagina(Number(e.target.value));
+                    setPaginaActual(1);
+                  }}
                   aria-label="Por página"
                 >
                   <option value={10}>10 por página</option>
