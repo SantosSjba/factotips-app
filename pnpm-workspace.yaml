@@ -1,0 +1,5 @@
+# Configuración pnpm (no es monorepo de packages).
+# Aprueba scripts de build necesarios para Next.js.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
