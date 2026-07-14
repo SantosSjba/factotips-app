@@ -108,7 +108,7 @@ factotips-app/
 
 - [x] `zod` — validación de bodies API y forms
 - [x] `lucide-react` — iconos
-- [ ] `xlsx` — exportar resultados a Excel
+- [x] `xlsx` — exportar resultados a Excel
 - [x] `clsx` — utilidades de clases
 - [x] `tailwind-merge` — merge de clases Tailwind
 
@@ -273,69 +273,69 @@ DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 
 ---
 
-## Fase 3 — Herramienta de precios (UI)
+## Fase 3 — Herramienta de precios (UI) ✅
 
 **Objetivo:** portar UX de cpromed a React, full responsive.
 
 ### 3.1 Página y shell
 
-- [ ] Ruta `/herramientas/precios`
-- [ ] Breadcrumb / volver al hub
-- [ ] Título + breve explicación + disclaimer DIGEMID
-- [ ] Instalar `xlsx` para export
+- [x] Ruta `/herramientas/precios`
+- [x] Breadcrumb / volver al hub
+- [x] Título + breve explicación + disclaimer DIGEMID
+- [x] Instalar `xlsx` para export
 
 ### 3.2 Formulario de búsqueda
 
-- [ ] Input producto con autocomplete (debounce **400 ms**, min **2** chars)
-- [ ] Lista de sugerencias (máx. ~12 en UI): nombre, concentración, forma farm.
-- [ ] Producto seleccionado obligatorio para consultar
-- [ ] Select departamento (requerido)
-- [ ] Select provincia (depende de dpto; carga vía API)
-- [ ] Select distrito (depende de provincia)
-- [ ] Filtro tipo: Todos / Privado / Público
-- [ ] Inputs opcionales: laboratorio, nombre farmacia/establecimiento
-- [ ] Botón “Consultar precios”
-- [ ] En móvil: filtros colapsables / drawer si hace falta
-- [ ] Sticky CTA en móvil (opcional, mejora UX)
+- [x] Input producto con autocomplete (debounce **400 ms**, min **2** chars)
+- [x] Lista de sugerencias (máx. ~12 en UI): nombre, concentración, forma farm.
+- [x] Producto seleccionado obligatorio para consultar
+- [x] Select departamento (requerido)
+- [x] Select provincia (depende de dpto; carga vía API)
+- [x] Select distrito (depende de provincia)
+- [x] Filtro tipo: Todos / Privado / Público
+- [x] Inputs opcionales: laboratorio, nombre farmacia/establecimiento
+- [x] Botón “Consultar precios”
+- [x] En móvil: filtros colapsables / drawer si hace falta
+- [x] Sticky CTA en móvil (opcional, mejora UX)
 
 ### 3.3 Rate limit en UI
 
-- [ ] Si API devuelve `429`, mostrar mensaje + countdown `retryAfter`
-- [ ] Deshabilitar botón “Consultar” hasta que expire el minuto
-- [ ] Feedback claro sin errores técnicos
+- [x] Si API devuelve `429`, mostrar mensaje + countdown `retryAfter`
+- [x] Deshabilitar botón “Consultar” hasta que expire el minuto
+- [x] Feedback claro sin errores técnicos
 
 ### 3.4 Resultados — resumen
 
-- [ ] Cards: cantidad de establecimientos, precio unitario mín / máx / promedio
-- [ ] Cálculo solo con `precio2 > 0`
-- [ ] Responsive (grid 1 col móvil / 3–4 desktop)
+- [x] Cards: cantidad de establecimientos, precio unitario mín / máx / promedio
+- [x] Cálculo solo con `precio2 > 0`
+- [x] Responsive (grid 1 col móvil / 3–4 desktop)
 
 ### 3.5 Resultados — listado
 
-- [ ] Orden por defecto: **menor `precio2` primero**
-- [ ] Highlight `esMejorPrecio` (coincide con mínimo ± 0.01)
-- [ ] Desktop: tabla (establecimiento, tipo, producto, lab, ubigeo, precio1, precio2, acciones)
-- [ ] Móvil: **cards** apiladas (no tabla horizontal forzada)
-- [ ] Filtros cliente: texto farmacia/lab, Privado/Público
-- [ ] Paginación cliente: 10 / 20 / 50
-- [ ] Acción “Ver” → modal detalle
-- [ ] Exportar Excel (`xlsx`)
+- [x] Orden por defecto: **menor `precio2` primero**
+- [x] Highlight `esMejorPrecio` (coincide con mínimo ± 0.01)
+- [x] Desktop: tabla (establecimiento, tipo, producto, lab, ubigeo, precio1, precio2, acciones)
+- [x] Móvil: **cards** apiladas (no tabla horizontal forzada)
+- [x] Filtros cliente: texto farmacia/lab, Privado/Público
+- [x] Paginación cliente: 10 / 20 / 50
+- [x] Acción “Ver” → modal detalle
+- [x] Exportar Excel (`xlsx`)
 
 ### 3.6 Modal detalle
 
-- [ ] Cargar `POST /api/precios/detalle` con `codProdE` + `codEstab`
-- [ ] Mostrar dirección, teléfono, horarios, registro sanitario, precios, etc.
-- [ ] Estados loading / error
-- [ ] Cierre accesible (ESC, overlay, botón)
+- [x] Cargar `POST /api/precios/detalle` con `codProdE` + `codEstab`
+- [x] Mostrar dirección, teléfono, horarios, registro sanitario, precios, etc.
+- [x] Estados loading / error
+- [x] Cierre accesible (ESC, overlay, botón)
 
 ### 3.7 Estados UX
 
-- [ ] Loading (skeleton o spinner) en buscar / autocomplete / detalle
-- [ ] Empty state (sin resultados)
-- [ ] Error DIGEMID / red (mensaje humano)
-- [ ] Estado inicial (aún no se ha buscado)
+- [x] Loading (skeleton o spinner) en buscar / autocomplete / detalle
+- [x] Empty state (sin resultados)
+- [x] Error DIGEMID / red (mensaje humano)
+- [x] Estado inicial (aún no se ha buscado)
 
-**Criterio de hecho:** flujo completo usable en móvil y desktop; 2.ª consulta en <1 min queda bloqueada con countdown.
+**Criterio de hecho:** flujo completo usable en móvil y desktop; 2.ª consulta en <1 min queda bloqueada con countdown. ✅
 
 ---
 
@@ -433,6 +433,7 @@ Ideas para el hub (sin checklist de MVP):
 | 2026-07-14 | **Fase 0 completada:** metadata, tokens marca (teal), tipos, departamentos, env, paquetes base, `/api/health`, stub home. Build OK. |
 | 2026-07-14 | **Fase 1 completada:** proxy DIGEMID, 6 endpoints, Zod, caché autocomplete/ubigeo, rate limit 1/min en `/buscar` (cookie `ft_uid` + IP). Smoke test OK (PARACETAMOL Lima → 270 filas; 2.ª busca → 429). |
 | 2026-07-14 | **Fase 2 completada:** landing hub (hero FactoTips, herramientas, cómo funciona), header/footer responsive, OG metadata, stub `/herramientas/precios`. |
+| 2026-07-14 | **Fase 3 completada:** herramienta completa (autocomplete, filtros, resultados tabla/cards, highlight precio unitario, modal detalle, Excel, countdown 429). |
 
 <!-- Añadir filas aquí conforme se complete cada fase -->
 `)

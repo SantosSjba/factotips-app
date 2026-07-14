@@ -10,8 +10,9 @@ export type AutocompleteItem = {
   concent?: string | null;
   nombreFormaFarmaceutica?: string | null;
   /** Código de producto usado en la búsqueda (`grupo` en DIGEMID) */
-  grupo: string;
+  grupo: string | number;
   codGrupoFF?: string | null;
+  [key: string]: unknown;
 };
 
 export type TipoEstablecimiento = "1" | "2";
