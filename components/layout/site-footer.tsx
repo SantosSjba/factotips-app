@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n/provider";
 
 export function SiteFooter() {
+  const { t } = useI18n();
   const year = new Date().getFullYear();
 
   return (
@@ -12,33 +16,32 @@ export function SiteFooter() {
               FactoTips
             </p>
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-[#a8c4be]">
-              Hub de herramientas de utilidad de Factosys Perú.
+              {t.footer.tagline}
             </p>
           </div>
           <div className="text-sm leading-relaxed text-[#a8c4be] sm:max-w-md sm:text-right">
             <p>
-              Los precios de medicamentos provienen del observatorio oficial{" "}
+              {t.footer.pricesSource}{" "}
               <a
                 href="https://opm-digemid.minsa.gob.pe/#/consulta-producto"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium text-white underline-offset-2 hover:underline"
               >
-                DIGEMID / MINSA
+                {t.footer.digemid}
               </a>
               .
             </p>
-            <p className="mt-2">
-              FactoTips no vende medicamentos ni intermedia operaciones
-              comerciales.
-            </p>
+            <p className="mt-2">{t.footer.noSell}</p>
           </div>
         </div>
 
         <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-[#8fb0a9] sm:flex-row sm:items-center sm:justify-between">
-          <p>© {year} Factosys Perú. Todos los derechos reservados.</p>
+          <p>
+            © {year} Factosys Perú. {t.footer.rights}
+          </p>
           <Link href="/#herramientas" className="hover:text-white">
-            Ver herramientas
+            {t.footer.viewTools}
           </Link>
         </div>
       </div>

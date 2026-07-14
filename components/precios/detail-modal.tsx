@@ -3,6 +3,10 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { ExternalLink, Loader2, MapPin, Store, X } from "lucide-react";
 import { MapView } from "@/components/map/map-view";
+import { ContactActions } from "@/components/precios/contact-actions";
+import { HorarioBadge } from "@/components/precios/horario-badge";
+import { findEmail } from "@/lib/contact/phone";
+import { useI18n } from "@/lib/i18n/provider";
 import { forwardGeocode } from "@/lib/precios/location";
 import type { DetalleEstablecimiento } from "@/lib/types/precios";
 import {
@@ -34,6 +38,7 @@ export function DetailModal({
   detalle,
   onClose,
 }: Props) {
+  const { t, tf } = useI18n();
   const [mapPoint, setMapPoint] = useState<{
     lat: number;
     lon: number;
@@ -65,8 +70,6 @@ export function DetailModal({
       .join(", ");
 
     const full = [direccion, place].filter(Boolean).join(", ");
-    // Quita abreviaciones genéricas ruidosas: CAL. / AV. / JR. suelen confundir menos si se dejan;
-    // mantenemos la dirección tal cual + lugar.
     const withStreetClean = full;
     const byEstablishment = establecimiento
       ? [establecimiento, place].filter(Boolean).join(", ")
@@ -82,6 +85,36 @@ export function DetailModal({
       hasEstablishment: Boolean(establecimiento),
     };
   }, [detalle]);
+
+  const whatsappMessage = useMemo(() => {
+    if (!detalle) return undefined;
+    const product =
+      str(detalle.nombreProducto) ??
+      str(detalle.nombreSustancia) ??
+      undefined;
+    const shop = str(detalle.nombreComercial);
+    if (!product) return undefined;
+    return shop
+      ? tf(t.contact.waMessage, { product, shop })
+      : tf(t.contact.waMessageNoShop, { product });
+  }, [detalle, t.contact.waMessage, t.contact.waMessageNoShop, tf]);
+
+  const emailSubject = useMemo(() => {
+    if (!detalle) return t.contact.emailSubjectFallback;
+    const product =
+      str(detalle.nombreProducto) ?? str(detalle.nombreSustancia);
+    const shop = str(detalle.nombreComercial);
+    if (!product) return t.contact.emailSubjectFallback;
+    return shop
+      ? tf(t.contact.emailSubject, { product, shop })
+      : tf(t.contact.emailSubjectNoShop, { product });
+  }, [
+    detalle,
+    t.contact.emailSubject,
+    t.contact.emailSubjectFallback,
+    t.contact.emailSubjectNoShop,
+    tf,
+  ]);
 
   useEffect(() => {
     if (!open) return;
@@ -103,7 +136,7 @@ export function DetailModal({
         await Promise.resolve();
         setMapLoading(false);
         setMapPoint(null);
-        setMapError("No disponible");
+        setMapError(t.detail.mapUnavailable);
       })();
       return;
     }
@@ -116,8 +149,6 @@ export function DetailModal({
       setMapError("");
       setMapPoint(null);
 
-      // Solo consultas precisas: dirección completa, luego establecimiento + zona.
-      // Nunca caer a solo ciudad/departamento (da pines imprecisos).
       const candidates = [
         addressParts.hasStreet ? addressParts.full : "",
         addressParts.hasStreet ? addressParts.withStreetClean : "",
@@ -142,7 +173,7 @@ export function DetailModal({
         setMapError("");
       } else {
         setMapPoint(null);
-        setMapError("No disponible");
+        setMapError(t.detail.mapUnavailable);
       }
       setMapLoading(false);
     })();
@@ -157,16 +188,17 @@ export function DetailModal({
     addressParts.byEstablishment,
     addressParts.hasStreet,
     addressParts.hasEstablishment,
+    t.detail.mapUnavailable,
   ]);
 
   if (!open) return null;
 
   const extras = extraDetailFields(detalle);
   const title =
-    str(detalle?.nombreComercial) ?? "Detalle del establecimiento";
+    str(detalle?.nombreComercial) ?? t.detail.defaultTitle;
   const subtitle = addressParts.line || "—";
+  const email = findEmail(detalle);
 
-  // Solo link externo si hay pin preciso
   const mapsUrl = mapPoint
     ? `https://www.openstreetmap.org/?mlat=${mapPoint.lat}&mlon=${mapPoint.lon}#map=17/${mapPoint.lat}/${mapPoint.lon}`
     : null;
@@ -176,7 +208,7 @@ export function DetailModal({
       <button
         type="button"
         className="absolute inset-0 bg-black/55 backdrop-blur-sm"
-        aria-label="Cerrar"
+        aria-label={t.common.close}
         onClick={onClose}
       />
       <div
@@ -196,10 +228,10 @@ export function DetailModal({
                   id="detalle-titulo"
                   className="truncate text-lg font-bold text-white sm:text-xl"
                 >
-                  {loading ? "Cargando..." : title}
+                  {loading ? t.detail.loadingTitle : title}
                 </h3>
                 <p className="mt-0.5 truncate text-sm text-white/90">
-                  {loading ? "Obteniendo detalle del establecimiento" : subtitle}
+                  {loading ? t.detail.loadingSubtitle : subtitle}
                 </p>
               </div>
             </div>
@@ -208,14 +240,17 @@ export function DetailModal({
             type="button"
             onClick={onClose}
             className="shrink-0 rounded-xl p-2 text-white/90 transition hover:bg-white/20 hover:text-white"
-            aria-label="Cerrar"
+            aria-label={t.common.close}
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {loading ? (
-          <DetailLoadingSkeleton />
+          <DetailLoadingSkeleton
+            body={t.detail.loadingBody}
+            hint={t.detail.loadingHint}
+          />
         ) : error ? (
           <div className="flex flex-1 items-center justify-center px-6 py-12 text-center">
             <p className="text-sm font-medium text-danger">{error}</p>
@@ -224,21 +259,21 @@ export function DetailModal({
           <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6">
             <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
               <PriceCard
-                label="Precio por pack"
+                label={t.detail.packPrice}
                 value={formatSol(detalle.precio1)}
               />
               <PriceCard
-                label="Precio unitario"
+                label={t.detail.unitPrice}
                 value={formatSol(detalle.precio2)}
                 highlight
               />
               <PriceCard
-                label="Tipo"
+                label={t.detail.type}
                 value={str(detalle.setcodigo) ?? "—"}
                 compact
               />
               <PriceCard
-                label="Forma"
+                label={t.detail.form}
                 value={str(detalle.nombreFormaFarmaceutica) ?? "—"}
                 compact
               />
@@ -246,37 +281,64 @@ export function DetailModal({
 
             <div className="mt-5 grid gap-5 lg:grid-cols-2 lg:items-start">
               <div className="min-w-0 space-y-5 overflow-hidden">
-                <DetailBlock title="Dirección y contacto">
-                  <DetailRow label="Dirección" value={str(detalle.direccion)} />
+                <DetailBlock title={t.detail.addressContact}>
                   <DetailRow
-                    label="Departamento"
+                    label={t.detail.address}
+                    value={str(detalle.direccion)}
+                  />
+                  <DetailRow
+                    label={t.detail.department}
                     value={str(detalle.departamento)}
                   />
-                  <DetailRow label="Provincia" value={str(detalle.provincia)} />
-                  <DetailRow label="Distrito" value={str(detalle.distrito)} />
-                  <DetailRow label="Teléfono" value={str(detalle.telefono)} />
                   <DetailRow
-                    label="Horario de atención"
-                    value={str(detalle.horarioAtencion)}
+                    label={t.detail.province}
+                    value={str(detalle.provincia)}
                   />
+                  <DetailRow
+                    label={t.detail.district}
+                    value={str(detalle.distrito)}
+                  />
+
+                  <div className="min-w-0 space-y-2 overflow-hidden">
+                    <p className="text-xs font-medium text-muted">
+                      {t.contact.actions}
+                    </p>
+                    <ContactActions
+                      telefono={detalle.telefono}
+                      email={email}
+                      detalle={detalle}
+                      whatsappMessage={whatsappMessage}
+                      emailSubject={emailSubject}
+                    />
+                  </div>
+
+                  <div className="min-w-0 space-y-2 overflow-hidden">
+                    <p className="text-xs font-medium text-muted">
+                      {t.detail.hours}
+                    </p>
+                    <HorarioBadge horario={detalle.horarioAtencion} />
+                  </div>
                 </DetailBlock>
 
-                <DetailBlock title="Producto">
+                <DetailBlock title={t.detail.product}>
                   <DetailRow
-                    label="Nombre del producto"
+                    label={t.detail.productName}
                     value={str(detalle.nombreProducto)}
                   />
                   <DetailRow
-                    label="Principio activo"
+                    label={t.detail.activeIngredient}
                     value={str(detalle.nombreSustancia)}
                   />
-                  <DetailRow label="Concentración" value={str(detalle.concent)} />
                   <DetailRow
-                    label="Laboratorio"
+                    label={t.detail.concentration}
+                    value={str(detalle.concent)}
+                  />
+                  <DetailRow
+                    label={t.detail.laboratory}
                     value={str(detalle.nombreLaboratorio)}
                   />
                   <DetailRow
-                    label="Registro sanitario"
+                    label={t.detail.sanitaryRegistry}
                     value={
                       str(detalle.numeroRS) ?? str(detalle.registroSanitario)
                     }
@@ -284,7 +346,7 @@ export function DetailModal({
                 </DetailBlock>
 
                 {Object.keys(extras).length > 0 ? (
-                  <DetailBlock title="Otros datos">
+                  <DetailBlock title={t.detail.otherData}>
                     {Object.entries(extras).map(([key, value]) => (
                       <DetailRow
                         key={key}
@@ -301,7 +363,7 @@ export function DetailModal({
                   <div className="mb-3 flex min-w-0 items-center justify-between gap-2">
                     <h4 className="flex min-w-0 items-center gap-2 text-sm font-bold text-foreground">
                       <MapPin className="h-4 w-4 shrink-0 text-brand" />
-                      <span className="truncate">Ubicación en el mapa</span>
+                      <span className="truncate">{t.detail.mapTitle}</span>
                     </h4>
                     {mapsUrl && !mapLoading ? (
                       <a
@@ -310,7 +372,7 @@ export function DetailModal({
                         rel="noopener noreferrer"
                         className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-brand hover:underline"
                       >
-                        Abrir
+                        {t.detail.openMap}
                         <ExternalLink className="h-3.5 w-3.5" />
                       </a>
                     ) : null}
@@ -321,10 +383,10 @@ export function DetailModal({
                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-4 text-center">
                         <Loader2 className="h-7 w-7 animate-spin text-brand" />
                         <p className="text-sm font-medium text-foreground">
-                          Localizando en el mapa...
+                          {t.detail.locating}
                         </p>
                         <p className="text-xs text-muted">
-                          Esto puede tomar unos segundos
+                          {t.detail.locatingHint}
                         </p>
                       </div>
                     ) : mapPoint ? (
@@ -338,10 +400,10 @@ export function DetailModal({
                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
                         <MapPin className="h-5 w-5 text-muted" aria-hidden />
                         <p className="text-sm font-semibold text-foreground">
-                          {mapError || "No disponible"}
+                          {mapError || t.detail.mapUnavailable}
                         </p>
                         <p className="text-xs text-muted">
-                          No hay una ubicación precisa para este establecimiento
+                          {t.detail.mapUnavailableHint}
                         </p>
                       </div>
                     )}
@@ -362,15 +424,19 @@ export function DetailModal({
   );
 }
 
-function DetailLoadingSkeleton() {
+function DetailLoadingSkeleton({
+  body,
+  hint,
+}: {
+  body: string;
+  hint: string;
+}) {
   return (
     <div className="min-h-0 flex-1 overflow-hidden p-4 sm:p-6" aria-busy>
       <div className="flex flex-col items-center gap-2 py-2 pb-6">
         <Loader2 className="h-7 w-7 animate-spin text-brand" />
-        <p className="text-sm font-medium text-foreground">
-          Cargando detalle...
-        </p>
-        <p className="text-xs text-muted">Consultando datos en DIGEMID</p>
+        <p className="text-sm font-medium text-foreground">{body}</p>
+        <p className="text-xs text-muted">{hint}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">

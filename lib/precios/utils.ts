@@ -121,6 +121,10 @@ const SHOWN_DETAIL_KEYS = new Set([
   "nombreLaboratorio",
   "numeroRS",
   "registroSanitario",
+  "email",
+  "correo",
+  "mail",
+  "eMail",
 ]);
 
 export function extraDetailFields(
@@ -130,6 +134,7 @@ export function extraDetailFields(
   const out: Record<string, string> = {};
   for (const [key, value] of Object.entries(detalle)) {
     if (SHOWN_DETAIL_KEYS.has(key)) continue;
+    if (/mail|correo|telefono|horario/i.test(key)) continue;
     if (value == null || value === "") continue;
     if (typeof value === "object" && !Array.isArray(value)) continue;
     out[key] = Array.isArray(value) ? value.join(", ") : String(value);

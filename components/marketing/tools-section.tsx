@@ -1,9 +1,37 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight, Clock3, Pill } from "lucide-react";
-import { TOOLS } from "@/lib/tools";
+import { useI18n } from "@/lib/i18n/provider";
 import { cn } from "@/lib/utils";
 
 export function ToolsSection() {
+  const { t } = useI18n();
+
+  const tools = [
+    {
+      id: "precios",
+      title: t.landing.toolPreciosTitle,
+      description: t.landing.toolPreciosDesc,
+      href: "/herramientas/precios",
+      status: "ready" as const,
+    },
+    {
+      id: "soon-1",
+      title: t.landing.toolSoon1Title,
+      description: t.landing.toolSoon1Desc,
+      href: "#herramientas",
+      status: "soon" as const,
+    },
+    {
+      id: "soon-2",
+      title: t.landing.toolSoon2Title,
+      description: t.landing.toolSoon2Desc,
+      href: "#herramientas",
+      status: "soon" as const,
+    },
+  ];
+
   return (
     <section
       id="herramientas"
@@ -12,15 +40,15 @@ export function ToolsSection() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
           <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Herramientas
+            {t.landing.toolsTitle}
           </h2>
           <p className="mt-3 text-base leading-relaxed text-muted sm:text-lg">
-            Utilidades prácticas, una a la vez. La primera ya está disponible.
+            {t.landing.toolsSubtitle}
           </p>
         </div>
 
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {TOOLS.map((tool) => {
+          {tools.map((tool) => {
             const ready = tool.status === "ready";
             const className = cn(
               "group flex h-full flex-col rounded-2xl border border-border p-5 transition-colors sm:p-6",
@@ -51,7 +79,7 @@ export function ToolsSection() {
                     />
                   ) : (
                     <span className="rounded-full bg-border/70 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-muted uppercase">
-                      Próximamente
+                      {t.landing.comingSoon}
                     </span>
                   )}
                 </div>
@@ -63,7 +91,7 @@ export function ToolsSection() {
                 </p>
                 {ready ? (
                   <span className="mt-5 text-sm font-semibold text-brand">
-                    Abrir herramienta
+                    {t.landing.openTool}
                   </span>
                 ) : null}
               </>

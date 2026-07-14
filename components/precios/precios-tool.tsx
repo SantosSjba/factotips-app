@@ -55,9 +55,15 @@ import type {
   PrecioRow,
   UbigeoItem,
 } from "@/lib/types/precios";
+import { findEmail } from "@/lib/contact/phone";
+import { useI18n } from "@/lib/i18n/provider";
 import { cn } from "@/lib/utils";
 import { DetailModal } from "./detail-modal";
 import { LocationPickerModal } from "./location-picker-modal";
+import {
+  ResultContactInfo,
+  type CachedContact,
+} from "./result-contact-info";
 import { Select, fieldControlClass } from "@/components/ui/select";
 
 const fieldClass = fieldControlClass;
@@ -65,9 +71,14 @@ const fieldClass = fieldControlClass;
 const labelClass = "mb-1.5 block text-xs font-medium text-foreground/80";
 
 export function PreciosTool() {
+  const { t } = useI18n();
   const productRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [contactByEstab, setContactByEstab] = useState<
+    Record<string, CachedContact>
+  >({});
+  const knownContactKeysRef = useRef(new Set<string>());
 
   const [departamentos, setDepartamentos] = useState<DepartamentoOption[]>([]);
   const [productoQuery, setProductoQuery] = useState("");
@@ -477,6 +488,8 @@ export function PreciosTool() {
     setPaginaActual(1);
     setBusquedaTabla("");
     setOrdenPrecio("asc");
+    knownContactKeysRef.current.clear();
+    setContactByEstab({});
 
     try {
       const { status, payload } = await buscarPrecios({
@@ -558,6 +571,100 @@ export function PreciosTool() {
     paginaActual * porPagina,
   );
 
+  const cacheContact = useCallback(
+    (codEstab: string, data: DetalleEstablecimiento) => {
+      knownContactKeysRef.current.add(codEstab);
+      setContactByEstab((prev) => ({
+        ...prev,
+        [codEstab]: {
+          telefono: data.telefono,
+          horarioAtencion: data.horarioAtencion,
+          email: findEmail(data),
+        },
+      }));
+    },
+    [],
+  );
+
+  const markContactTried = useCallback((codEstab: string) => {
+    knownContactKeysRef.current.add(codEstab);
+    setContactByEstab((prev) => {
+      if (Object.prototype.hasOwnProperty.call(prev, codEstab)) return prev;
+      return { ...prev, [codEstab]: {} };
+    });
+  }, []);
+
+  // Prefetch contacto/horario de la página visible (DIGEMID detalle; cache por establecimiento).
+  useEffect(() => {
+    const pageItems = resultadosFiltrados.slice(
+      (paginaActual - 1) * porPagina,
+      paginaActual * porPagina,
+    );
+    if (!pageItems.length) return;
+    let cancelled = false;
+
+    const run = async () => {
+      const pending = pageItems
+        .filter((item) => {
+          if (item.codEstab == null || item.codProdE == null) return false;
+          const key = String(item.codEstab);
+          if (knownContactKeysRef.current.has(key)) return false;
+          if (item.telefono || item.horarioAtencion) return false;
+          return true;
+        })
+        .slice(0, 12);
+
+      // Reserve keys so concurrent effect restarts don't duplicate.
+      for (const item of pending) {
+        if (item.codEstab != null) {
+          knownContactKeysRef.current.add(String(item.codEstab));
+        }
+      }
+
+      const concurrency = 3;
+      let index = 0;
+
+      const worker = async () => {
+        while (index < pending.length && !cancelled) {
+          const item = pending[index++];
+          if (!item?.codEstab || item.codProdE == null) continue;
+          const key = String(item.codEstab);
+          try {
+            const payload = await fetchDetalle(
+              item.codProdE as string | number,
+              key,
+            );
+            if (cancelled) return;
+            if (payload.success && payload.data) {
+              cacheContact(key, payload.data);
+            } else {
+              markContactTried(key);
+            }
+          } catch {
+            markContactTried(key);
+          }
+        }
+      };
+
+      await Promise.all(
+        Array.from({ length: Math.min(concurrency, pending.length) }, () =>
+          worker(),
+        ),
+      );
+    };
+
+    void run();
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    paginaActual,
+    porPagina,
+    resultadosFiltrados,
+    cacheContact,
+    markContactTried,
+  ]);
+
   const verDetalle = async (item: PrecioRow) => {
     if (item.codProdE == null || item.codEstab == null) return;
     setModalOpen(true);
@@ -569,8 +676,12 @@ export function PreciosTool() {
         item.codProdE as string | number,
         String(item.codEstab),
       );
-      if (payload.success && payload.data) setDetalle(payload.data);
-      else setErrorDetalle(payload.message ?? "No se pudo obtener el detalle.");
+      if (payload.success && payload.data) {
+        setDetalle(payload.data);
+        cacheContact(String(item.codEstab), payload.data);
+      } else {
+        setErrorDetalle(payload.message ?? "No se pudo obtener el detalle.");
+      }
     } catch {
       setErrorDetalle("Error de conexión al obtener el detalle.");
     } finally {
@@ -592,17 +703,16 @@ export function PreciosTool() {
         className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-brand"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden />
-        Volver a herramientas
+        {t.precios.back}
       </Link>
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Comparador de precios
+            {t.precios.title}
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
-            Compara precios unitarios de medicamentos publicados por DIGEMID.
-            El mejor precio se destaca automáticamente.
+            {t.precios.subtitle}
           </p>
         </div>
         <a
@@ -611,7 +721,7 @@ export function PreciosTool() {
           rel="noopener noreferrer"
           className="inline-flex min-h-11 items-center gap-1.5 self-start rounded-xl border border-border bg-surface px-4 text-xs font-medium text-foreground hover:bg-brand-soft sm:self-auto"
         >
-          Ver en DIGEMID
+          {t.precios.viewDigemid}
           <ExternalLink className="h-3.5 w-3.5" aria-hidden />
         </a>
       </div>
@@ -1089,10 +1199,19 @@ export function PreciosTool() {
                           ? ` · ${item.nombreFormaFarmaceutica}`
                           : ""}
                       </p>
+                      <ResultContactInfo
+                        item={item}
+                        contact={
+                          item.codEstab != null
+                            ? (contactByEstab[String(item.codEstab)] ?? null)
+                            : null
+                        }
+                        size="sm"
+                      />
                       <div className="mt-3 flex items-end justify-between gap-3">
                         <div>
                           <p className="text-[11px] tracking-wide text-muted uppercase">
-                            Unitario
+                            {t.precios.unit}
                           </p>
                           <p
                             className={cn(
@@ -1104,7 +1223,7 @@ export function PreciosTool() {
                             {formatSol(item.precio2)}
                           </p>
                           <p className="text-xs text-muted">
-                            Pack {formatSol(item.precio1)}
+                            {t.precios.pack} {formatSol(item.precio1)}
                           </p>
                         </div>
                         <button
@@ -1112,7 +1231,7 @@ export function PreciosTool() {
                           onClick={() => void verDetalle(item)}
                           className="inline-flex min-h-11 items-center rounded-xl border border-border px-4 text-sm font-semibold"
                         >
-                          Ver
+                          {t.precios.view}
                         </button>
                       </div>
                     </li>
@@ -1126,14 +1245,20 @@ export function PreciosTool() {
                   <table className="w-full text-left text-sm">
                     <thead>
                       <tr className="border-b border-border bg-background text-xs font-semibold tracking-wide text-muted uppercase">
-                        <th className="px-4 py-3">Tipo</th>
-                        <th className="px-4 py-3">Establecimiento</th>
-                        <th className="px-4 py-3">Producto</th>
-                        <th className="px-4 py-3">Laboratorio</th>
-                        <th className="px-4 py-3">Ubicación</th>
-                        <th className="px-4 py-3 text-center">P. unitario</th>
-                        <th className="px-4 py-3 text-center">P. pack</th>
-                        <th className="px-4 py-3 text-center">Detalle</th>
+                        <th className="px-4 py-3">{t.precios.type}</th>
+                        <th className="px-4 py-3">{t.precios.establishment}</th>
+                        <th className="px-4 py-3">{t.precios.productCol}</th>
+                        <th className="px-4 py-3">{t.precios.location}</th>
+                        <th className="px-4 py-3">{t.precios.contactCol}</th>
+                        <th className="px-4 py-3 text-center">
+                          {t.precios.unitPrice}
+                        </th>
+                        <th className="px-4 py-3 text-center">
+                          {t.precios.packPrice}
+                        </th>
+                        <th className="px-4 py-3 text-center">
+                          {t.precios.detail}
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border">
@@ -1152,6 +1277,9 @@ export function PreciosTool() {
                             </td>
                             <td className="px-4 py-3 font-medium text-foreground">
                               {item.nombreComercial ?? "—"}
+                              <p className="mt-0.5 text-xs font-normal text-muted">
+                                {item.nombreLaboratorio ?? ""}
+                              </p>
                             </td>
                             <td className="px-4 py-3">
                               <p className="font-medium text-foreground">
@@ -1166,13 +1294,23 @@ export function PreciosTool() {
                                   : ""}
                               </p>
                             </td>
-                            <td className="px-4 py-3 text-xs text-muted">
-                              {item.nombreLaboratorio ?? "—"}
-                            </td>
                             <td className="px-4 py-3 text-xs text-foreground/80">
                               {[item.distrito, item.provincia]
                                 .filter(Boolean)
                                 .join(", ") || "—"}
+                            </td>
+                            <td className="max-w-[14rem] px-4 py-3">
+                              <ResultContactInfo
+                                item={item}
+                                contact={
+                                  item.codEstab != null
+                                    ? (contactByEstab[String(item.codEstab)] ??
+                                      null)
+                                    : null
+                                }
+                                size="sm"
+                                layout="inline"
+                              />
                             </td>
                             <td className="px-4 py-3 text-center">
                               <span
@@ -1196,7 +1334,7 @@ export function PreciosTool() {
                                 onClick={() => void verDetalle(item)}
                                 className="inline-flex min-h-9 items-center rounded-lg border border-border px-3 text-xs font-semibold hover:bg-background"
                               >
-                                Ver
+                                {t.precios.view}
                               </button>
                             </td>
                           </tr>
@@ -1228,7 +1366,7 @@ export function PreciosTool() {
           ) : (
             <div className="rounded-2xl border border-dashed border-amber-300 bg-amber-50/50 p-8 text-center">
               <p className="text-sm font-medium text-amber-800">
-                No se encontraron precios con los filtros seleccionados.
+                {t.precios.emptyResults}
               </p>
             </div>
           )}
@@ -1238,8 +1376,7 @@ export function PreciosTool() {
       {!buscado && !loadingPrecios ? (
         <div className="mt-6 rounded-2xl border border-dashed border-border bg-background/60 p-12 text-center md:mb-0 mb-20">
           <p className="text-sm font-medium text-muted">
-            Busca un medicamento para ver precios en farmacias y boticas del
-            Perú
+            {t.precios.initialHint}
           </p>
         </div>
       ) : null}
@@ -1247,7 +1384,7 @@ export function PreciosTool() {
       {loadingPrecios ? (
         <div className="mt-6 flex flex-col items-center gap-3 py-10">
           <Loader2 className="h-8 w-8 animate-spin text-brand" />
-          <p className="text-sm text-muted">Consultando precios en DIGEMID...</p>
+          <p className="text-sm text-muted">{t.precios.querying}</p>
         </div>
       ) : null}
 
