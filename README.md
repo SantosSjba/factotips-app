@@ -60,24 +60,35 @@ Opcional (multi-instancia): `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN
 
 ## Deploy (Coolify)
 
-Proyecto sugerido en Coolify: **FACTOSYS PERU**.
+App en Coolify: **FACTOSYS TIPS → factotips-app**.  
+Referencia que ya funciona: **FACTOSYS STORE → factosys-store-web** (usa **Dockerfile**).
 
-1. Nueva **Application** → recurso GitHub `SantosSjba/factotips-app` (branch `main`).
-2. Build pack: **Dockerfile** (incluido en el repo).
-3. Puerto: `3000`.
-4. Healthcheck path: `/api/health`.
-5. Variables de entorno de producción:
+### Configuración recomendada (igual que store-web)
+
+1. **Build Pack:** `Dockerfile` (no Nixpacks). Location: `/Dockerfile`.
+2. **Puerto:** `3000` (Ports Exposes).
+3. **Healthcheck (opcional):** path `/api/health`, puerto `3000`.
+4. **Variables de entorno:**
 
 ```bash
+NODE_ENV=production
+HOSTNAME=0.0.0.0
+PORT=3000
 DIGEMID_BASE_URL=https://ms-opm.minsa.gob.pe/msopmcovid
 DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 NEXT_PUBLIC_SITE_URL=https://TU-DOMINIO
-NODE_ENV=production
 ```
 
-6. Dominio HTTPS en Coolify (Let's Encrypt).
+5. Redeploy (**Force rebuild without cache** la primera vez tras cambiar el build pack).
 
-> Nota: con varias réplicas el rate limit en memoria no se comparte. Para eso, migrar a Upstash (opcional en `PLAN.md`).
+### Por qué falla con Nixpacks
+
+En Coolify la app quedó en `exited:unhealthy` con `build_pack: nixpacks`.  
+Next.js, sin `HOSTNAME=0.0.0.0`, escucha solo en localhost del contenedor y el proxy no la alcanza. Además el repo ya trae Dockerfile multi-stage + `output: "standalone"` pensado para Coolify.
+
+Si igual usas Nixpacks: hay `nixpacks.toml` + `pnpm start` con `--hostname 0.0.0.0`. Igual conviene **Dockerfile**.
+
+6. Dominio HTTPS en Coolify (Let's Encrypt) cuando tengas el FQDN definitivo.
 
 ### Alternativa: Vercel
 
@@ -87,4 +98,4 @@ Conectar el mismo repo en Vercel, definir las mismas env vars y desplegar. El `o
 
 - Next.js 16 (App Router) — UI + Route Handlers
 - React 19, TypeScript, Tailwind CSS 4
-- Zod, Lucide, SheetJS (`xlsx`)
+- Zod, Iconify (`@iconify/react`), SheetJS (`xlsx`)
