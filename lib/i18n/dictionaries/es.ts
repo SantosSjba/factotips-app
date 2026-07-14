@@ -1,11 +1,4 @@
 export const es = {
-  nav: {
-    home: "Inicio",
-    tools: "Herramientas",
-    comparePrices: "Comparar precios",
-    openMenu: "Abrir menú",
-    closeMenu: "Cerrar menú",
-  },
   footer: {
     tagline: "Hub de herramientas de utilidad de Factosys Perú.",
     pricesSource:
@@ -15,6 +8,16 @@ export const es = {
       "FactoTips no vende medicamentos ni intermedia operaciones comerciales.",
     rights: "Todos los derechos reservados.",
     viewTools: "Ver herramientas",
+    byOwner: "Un producto de",
+    visitSite: "factosysperu.com",
+  },
+  nav: {
+    home: "Inicio",
+    tools: "Herramientas",
+    comparePrices: "Comparar precios",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
+    byFactosys: "by Factosys",
   },
   landing: {
     brandEyebrow: "Factosys Perú",

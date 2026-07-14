@@ -7,6 +7,7 @@ export const en: Dictionary = {
     comparePrices: "Compare prices",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    byFactosys: "by Factosys",
   },
   footer: {
     tagline: "Utility tools hub by Factosys Perú.",
@@ -16,6 +17,8 @@ export const en: Dictionary = {
       "FactoTips does not sell medicines or intermediate commercial sales.",
     rights: "All rights reserved.",
     viewTools: "View tools",
+    byOwner: "A product of",
+    visitSite: "factosysperu.com",
   },
   landing: {
     brandEyebrow: "Factosys Perú",

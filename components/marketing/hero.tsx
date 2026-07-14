@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HeroParticles } from "@/components/marketing/hero-particles";
 import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
+import { FACTOSYS_URL } from "@/lib/seo/site";
 
 export function Hero() {
   const { t } = useI18n();
@@ -21,9 +22,14 @@ export function Hero() {
       />
 
       <div className="mx-auto flex min-h-[min(100svh,880px)] max-w-6xl flex-col justify-center px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-20">
-        <p className="animate-fade-up text-sm font-semibold tracking-[0.18em] text-brand uppercase">
+        <a
+          href={FACTOSYS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="animate-fade-up inline-flex w-fit text-sm font-semibold tracking-[0.18em] text-brand uppercase transition-colors hover:text-brand-dark"
+        >
           {t.landing.brandEyebrow}
-        </p>
+        </a>
 
         <h1 className="animate-fade-up animation-delay-1 mt-4 max-w-3xl font-display text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.95] font-semibold tracking-tight text-foreground">
           {t.landing.headline}

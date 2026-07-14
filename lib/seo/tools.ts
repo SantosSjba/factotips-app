@@ -1,4 +1,4 @@
-import { absoluteUrl, SITE_BRAND, SITE_NAME } from "./site";
+import { absoluteUrl, FACTOSYS_URL, SITE_BRAND, SITE_NAME } from "./site";
 import { buildPageMetadata, type PageSeo } from "./metadata";
 
 /** Rutas canónicas de cada herramienta (landing + app). */
@@ -79,10 +79,12 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_BRAND,
-    url: absoluteUrl("/"),
+    url: FACTOSYS_URL,
+    sameAs: [FACTOSYS_URL],
     brand: {
       "@type": "Brand",
       name: SITE_NAME,
+      url: absoluteUrl("/"),
     },
   };
 }

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
+import { FACTOSYS_URL } from "@/lib/seo/site";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -19,18 +20,25 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link
-          href="/"
-          className="group flex items-baseline gap-1.5"
-          onClick={() => setOpen(false)}
-        >
-          <span className="font-display text-xl font-semibold tracking-tight text-brand transition-colors group-hover:text-brand-dark">
-            FactoTips
-          </span>
-          <span className="hidden text-[11px] font-medium tracking-wide text-muted sm:inline">
-            by Factosys
-          </span>
-        </Link>
+        <div className="flex items-baseline gap-1.5">
+          <Link
+            href="/"
+            className="group"
+            onClick={() => setOpen(false)}
+          >
+            <span className="font-display text-xl font-semibold tracking-tight text-brand transition-colors group-hover:text-brand-dark">
+              FactoTips
+            </span>
+          </Link>
+          <a
+            href={FACTOSYS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden text-[11px] font-medium tracking-wide text-muted transition-colors hover:text-brand sm:inline"
+          >
+            {t.nav.byFactosys}
+          </a>
+        </div>
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Principal">
           {nav.map((item) => (
@@ -90,6 +98,15 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <a
+            href={FACTOSYS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg px-3 py-3 text-sm font-medium text-foreground hover:bg-brand-soft"
+            onClick={() => setOpen(false)}
+          >
+            Factosys Perú
+          </a>
           <Link
             href="/herramientas/precios"
             className="mt-1 rounded-lg bg-brand px-3 py-3 text-center text-sm font-semibold text-white hover:bg-brand-dark"
