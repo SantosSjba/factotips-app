@@ -47,9 +47,12 @@ Opcional (multi-instancia): `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN
 | Ruta | Descripción |
 |------|-------------|
 | `/` | Landing hub FactoTips |
-| `/herramientas/precios` | Comparador DIGEMID |
+| `/herramientas/precios` | Landing SEO del comparador |
+| `/herramientas/precios/consultar` | App del comparador DIGEMID |
 | `/api/health` | Healthcheck |
 | `/api/precios/*` | Proxy DIGEMID + rate limit |
+| `/sitemap.xml` | Sitemap SEO |
+| `/robots.txt` | Robots SEO |
 
 **Límite:** 1 consulta de precios (`POST /api/precios/buscar`) por minuto y usuario (cookie `ft_uid` + IP).
 

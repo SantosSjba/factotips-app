@@ -25,9 +25,10 @@ Marca el progreso cambiando `- [ ]` por `- [x]` conforme avances.
 
 ```
 Browser
-  ├── /                          → Landing hub FactoTips
-  ├── /herramientas/precios      → Herramienta (UI)
-  └── /api/precios/*             → Proxy DIGEMID + rate limit + caché
+  ├── /                                 → Landing hub FactoTips (SEO)
+  ├── /herramientas/precios            → Landing de la herramienta (SEO)
+  ├── /herramientas/precios/consultar  → App del comparador (UI)
+  └── /api/precios/*                    → Proxy DIGEMID + rate limit + caché
          └── https://ms-opm.minsa.gob.pe/msopmcovid
 ```
 
@@ -107,7 +108,7 @@ factotips-app/
 ### Dependencias de producción
 
 - [x] `zod` — validación de bodies API y forms
-- [x] `lucide-react` — iconos
+- [x] `@iconify/react` — iconos (Material Design Icons)
 - [x] `xlsx` — exportar resultados a Excel
 - [x] `clsx` — utilidades de clases
 - [x] `tailwind-merge` — merge de clases Tailwind
@@ -158,7 +159,7 @@ DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 - [x] Crear `lib/types/precios.ts` (autocomplete, precio row, ubigeo, filtros, detalle)
 - [x] Crear `lib/departamentos.ts` (01 AMAZONAS … 25 UCAYALI)
 - [x] Crear `.env.example` con vars DIGEMID
-- [x] Instalar paquetes base: `zod`, `clsx`, `tailwind-merge`, `lucide-react`
+- [x] Instalar paquetes base: `zod`, `clsx`, `tailwind-merge`, `@iconify/react`
 - [x] Estructura de carpetas `components/`, `lib/digemid/`
 - [x] `GET /api/health` → `{ ok: true, service: "factotips" }`
 

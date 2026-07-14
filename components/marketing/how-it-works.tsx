@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPinned, Search, Scale } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 
 export function HowItWorks() {
@@ -8,17 +8,17 @@ export function HowItWorks() {
 
   const steps = [
     {
-      icon: Search,
+      icon: "mdi:magnify",
       title: t.landing.step1Title,
       text: t.landing.step1Text,
     },
     {
-      icon: MapPinned,
+      icon: "mdi:map-marker-radius",
       title: t.landing.step2Title,
       text: t.landing.step2Text,
     },
     {
-      icon: Scale,
+      icon: "mdi:scale-balance",
       title: t.landing.step3Title,
       text: t.landing.step3Text,
     },
@@ -37,27 +37,24 @@ export function HowItWorks() {
         </div>
 
         <ol className="mt-10 grid gap-8 sm:grid-cols-3 sm:gap-6">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            return (
-              <li key={step.title} className="relative">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-soft text-brand">
-                    <Icon className="h-5 w-5" aria-hidden />
-                  </span>
-                  <span className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-                    {t.landing.step} {index + 1}
-                  </span>
-                </div>
-                <h3 className="mt-4 font-display text-xl font-semibold text-foreground">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  {step.text}
-                </p>
-              </li>
-            );
-          })}
+          {steps.map((step, index) => (
+            <li key={step.title} className="relative">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-soft text-brand">
+                  <Icon icon={step.icon} className="h-5 w-5" />
+                </span>
+                <span className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
+                  {t.landing.step} {index + 1}
+                </span>
+              </div>
+              <h3 className="mt-4 font-display text-xl font-semibold text-foreground">
+                {step.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                {step.text}
+              </p>
+            </li>
+          ))}
         </ol>
 
         <p className="mt-12 max-w-3xl text-sm leading-relaxed text-muted">

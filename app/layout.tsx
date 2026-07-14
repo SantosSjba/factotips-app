@@ -3,6 +3,7 @@ import { Fraunces, Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { I18nProvider } from "@/lib/i18n/provider";
+import { SITE_BRAND, SITE_NAME, getSiteUrl } from "@/lib/seo/site";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -17,42 +18,45 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "FactoTips | Herramientas útiles — Factosys Perú",
-    template: "%s | FactoTips",
+    default: `${SITE_NAME} | Herramientas útiles — ${SITE_BRAND}`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Compara precios oficiales de medicamentos DIGEMID y más utilidades.",
-  applicationName: "FactoTips",
-  authors: [{ name: "Factosys Perú" }],
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_BRAND }],
+  creator: SITE_BRAND,
+  publisher: SITE_BRAND,
   keywords: [
-    "FactoTips",
-    "Factosys",
+    SITE_NAME,
+    SITE_BRAND,
     "Perú",
+    "herramientas útiles",
     "medicamentos",
     "precios",
     "DIGEMID",
-    "herramientas",
   ],
   openGraph: {
     type: "website",
     locale: "es_PE",
     url: "/",
-    siteName: "FactoTips",
-    title: "FactoTips | Herramientas útiles — Factosys Perú",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | Herramientas útiles — ${SITE_BRAND}`,
     description:
       "Hub de herramientas de utilidad de Factosys Perú. Empieza con el comparador de precios DIGEMID.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "FactoTips | Herramientas útiles",
+    title: `${SITE_NAME} | Herramientas útiles`,
     description:
       "Hub de herramientas de utilidad de Factosys Perú. Compara precios oficiales de medicamentos.",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

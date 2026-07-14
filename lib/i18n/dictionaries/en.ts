@@ -51,8 +51,55 @@ export const en: Dictionary = {
     disclaimerSuffix:
       ". FactoTips displays published information; it does not change prices or sell products.",
   },
+  preciosLanding: {
+    eyebrow: "FactoTips · DIGEMID / MINSA",
+    headline: "Compare medicine prices across Peru",
+    subtitle:
+      "Check official DIGEMID observatory prices and find the cheapest unit price near you.",
+    ctaPrimary: "Start comparing",
+    ctaSecondary: "See how it works",
+    whyTitle: "Why compare with FactoTips",
+    whyText:
+      "The same medicine can cost different amounts at different pharmacies. We sort by unit price so you compare fairly.",
+    benefit1Title: "Official data",
+    benefit1Text:
+      "Prices published by the DIGEMID / MINSA Medicine Price Observatory.",
+    benefit2Title: "Nationwide",
+    benefit2Text:
+      "Filter by department, province, or district and find places near you.",
+    benefit3Title: "Unit price first",
+    benefit3Text:
+      "We highlight cost per unit — not only pack price — so you choose better.",
+    howTitle: "How it works",
+    howSubtitle: "Three clear steps to a useful search.",
+    step1Title: "Pick the medicine",
+    step1Text: "Search by name or active ingredient and select the form.",
+    step2Title: "Set your area",
+    step2Text: "Use your location or choose department, province, and district.",
+    step3Title: "Compare and contact",
+    step3Text:
+      "Review prices, hours, and actions to call, WhatsApp, or email.",
+    faqTitle: "Frequently asked questions",
+    faq1Q: "Does FactoTips sell medicines?",
+    faq1A:
+      "No. FactoTips only shows public DIGEMID observatory data. It does not sell or broker purchases.",
+    faq2Q: "Where do the prices come from?",
+    faq2A:
+      "From the public Medicine Price Observatory (OPM) API of DIGEMID / MINSA.",
+    faq3Q: "Why does unit price matter?",
+    faq3A:
+      "Because a cheaper pack is not always the best deal. Unit price lets you compare different presentations fairly.",
+    faq4Q: "Can I search across all of Peru?",
+    faq4A:
+      "Yes. Query by department and narrow to province or district for local options.",
+    finalTitle: "Ready to find the best price",
+    finalText:
+      "Open the comparer and check official prices at pharmacies across Peru.",
+    finalCta: "Search prices now",
+    backHub: "Back to FactoTips",
+  },
   precios: {
-    back: "Back to tools",
+    back: "Back to comparer",
     title: "Price comparer",
     subtitle:
       "Compare unit prices of medicines published by DIGEMID. The best price is highlighted automatically.",

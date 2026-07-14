@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Loader2 } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 
 const LeafletMap = dynamic(
@@ -10,7 +10,7 @@ const LeafletMap = dynamic(
     ssr: false,
     loading: () => (
       <div className="flex h-full w-full items-center justify-center bg-brand-soft/40 text-sm text-muted">
-        <Loader2 className="mr-2 h-4 w-4 animate-spin text-brand" />
+        <Icon icon="mdi:loading" className="mr-2 h-4 w-4 animate-spin text-brand" />
         Cargando mapa...
       </div>
     ),

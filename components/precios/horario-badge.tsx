@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { Clock3 } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { evaluateBusinessHours } from "@/lib/horario/parse";
 import { useI18n } from "@/lib/i18n/provider";
 import { cleanContactValue } from "@/lib/contact/phone";
@@ -55,7 +55,7 @@ export function HorarioBadge({
           STATUS_STYLES[evaluation.status],
         )}
       >
-        <Clock3 className="h-3.5 w-3.5 shrink-0" aria-hidden />
+        <Icon icon="mdi:clock-outline" className="h-3.5 w-3.5" />
         <span className="truncate">{labelMap[evaluation.labelKey]}</span>
       </span>
       {showRaw && raw ? (

@@ -9,18 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import {
-  ArrowLeft,
-  ChevronDown,
-  Clock3,
-  Download,
-  ExternalLink,
-  Loader2,
-  MapPin,
-  Search,
-  Tag,
-  X,
-} from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import type { DepartamentoOption } from "@/lib/departamentos";
 import {
   buscarPrecios,
@@ -699,10 +688,10 @@ export function PreciosTool() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <Link
-        href="/#herramientas"
+        href="/herramientas/precios"
         className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-brand"
       >
-        <ArrowLeft className="h-4 w-4" aria-hidden />
+        <Icon icon="mdi:arrow-left" className="h-4 w-4" />
         {t.precios.back}
       </Link>
 
@@ -722,7 +711,7 @@ export function PreciosTool() {
           className="inline-flex min-h-11 items-center gap-1.5 self-start rounded-xl border border-border bg-surface px-4 text-xs font-medium text-foreground hover:bg-brand-soft sm:self-auto"
         >
           {t.precios.viewDigemid}
-          <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+          <Icon icon="mdi:open-in-new" className="h-3.5 w-3.5" />
         </a>
       </div>
 
@@ -741,7 +730,7 @@ export function PreciosTool() {
           aria-live="polite"
         >
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-800">
-            <Clock3 className="h-6 w-6" aria-hidden />
+            <Icon icon="mdi:clock-outline" className="h-6 w-6" />
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold">Próxima consulta disponible en</p>
@@ -766,8 +755,7 @@ export function PreciosTool() {
           <h2 className="font-display text-lg font-semibold text-foreground">
             Filtros de búsqueda
           </h2>
-          <ChevronDown
-            className={cn(
+          <Icon icon="mdi:chevron-down" className={cn(
               "h-5 w-5 text-muted transition-transform md:hidden",
               filtersOpen && "rotate-180",
             )}
@@ -810,7 +798,7 @@ export function PreciosTool() {
                 disabled={!departamentos.length}
                 className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-brand/30 bg-surface px-4 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft disabled:opacity-55"
               >
-                <MapPin className="h-4 w-4" />
+                <Icon icon="mdi:map-marker" className="h-4 w-4" />
                 Usar mi ubicación
               </button>
             </div>
@@ -857,9 +845,9 @@ export function PreciosTool() {
               />
               <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                 {loadingProducto ? (
-                  <Loader2 className="h-4 w-4 animate-spin text-brand" />
+                  <Icon icon="mdi:loading" className="h-4 w-4 animate-spin text-brand" />
                 ) : (
-                  <Search className="h-4 w-4 text-muted" />
+                  <Icon icon="mdi:magnify" className="h-4 w-4 text-muted" />
                 )}
               </span>
             </div>
@@ -911,7 +899,7 @@ export function PreciosTool() {
                   onClick={limpiarProducto}
                   className="inline-flex min-h-9 items-center gap-1 text-xs text-muted hover:text-danger"
                 >
-                  <X className="h-3.5 w-3.5" />
+                  <Icon icon="mdi:close" className="h-3.5 w-3.5" />
                   Cambiar
                 </button>
               </div>
@@ -1015,9 +1003,9 @@ export function PreciosTool() {
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-55"
           >
             {loadingPrecios ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Icon icon="mdi:loading" className="h-4 w-4 animate-spin" />
             ) : (
-              <Search className="h-4 w-4" />
+              <Icon icon="mdi:magnify" className="h-4 w-4" />
             )}
             {loadingPrecios
               ? "Consultando..."
@@ -1050,9 +1038,9 @@ export function PreciosTool() {
           className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white disabled:opacity-55"
         >
           {loadingPrecios ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Icon icon="mdi:loading" className="h-4 w-4 animate-spin" />
           ) : (
-            <Search className="h-4 w-4" />
+            <Icon icon="mdi:magnify" className="h-4 w-4" />
           )}
           {rateLimited
             ? `Espera ${retryAfter}s`
@@ -1152,7 +1140,7 @@ export function PreciosTool() {
                   onClick={() => void onExport()}
                   className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 px-3 text-xs font-semibold text-emerald-800 hover:bg-emerald-100"
                 >
-                  <Download className="h-3.5 w-3.5" />
+                  <Icon icon="mdi:download" className="h-3.5 w-3.5" />
                   Exportar Excel
                 </button>
                 <span className="w-full text-xs text-muted sm:ml-auto sm:w-auto">
@@ -1219,7 +1207,7 @@ export function PreciosTool() {
                               best ? "text-success" : "text-foreground",
                             )}
                           >
-                            {best ? <Tag className="h-4 w-4" /> : null}
+                            {best ? <Icon icon="mdi:tag-outline" className="h-4 w-4" /> : null}
                             {formatSol(item.precio2)}
                           </p>
                           <p className="text-xs text-muted">
@@ -1321,7 +1309,7 @@ export function PreciosTool() {
                                     : "text-foreground",
                                 )}
                               >
-                                {best ? <Tag className="h-4 w-4" /> : null}
+                                {best ? <Icon icon="mdi:tag-outline" className="h-4 w-4" /> : null}
                                 {formatSol(item.precio2)}
                               </span>
                             </td>
@@ -1383,7 +1371,7 @@ export function PreciosTool() {
 
       {loadingPrecios ? (
         <div className="mt-6 flex flex-col items-center gap-3 py-10">
-          <Loader2 className="h-8 w-8 animate-spin text-brand" />
+          <Icon icon="mdi:loading" className="h-8 w-8 animate-spin text-brand" />
           <p className="text-sm text-muted">{t.precios.querying}</p>
         </div>
       ) : null}

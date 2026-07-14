@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { ExternalLink, Loader2, MapPin, Store, X } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { MapView } from "@/components/map/map-view";
 import { ContactActions } from "@/components/precios/contact-actions";
 import { HorarioBadge } from "@/components/precios/horario-badge";
@@ -221,7 +221,7 @@ export function DetailModal({
           <div className="min-w-0 flex-1 overflow-hidden">
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
-                <Store className="h-5 w-5 text-white" aria-hidden />
+                <Icon icon="mdi:store" className="h-5 w-5 text-white" />
               </span>
               <div className="min-w-0 overflow-hidden">
                 <h3
@@ -242,7 +242,7 @@ export function DetailModal({
             className="shrink-0 rounded-xl p-2 text-white/90 transition hover:bg-white/20 hover:text-white"
             aria-label={t.common.close}
           >
-            <X className="h-5 w-5" />
+            <Icon icon="mdi:close" className="h-5 w-5" />
           </button>
         </div>
 
@@ -362,7 +362,7 @@ export function DetailModal({
                 <div className="overflow-hidden rounded-2xl border border-border bg-background/70 p-3 sm:p-4">
                   <div className="mb-3 flex min-w-0 items-center justify-between gap-2">
                     <h4 className="flex min-w-0 items-center gap-2 text-sm font-bold text-foreground">
-                      <MapPin className="h-4 w-4 shrink-0 text-brand" />
+                      <Icon icon="mdi:map-marker" className="h-4 w-4 text-brand" />
                       <span className="truncate">{t.detail.mapTitle}</span>
                     </h4>
                     {mapsUrl && !mapLoading ? (
@@ -373,7 +373,7 @@ export function DetailModal({
                         className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-brand hover:underline"
                       >
                         {t.detail.openMap}
-                        <ExternalLink className="h-3.5 w-3.5" />
+                        <Icon icon="mdi:open-in-new" className="h-3.5 w-3.5" />
                       </a>
                     ) : null}
                   </div>
@@ -381,7 +381,7 @@ export function DetailModal({
                   <div className="relative h-56 overflow-hidden rounded-xl bg-brand-soft/30 sm:h-72 lg:h-[380px]">
                     {mapLoading ? (
                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-4 text-center">
-                        <Loader2 className="h-7 w-7 animate-spin text-brand" />
+                        <Icon icon="mdi:loading" className="h-7 w-7 animate-spin text-brand" />
                         <p className="text-sm font-medium text-foreground">
                           {t.detail.locating}
                         </p>
@@ -398,7 +398,7 @@ export function DetailModal({
                       />
                     ) : (
                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
-                        <MapPin className="h-5 w-5 text-muted" aria-hidden />
+                        <Icon icon="mdi:map-marker" className="h-5 w-5 text-muted" />
                         <p className="text-sm font-semibold text-foreground">
                           {mapError || t.detail.mapUnavailable}
                         </p>
@@ -434,7 +434,7 @@ function DetailLoadingSkeleton({
   return (
     <div className="min-h-0 flex-1 overflow-hidden p-4 sm:p-6" aria-busy>
       <div className="flex flex-col items-center gap-2 py-2 pb-6">
-        <Loader2 className="h-7 w-7 animate-spin text-brand" />
+        <Icon icon="mdi:loading" className="h-7 w-7 animate-spin text-brand" />
         <p className="text-sm font-medium text-foreground">{body}</p>
         <p className="text-xs text-muted">{hint}</p>
       </div>

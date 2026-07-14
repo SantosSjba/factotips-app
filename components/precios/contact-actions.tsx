@@ -1,6 +1,5 @@
 "use client";
 
-import { Mail, MessageCircle, Phone } from "lucide-react";
 import {
   findEmail,
   mailHref,
@@ -8,6 +7,7 @@ import {
   telHref,
   whatsappHref,
 } from "@/lib/contact/phone";
+import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,6 @@ type Props = {
   detalle?: Record<string, unknown> | null;
   className?: string;
   size?: "sm" | "md";
-  /** Mensaje prellenado de WhatsApp */
   whatsappMessage?: string;
   emailSubject?: string;
 };
@@ -58,7 +57,7 @@ export function ContactActions({
           href={call}
           className={cn(btn, "bg-sky-100 text-sky-900 hover:bg-sky-200")}
         >
-          <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          <Icon icon="mdi:phone" className="h-3.5 w-3.5" />
           {t.contact.call}
           {phone && size === "md" ? (
             <span className="max-w-[7rem] truncate font-normal opacity-80">
@@ -72,18 +71,24 @@ export function ContactActions({
           href={wa}
           target="_blank"
           rel="noopener noreferrer"
-          className={cn(btn, "bg-emerald-100 text-emerald-900 hover:bg-emerald-200")}
+          className={cn(
+            btn,
+            "bg-emerald-100 text-emerald-900 hover:bg-emerald-200",
+          )}
         >
-          <MessageCircle className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          <Icon icon="mdi:whatsapp" className="h-3.5 w-3.5" />
           {t.contact.whatsapp}
         </a>
       ) : null}
       {mail ? (
         <a
           href={mail}
-          className={cn(btn, "bg-violet-100 text-violet-900 hover:bg-violet-200")}
+          className={cn(
+            btn,
+            "bg-violet-100 text-violet-900 hover:bg-violet-200",
+          )}
         >
-          <Mail className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          <Icon icon="mdi:email-outline" className="h-3.5 w-3.5" />
           {t.contact.email}
           {resolvedEmail && size === "md" ? (
             <span className="max-w-[10rem] truncate font-normal opacity-80">

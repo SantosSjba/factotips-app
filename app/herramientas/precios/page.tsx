@@ -1,16 +1,28 @@
 import type { Metadata } from "next";
-import { PreciosTool } from "@/components/precios/precios-tool";
+import { PreciosLanding } from "@/components/marketing/precios-landing";
+import { JsonLd } from "@/lib/seo/metadata";
+import {
+  preciosFaqJsonLd,
+  preciosSoftwareJsonLd,
+  toolLandingMetadata,
+} from "@/lib/seo/tools";
+import { es } from "@/lib/i18n/dictionaries/es";
 
-export const metadata: Metadata = {
-  title: "Comparador de precios de medicamentos",
-  description:
-    "Compara precios unitarios de medicamentos publicados por DIGEMID / MINSA en el Perú. Encuentra la opción más económica por región.",
-};
+export const metadata: Metadata = toolLandingMetadata("precios");
 
-export default function PreciosPage() {
+const faqs = [
+  { question: es.preciosLanding.faq1Q, answer: es.preciosLanding.faq1A },
+  { question: es.preciosLanding.faq2Q, answer: es.preciosLanding.faq2A },
+  { question: es.preciosLanding.faq3Q, answer: es.preciosLanding.faq3A },
+  { question: es.preciosLanding.faq4Q, answer: es.preciosLanding.faq4A },
+];
+
+export default function PreciosLandingPage() {
   return (
     <main className="flex-1">
-      <PreciosTool />
+      <JsonLd data={preciosSoftwareJsonLd()} />
+      <JsonLd data={preciosFaqJsonLd(faqs)} />
+      <PreciosLanding />
     </main>
   );
 }

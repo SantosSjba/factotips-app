@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Clock3, Pill } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 import { cn } from "@/lib/utils";
 
@@ -66,16 +66,15 @@ export function ToolsSection() {
                       ready ? "bg-brand text-white" : "bg-border/60 text-muted",
                     )}
                   >
-                    {ready ? (
-                      <Pill className="h-5 w-5" aria-hidden />
-                    ) : (
-                      <Clock3 className="h-5 w-5" aria-hidden />
-                    )}
+                    <Icon
+                      icon={ready ? "mdi:pill" : "mdi:clock-outline"}
+                      className="h-5 w-5"
+                    />
                   </span>
                   {ready ? (
-                    <ArrowUpRight
+                    <Icon
+                      icon="mdi:arrow-top-right"
                       className="h-5 w-5 text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand"
-                      aria-hidden
                     />
                   ) : (
                     <span className="rounded-full bg-border/70 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-muted uppercase">

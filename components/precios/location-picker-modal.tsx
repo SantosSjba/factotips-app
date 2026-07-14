@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, MapPin, Navigation, X } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { MapView } from "@/components/map/map-view";
 import {
   PERU_DEFAULT_CENTER,
@@ -166,7 +166,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
             className="rounded-xl p-2 text-muted hover:bg-background hover:text-foreground"
             aria-label="Cerrar"
           >
-            <X className="h-5 w-5" />
+            <Icon icon="mdi:close" className="h-5 w-5" />
           </button>
         </div>
 
@@ -182,7 +182,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
             />
           ) : (
             <div className="flex h-full min-h-[280px] items-center justify-center gap-2 text-sm text-muted sm:min-h-[360px]">
-              <Loader2 className="h-5 w-5 animate-spin text-brand" />
+              <Icon icon="mdi:loading" className="h-5 w-5 animate-spin text-brand" />
               Obteniendo tu ubicación...
             </div>
           )}
@@ -192,12 +192,12 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
           <div className="rounded-xl border border-border bg-background px-3 py-3 text-sm">
             {resolving ? (
               <p className="flex items-center gap-2 text-muted">
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Icon icon="mdi:loading" className="h-4 w-4 animate-spin" />
                 Resolviendo dirección...
               </p>
             ) : preview ? (
               <div className="flex gap-2">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+                <Icon icon="mdi:map-marker" className="mt-0.5 h-4 w-4 text-brand" />
                 <div className="min-w-0">
                   <p className="font-medium text-foreground">
                     {[preview.distrito, preview.provincia, preview.departamento]
@@ -227,9 +227,9 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 text-sm font-semibold text-foreground hover:bg-brand-soft disabled:opacity-55"
             >
               {locating ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Icon icon="mdi:loading" className="h-4 w-4 animate-spin" />
               ) : (
-                <Navigation className="h-4 w-4" />
+                <Icon icon="mdi:crosshairs-gps" className="h-4 w-4" />
               )}
               Recentrar en GPS
             </button>
@@ -240,7 +240,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-55"
             >
               {confirming ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Icon icon="mdi:loading" className="h-4 w-4 animate-spin" />
               ) : null}
               Confirmar ubicación
             </button>

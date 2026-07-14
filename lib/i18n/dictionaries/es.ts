@@ -54,8 +54,55 @@ export const es = {
     disclaimerSuffix:
       ". FactoTips muestra la información publicada; no modifica precios ni comercializa productos.",
   },
+  preciosLanding: {
+    eyebrow: "FactoTips · DIGEMID / MINSA",
+    headline: "Compara precios de medicamentos en todo el Perú",
+    subtitle:
+      "Consulta precios oficiales del observatorio DIGEMID y encuentra el precio unitario más económico cerca de ti.",
+    ctaPrimary: "Empezar a comparar",
+    ctaSecondary: "Ver cómo funciona",
+    whyTitle: "Por qué comparar con FactoTips",
+    whyText:
+      "El mismo medicamento puede variar de precio entre farmacias y boticas. Ordenamos por precio unitario para que compares en igualdad de condiciones.",
+    benefit1Title: "Datos oficiales",
+    benefit1Text:
+      "Precios publicados por el Observatorio de Precios de Medicamentos DIGEMID / MINSA.",
+    benefit2Title: "Todo el Perú",
+    benefit2Text:
+      "Filtra por departamento, provincia o distrito y ubica establecimientos cerca de ti.",
+    benefit3Title: "Precio unitario primero",
+    benefit3Text:
+      "Destacamos el costo por unidad — no solo el precio del pack — para elegir mejor.",
+    howTitle: "Cómo funciona",
+    howSubtitle: "Tres pasos para una búsqueda clara y útil.",
+    step1Title: "Elige el medicamento",
+    step1Text: "Busca por nombre o principio activo y selecciona la presentación.",
+    step2Title: "Define tu zona",
+    step2Text: "Usa tu ubicación o elige departamento, provincia y distrito.",
+    step3Title: "Compara y contacta",
+    step3Text:
+      "Revisa precios, horarios y acciones para llamar, WhatsApp o correo.",
+    faqTitle: "Preguntas frecuentes",
+    faq1Q: "¿FactoTips vende medicamentos?",
+    faq1A:
+      "No. FactoTips solo muestra información pública del observatorio DIGEMID. No intermedia compras ni vende productos.",
+    faq2Q: "¿De dónde salen los precios?",
+    faq2A:
+      "De la API pública del Observatorio de Precios de Medicamentos (OPM) de DIGEMID / MINSA.",
+    faq3Q: "¿Por qué importan el precio unitario?",
+    faq3A:
+      "Porque un pack más barato no siempre es la mejor opción. El precio unitario permite comparar presentaciones distintas con el mismo criterio.",
+    faq4Q: "¿Puedo buscar en todo el Perú?",
+    faq4A:
+      "Sí. Puedes consultar por departamento y acotar a provincia o distrito para ver opciones locales.",
+    finalTitle: "Listo para encontrar el mejor precio",
+    finalText:
+      "Abre el comparador y consulta precios oficiales en farmacias y boticas del Perú.",
+    finalCta: "Consultar precios ahora",
+    backHub: "Volver a FactoTips",
+  },
   precios: {
-    back: "Volver a herramientas",
+    back: "Volver al comparador",
     title: "Comparador de precios",
     subtitle:
       "Compara precios unitarios de medicamentos publicados por DIGEMID. El mejor precio se destaca automáticamente.",

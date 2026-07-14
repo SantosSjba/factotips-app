@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
+import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +61,10 @@ export function SiteHeader() {
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             onClick={() => setOpen((v) => !v)}
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <Icon
+              icon={open ? "mdi:close" : "mdi:menu"}
+              className="h-5 w-5"
+            />
           </button>
         </div>
       </div>

@@ -1,5 +1,7 @@
+"use client";
+
 import type { SelectHTMLAttributes } from "react";
-import { ChevronDown } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 
 export const fieldControlClass =
@@ -25,14 +27,13 @@ export function Select({
         className={cn(
           fieldControlClass,
           "appearance-none pr-10",
-          // Safari / iOS: evita fondo gris nativo
           "bg-surface [-webkit-appearance:none]",
           className,
         )}
         {...props}
       />
-      <ChevronDown
-        aria-hidden
+      <Icon
+        icon="mdi:chevron-down"
         className={cn(
           "pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-muted",
           disabled && "opacity-50",

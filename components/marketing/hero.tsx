@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 
 export function Hero() {
@@ -37,7 +37,7 @@ export function Hero() {
             className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-6 text-base font-semibold text-white transition-colors hover:bg-brand-dark"
           >
             {t.landing.ctaCompare}
-            <ArrowRight className="h-4 w-4" aria-hidden />
+            <Icon icon="mdi:arrow-right" className="h-4 w-4" />
           </Link>
           <Link
             href="/#herramientas"
