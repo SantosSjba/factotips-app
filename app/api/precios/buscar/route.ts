@@ -116,8 +116,7 @@ export async function POST(request: NextRequest) {
       const rows = Array.isArray(cached.value) ? cached.value : [];
       const total = cached.total ?? rows.length;
 
-      // No bloquea la respuesta si falla el historial
-      void recordSearchHistory(
+      await recordSearchHistory(
         { anonymousId: rl.userId, userId: null },
         {
           codigoProducto: String(codigoProducto),

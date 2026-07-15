@@ -3,7 +3,7 @@ import { Pool } from "pg";
 import { PrismaClient } from "@/lib/generated/prisma/client";
 
 /** Subir si cambia el schema y el singleton de HMR queda stale. */
-const PRISMA_CLIENT_GEN = 2;
+const PRISMA_CLIENT_GEN = 3;
 
 const globalForPrisma = globalThis as unknown as {
   __ftPrisma?: PrismaClient;
@@ -46,5 +46,5 @@ export function getPrisma(): PrismaClient | null {
     globalForPrisma.__ftPrismaGen = PRISMA_CLIENT_GEN;
   }
 
-  return globalForPrisma.__ftPrisma;
+  return globalForPrisma.__ftPrisma ?? null;
 }

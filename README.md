@@ -67,47 +67,32 @@ Las respuestas DIGEMID se cachean en Postgres (`digemid_cache`) según TTL: busc
 
 ## Deploy (Coolify)
 
-App en Coolify: **FACTOSYS TIPS → factotips-app**.  
-Referencia que ya funciona: **FACTOSYS STORE → factosys-store-web** (usa **Dockerfile**).
+App en Coolify: **FACTOSYS TIPS → factotips-app** con **Nixpacks**.
 
-### Configuración recomendada (igual que store-web)
+### Requisitos
 
-1. **Build Pack:** `Dockerfile` (no Nixpacks). Location: `/Dockerfile`.
-2. **Puerto:** `3000` (Ports Exposes).
-3. **Healthcheck (opcional):** path `/api/health`, puerto `3000`.
-4. **Variables de entorno:**
+1. **Build Pack:** Nixpacks (puerto `3000`).
+2. Variables de entorno (ya configurables por API Coolify):
 
 ```bash
-NODE_ENV=production
 HOSTNAME=0.0.0.0
 PORT=3000
+NODE_ENV=production
+NEXT_TELEMETRY_DISABLED=1
+NEXT_PUBLIC_SITE_URL=https://facto-tips.factosysperu.com
 DIGEMID_BASE_URL=https://ms-opm.minsa.gob.pe/msopmcovid
 DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
-NEXT_PUBLIC_SITE_URL=https://TU-DOMINIO
-DATABASE_URL=postgresql://postgres:PASSWORD@HOST:5433/factotips_db
+# Hostname interno del postgresql-db (red Docker Coolify):
+DATABASE_URL=postgresql://postgres:PASSWORD@e84y1cim7bbgl5g0627kxdba:5432/factotips_db
 ```
 
-Tras el primer deploy (o si hay migraciones nuevas), corre una vez:
+`nixpacks.toml` incluye un `DATABASE_URL` placeholder solo para `prisma generate` en build; en runtime Coolify inyecta el valor real.
 
-```bash
-pnpm db:deploy
-```
-
-(contra la misma `DATABASE_URL`). El Postgres de FactoTips es el de **FACTOSYS PERU → postgresql-db** (puerto público **5433**), no el de la tienda.
-5. Redeploy (**Force rebuild without cache** la primera vez tras cambiar el build pack).
-
-### Por qué falla con Nixpacks
-
-En Coolify la app quedó en `exited:unhealthy` con `build_pack: nixpacks`.  
-Next.js, sin `HOSTNAME=0.0.0.0`, escucha solo en localhost del contenedor y el proxy no la alcanza. Además el repo ya trae Dockerfile multi-stage + `output: "standalone"` pensado para Coolify.
-
-Si igual usas Nixpacks: hay `nixpacks.toml` + `pnpm start` con `--hostname 0.0.0.0`. Igual conviene **Dockerfile**.
-
-6. Dominio HTTPS en Coolify (Let's Encrypt) cuando tengas el FQDN definitivo.
+3. Redeploy tras subir cambios a `main`.
 
 ### Alternativa: Vercel
 
-Conectar el mismo repo en Vercel, definir las mismas env vars y desplegar. El `output: "standalone"` del `next.config` es compatible; Vercel usa su propio build.
+Conectar el mismo repo en Vercel, definir las mismas env vars y desplegar.
 
 ## Stack
 

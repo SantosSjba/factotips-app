@@ -9,6 +9,8 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY prisma ./prisma
 COPY prisma.config.ts ./
+# postinstall → prisma generate (no requiere DB real)
+ENV DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/factotips_db"
 RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
@@ -16,7 +18,6 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-# prisma generate no necesita DB real
 ENV DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/factotips_db"
 RUN pnpm exec prisma generate
 RUN pnpm build
