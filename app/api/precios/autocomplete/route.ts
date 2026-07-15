@@ -6,7 +6,7 @@ import {
   jsonValidationError,
   readJsonBody,
 } from "@/lib/api";
-import { CACHE_TTL, cacheRemember } from "@/lib/cache";
+import { CACHE_TTL, digemidCacheRemember } from "@/lib/cache";
 import {
   DigemidHttpError,
   autocompleteSchema,
@@ -48,28 +48,33 @@ export async function POST(request: NextRequest) {
     const { query } = autocompleteSchema.parse(raw);
     const key = cacheKey("snippf_auto", [query]);
 
-    const data = await cacheRemember(key, CACHE_TTL.autocomplete, async () => {
-      try {
-        const body = await digemidPost(
-          "/producto/autocompleteciudadano",
-          {
-            nombreProducto: query,
-            pagina: 1,
-            tamanio: 15,
-            tokenGoogle: "",
-          },
-          15_000,
-        );
-        return Array.isArray(body.data) ? body.data : [];
-      } catch (err) {
-        if (err instanceof DigemidHttpError) {
-          console.warn("[precios/autocomplete]", err.message);
+    const cached = await digemidCacheRemember({
+      key,
+      endpoint: "autocomplete",
+      ttlSeconds: CACHE_TTL.autocomplete,
+      factory: async () => {
+        try {
+          const body = await digemidPost(
+            "/producto/autocompleteciudadano",
+            {
+              nombreProducto: query,
+              pagina: 1,
+              tamanio: 15,
+              tokenGoogle: "",
+            },
+            15_000,
+          );
+          return { data: Array.isArray(body.data) ? body.data : [] };
+        } catch (err) {
+          if (err instanceof DigemidHttpError) {
+            console.warn("[precios/autocomplete]", err.message);
+          }
+          return { data: [] };
         }
-        return [];
-      }
+      },
     });
 
-    return jsonOk(data, { userId: rl.userId, isNew: rl.isNew });
+    return jsonOk(cached.value, { userId: rl.userId, isNew: rl.isNew });
   } catch (err) {
     if (err instanceof ZodError) return jsonValidationError(err);
     console.error("[precios/autocomplete]", err);

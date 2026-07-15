@@ -45,6 +45,13 @@ export const buscarSchema = z.object({
   codGrupoFF: z.preprocess(emptyToNull, z.string().nullish()),
   concent: z.preprocess(emptyToNull, z.string().nullish()),
   pagina: z.coerce.number().int().positive().optional().default(1),
+  /** Metadatos solo para historial de búsquedas (no van a DIGEMID) */
+  nombreProducto: z.preprocess(emptyToNull, z.string().trim().max(300).nullish()),
+  nombreFormaFarmaceutica: z.preprocess(
+    emptyToNull,
+    z.string().trim().max(120).nullish(),
+  ),
+  ubicacionLabel: z.preprocess(emptyToNull, z.string().trim().max(200).nullish()),
 });
 
 export const detalleSchema = z.object({

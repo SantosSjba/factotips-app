@@ -13,10 +13,13 @@ import { Icon } from "@/components/ui/icon";
 import type { DepartamentoOption } from "@/lib/departamentos";
 import {
   buscarPrecios,
+  clearHistorial,
+  deleteHistorialItem,
   fetchAutocomplete,
   fetchDepartamentos,
   fetchDetalle,
   fetchDistritos,
+  fetchHistorial,
   fetchProvincias,
 } from "@/lib/precios/api";
 import {
@@ -42,6 +45,7 @@ import type {
   AutocompleteItem,
   DetalleEstablecimiento,
   PrecioRow,
+  SearchHistoryItem,
   UbigeoItem,
 } from "@/lib/types/precios";
 import { findEmail } from "@/lib/contact/phone";
@@ -113,6 +117,8 @@ export function PreciosTool() {
   const [detalle, setDetalle] = useState<DetalleEstablecimiento | null>(null);
   const [loadingDetalle, setLoadingDetalle] = useState(false);
   const [errorDetalle, setErrorDetalle] = useState("");
+  const [historial, setHistorial] = useState<SearchHistoryItem[]>([]);
+  const [loadingHistorial, setLoadingHistorial] = useState(true);
 
   const puedeConsultar = Boolean(producto && codigoDepartamento);
   const rateLimited = retryAfter > 0;
@@ -209,6 +215,20 @@ export function PreciosTool() {
       });
     // Solo al montar
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchHistorial(12)
+      .then((items) => {
+        if (!cancelled) setHistorial(items);
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingHistorial(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -468,6 +488,78 @@ export function PreciosTool() {
     });
   };
 
+  const refreshHistorial = useCallback(async () => {
+    const items = await fetchHistorial(12);
+    setHistorial(items);
+  }, []);
+
+  const aplicarHistorial = async (item: SearchHistoryItem) => {
+    const prod: AutocompleteItem = {
+      grupo: item.codigoProducto,
+      nombreProducto: item.nombreProducto,
+      concent: item.concent,
+      nombreFormaFarmaceutica: item.nombreFormaFarmaceutica,
+      codGrupoFF: item.codGrupoFF,
+    };
+    setProducto(prod);
+    setProductoQuery(
+      [item.nombreProducto, item.concent].filter(Boolean).join(" "),
+    );
+    setSugerencias([]);
+    setShowSuggestions(false);
+    setCodTipoEstablecimiento(item.codTipoEstablecimiento ?? "");
+    setNombreEstablecimiento(item.nombreEstablecimiento ?? "");
+    setNombreLaboratorio(item.nombreLaboratorio ?? "");
+
+    setCodigoDepartamento(item.codigoDepartamento);
+    setCodigoProvincia(item.codigoProvincia ?? "");
+    setCodigoUbigeo(item.codigoUbigeo ?? "");
+    setLocationLabel(item.ubicacionLabel ?? "");
+
+    if (item.codigoDepartamento) {
+      setLoadingProvincias(true);
+      try {
+        const provs = await fetchProvincias(item.codigoDepartamento);
+        setProvincias(provs);
+        if (item.codigoProvincia) {
+          setLoadingDistritos(true);
+          try {
+            const dists = await fetchDistritos(
+              item.codigoDepartamento,
+              item.codigoProvincia,
+            );
+            setDistritos(dists);
+          } finally {
+            setLoadingDistritos(false);
+          }
+        } else {
+          setDistritos([]);
+        }
+      } finally {
+        setLoadingProvincias(false);
+      }
+    }
+
+    saveLocation({
+      codigoDepartamento: item.codigoDepartamento,
+      codigoProvincia: item.codigoProvincia ?? "",
+      codigoUbigeo: item.codigoUbigeo ?? "",
+      label: item.ubicacionLabel ?? undefined,
+    });
+
+    setFiltersOpen(true);
+  };
+
+  const onBorrarHistorialItem = async (id: string) => {
+    const ok = await deleteHistorialItem(id);
+    if (ok) setHistorial((prev) => prev.filter((h) => h.id !== id));
+  };
+
+  const onLimpiarHistorial = async () => {
+    const ok = await clearHistorial();
+    if (ok) setHistorial([]);
+  };
+
   const onConsultar = async () => {
     if (!producto || !codigoDepartamento || rateLimited) return;
     setLoadingPrecios(true);
@@ -492,6 +584,9 @@ export function PreciosTool() {
         codGrupoFF: producto.codGrupoFF ?? null,
         concent: producto.concent ?? null,
         pagina: 1,
+        nombreProducto: producto.nombreProducto,
+        nombreFormaFarmaceutica: producto.nombreFormaFarmaceutica ?? null,
+        ubicacionLabel: locationLabel || null,
       });
 
       if (status === 429) {
@@ -511,8 +606,8 @@ export function PreciosTool() {
 
       if (payload.success) {
         setResultados((payload.data ?? []).filter(Boolean));
-        // 1 consulta / min: arranca contador también tras éxito
         startCountdown(60);
+        void refreshHistorial();
       } else {
         setErrorMsg(payload.message ?? "Error al consultar DIGEMID.");
       }
@@ -743,6 +838,60 @@ export function PreciosTool() {
             </p>
           </div>
         </div>
+      ) : null}
+
+      {!loadingHistorial && historial.length > 0 ? (
+        <section className="mt-6">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <h2 className="font-display text-base font-semibold text-foreground">
+              Búsquedas recientes
+            </h2>
+            <button
+              type="button"
+              onClick={() => void onLimpiarHistorial()}
+              className="text-xs font-medium text-muted underline-offset-2 hover:text-foreground hover:underline"
+            >
+              Borrar todas
+            </button>
+          </div>
+          <ul className="flex flex-col gap-2">
+            {historial.map((item) => (
+              <li
+                key={item.id}
+                className="flex items-stretch gap-2 rounded-xl border border-border bg-surface"
+              >
+                <button
+                  type="button"
+                  onClick={() => void aplicarHistorial(item)}
+                  className="min-w-0 flex-1 px-4 py-3 text-left transition hover:bg-background"
+                >
+                  <p className="truncate text-sm font-medium text-foreground">
+                    {item.nombreProducto}
+                    {item.concent ? ` ${item.concent}` : ""}
+                  </p>
+                  <p className="mt-0.5 truncate text-xs text-muted">
+                    {item.ubicacionLabel || "Sin ubicación"}
+                    {" · "}
+                    {item.resultCount} resultado
+                    {item.resultCount === 1 ? "" : "s"}
+                  </p>
+                </button>
+                <button
+                  type="button"
+                  aria-label="Quitar del historial"
+                  onClick={() => void onBorrarHistorialItem(item.id)}
+                  className="shrink-0 px-3 text-muted hover:text-danger"
+                >
+                  <Icon icon="mdi:close" className="h-4 w-4" />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-2 text-[11px] text-muted">
+            Guardadas en este dispositivo (anónimo). Con login podrán
+            sincronizarse a tu cuenta.
+          </p>
+        </section>
       ) : null}
 
       {/* Formulario */}

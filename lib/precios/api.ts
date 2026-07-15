@@ -4,6 +4,7 @@ import type {
   BuscarPreciosFiltro,
   DetalleEstablecimiento,
   PrecioRow,
+  SearchHistoryItem,
   UbigeoItem,
 } from "@/lib/types/precios";
 import type { DepartamentoOption } from "@/lib/departamentos";
@@ -91,4 +92,36 @@ export async function fetchDetalle(
     { codigoProducto, codEstablecimiento },
   );
   return payload;
+}
+
+export async function fetchHistorial(
+  limit = 12,
+): Promise<SearchHistoryItem[]> {
+  const res = await fetch(`/api/precios/historial?limit=${limit}`, {
+    headers: { Accept: "application/json" },
+    credentials: "same-origin",
+  });
+  const json = (await res.json()) as ApiResponse<SearchHistoryItem[]>;
+  if (!json.success) return [];
+  return json.data ?? [];
+}
+
+export async function deleteHistorialItem(id: string): Promise<boolean> {
+  const res = await fetch(`/api/precios/historial?id=${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    headers: { Accept: "application/json" },
+    credentials: "same-origin",
+  });
+  const json = (await res.json()) as ApiResponse<{ deleted: number }>;
+  return json.success;
+}
+
+export async function clearHistorial(): Promise<boolean> {
+  const res = await fetch("/api/precios/historial?all=1", {
+    method: "DELETE",
+    headers: { Accept: "application/json" },
+    credentials: "same-origin",
+  });
+  const json = (await res.json()) as ApiResponse<{ deleted: number }>;
+  return json.success;
 }

@@ -29,6 +29,29 @@ export type BuscarPreciosFiltro = {
   codGrupoFF?: string | null;
   concent?: string | null;
   pagina?: number;
+  /** Solo historial / UI (no se envían a DIGEMID) */
+  nombreProducto?: string | null;
+  nombreFormaFarmaceutica?: string | null;
+  ubicacionLabel?: string | null;
+};
+
+export type SearchHistoryItem = {
+  id: string;
+  codigoProducto: string;
+  nombreProducto: string;
+  concent: string | null;
+  nombreFormaFarmaceutica: string | null;
+  codGrupoFF: string | null;
+  codigoDepartamento: string;
+  codigoProvincia: string | null;
+  codigoUbigeo: string | null;
+  ubicacionLabel: string | null;
+  codTipoEstablecimiento: string | null;
+  nombreEstablecimiento: string | null;
+  nombreLaboratorio: string | null;
+  resultCount: number;
+  fromCache: boolean;
+  createdAt: string;
 };
 
 export type PrecioRow = {

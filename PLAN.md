@@ -118,6 +118,10 @@ factotips-app/
 - [ ] `framer-motion` — motion ligero en landing (2–3 animaciones)
 - [ ] `@upstash/ratelimit` + `@upstash/redis` — rate limit en multi-instancia
 
+### Persistencia / ORM
+
+- [x] `prisma` + `@prisma/client` + `@prisma/adapter-pg` + `pg` — caché DIGEMID en PostgreSQL
+
 ### Ya presentes (scaffold)
 
 - [x] `next` 16.2.10
@@ -137,6 +141,12 @@ Archivo: `.env.example` (y `.env.local` en local)
 DIGEMID_BASE_URL=https://ms-opm.minsa.gob.pe/msopmcovid
 DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 
+# PostgreSQL (Coolify postgresql-db → factotips_db)
+DATABASE_URL=postgresql://postgres:PASSWORD@HOST:5433/factotips_db
+
+# URL pública
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
 # Rate limit (opcional — prod multi-instancia)
 # UPSTASH_REDIS_REST_URL=
 # UPSTASH_REDIS_REST_TOKEN=
@@ -145,6 +155,7 @@ DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 - [x] Crear `.env.example`
 - [x] Crear `.env.local` para desarrollo
 - [x] Documentar vars en este PLAN (hecho arriba)
+- [x] Prisma + `DATABASE_URL` hacia `factotips_db`
 
 ---
 
@@ -197,10 +208,12 @@ DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 
 ### 1.4 Caché
 
-- [x] Autocomplete: TTL **1 hora** (key por query normalizada)
-- [x] Provincias: TTL **24 horas**
-- [x] Distritos: TTL **24 horas**
-- [x] **No cachear** `buscar` ni `detalle` (precios vivos)
+- [x] Autocomplete: TTL **24 horas** (memoria + Postgres)
+- [x] Provincias / distritos: TTL **7 días**
+- [x] Buscar: TTL **6 horas** (precios) — evita repetir DIGEMID
+- [x] Detalle: TTL **12 horas**
+- [x] Persistencia: tabla `digemid_cache` vía Prisma (`expiresAt` / `fetchedAt`)
+- [x] Si la fila no expiró → servir desde BD; si expiró → DIGEMID + upsert
 
 ### 1.5 Rate limit
 
@@ -381,7 +394,7 @@ DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
 No incluir en el MVP salvo decisión explícita:
 
 - [ ] Login / registro / roles
-- [ ] Base de datos / historial de búsquedas
+- [x] Base de datos / historial de búsquedas — caché DIGEMID + historial anónimo (`ft_uid`); `userId`/`claimAnonymousHistory` listos para login
 - [ ] Scraping de farmacias (solo API oficial DIGEMID)
 - [ ] App móvil nativa
 - [ ] Panel admin
@@ -397,8 +410,9 @@ Ideas para el hub (sin checklist de MVP):
 - [ ] Más herramientas bajo `/herramientas/...`
 - [ ] Analytics anónimas de uso (qué se busca más)
 - [ ] Rate limit Redis/Upstash por defecto
-- [ ] Guardar búsquedas favoritas (requeriría auth ligera)
+- [ ] Guardar búsquedas favoritas (requeriría auth) — historial anónimo ya existe; favoritos pinneados + cross-device con login
 - [ ] PWA / share de resultados
+- [ ] Login: asociar `search_history` anónimo vía `claimAnonymousHistory(ft_uid, userId)`
 
 ---
 
@@ -406,10 +420,10 @@ Ideas para el hub (sin checklist de MVP):
 
 | Riesgo | Mitigación | Estado |
 |--------|------------|--------|
-| DIGEMID cambia API o bloquea IP | Headers oficiales; timeouts; mensajes claros; no scrapear HTML | [ ] Monitorear en prod |
+| DIGEMID cambia API o bloquea IP | Headers oficiales; timeouts; caché Postgres; mensajes claros; no scrapear HTML | [x] Caché BD + monitorear |
 | Abuso del proxy público | 1 busca/min + throttle suave en resto | [x] Implementado en Fase 1 |
 | Rate limit en memoria no sirve en N réplicas | Upstash en Fase 4 si aplica | [ ] Evaluar en deploy |
-| Latencia DIGEMID alta | Skeletons; no cachear buscar | [ ] UX Fase 3 |
+| Latencia DIGEMID alta | Skeletons; cachear buscar/detalle con TTL | [x] Caché 6h/12h |
 | reCAPTCHA vacío rechazado por DIGEMID | Igual que cpromed; monitorear errores | [ ] Observar |
 
 ---
@@ -436,6 +450,8 @@ Ideas para el hub (sin checklist de MVP):
 | 2026-07-14 | **Fase 2 completada:** landing hub (hero FactoTips, herramientas, cómo funciona), header/footer responsive, OG metadata, stub `/herramientas/precios`. |
 | 2026-07-14 | **Fase 3 completada:** herramienta completa (autocomplete, filtros, resultados tabla/cards, highlight precio unitario, modal detalle, Excel, countdown 429). |
 | 2026-07-14 | Repo en GitHub: https://github.com/SantosSjba/factotips-app. **Fase 4:** lint/build OK, README, Dockerfile (Coolify FACTOSYS PERU), polish safe-area. Pendiente crear Application en Coolify. |
+| 2026-07-14 | **Postgres + Prisma:** `factotips_db` en Coolify, tabla `digemid_cache`, TTLs (buscar 6h / detalle 12h / autocomplete 24h / ubigeo 7d). Endpoints precios leen/escriben caché antes de llamar DIGEMID. |
+| 2026-07-14 | **Historial anónimo:** tabla `search_history` (`anonymousId` = `ft_uid`, `userId` nullable). API GET/DELETE `/api/precios/historial` + UI “Búsquedas recientes”. Listo para claim al login. |
 
 <!-- Añadir filas aquí conforme se complete cada fase -->
 `)

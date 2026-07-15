@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Caché persistente de respuestas DIGEMID para reducir llamadas y evitar bloqueos de IP.
+model DigemidCache {
+  id        String   @id @default(cuid())
+  cacheKey  String   @unique @map("cache_key")
+  endpoint  String
+  payload   Json
+  total     Int?
+  fetchedAt DateTime @default(now()) @map("fetched_at")
+  expiresAt DateTime @map("expires_at")
+
+  @@index([expiresAt])
+  @@index([endpoint, fetchedAt])
+  @@map("digemid_cache")
+}
+
+/// Historial de búsquedas por visitante anónimo (`ft_uid`).
+/// `userId` queda listo para migrar/asociar cuando exista login.
+model SearchHistory {
+  id                       String   @id @default(cuid())
+  /// Cookie opaca `ft_uid` (identidad anónima v1)
+  anonymousId              String   @map("anonymous_id")
+  /// Reservado para cuentas futuras; si hay login, preferir filtrar por esto
+  userId                   String?  @map("user_id")
+  codigoProducto           String   @map("codigo_producto")
+  nombreProducto           String   @map("nombre_producto")
+  concent                  String?
+  nombreFormaFarmaceutica  String?  @map("nombre_forma_farmaceutica")
+  codGrupoFF               String?  @map("cod_grupo_ff")
+  codigoDepartamento       String   @map("codigo_departamento")
+  codigoProvincia          String?  @map("codigo_provincia")
+  codigoUbigeo             String?  @map("codigo_ubigeo")
+  ubicacionLabel           String?  @map("ubicacion_label")
+  codTipoEstablecimiento   String?  @map("cod_tipo_establecimiento")
+  nombreEstablecimiento    String?  @map("nombre_establecimiento")
+  nombreLaboratorio        String?  @map("nombre_laboratorio")
+  resultCount              Int      @default(0) @map("result_count")
+  fromCache                Boolean  @default(false) @map("from_cache")
+  createdAt                DateTime @default(now()) @map("created_at")
+
+  @@index([anonymousId, createdAt(sort: Desc)])
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("search_history")
+}

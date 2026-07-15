@@ -6,7 +6,7 @@ import {
   jsonValidationError,
   readJsonBody,
 } from "@/lib/api";
-import { CACHE_TTL, cacheRemember } from "@/lib/cache";
+import { CACHE_TTL, digemidCacheRemember } from "@/lib/cache";
 import {
   DigemidHttpError,
   cacheKey,
@@ -48,23 +48,28 @@ export async function POST(request: NextRequest) {
     const { codigoDepartamento } = provinciasSchema.parse(raw);
     const key = cacheKey("snippf_prov", [codigoDepartamento]);
 
-    const data = await cacheRemember(key, CACHE_TTL.ubigeo, async () => {
-      try {
-        const body = await digemidPost(
-          "/parametro/provincias",
-          { codigo: codigoDepartamento, codigoDos: null },
-          15_000,
-        );
-        return Array.isArray(body.data) ? body.data : [];
-      } catch (err) {
-        if (err instanceof DigemidHttpError) {
-          console.warn("[precios/provincias]", err.message);
+    const cached = await digemidCacheRemember({
+      key,
+      endpoint: "provincias",
+      ttlSeconds: CACHE_TTL.ubigeo,
+      factory: async () => {
+        try {
+          const body = await digemidPost(
+            "/parametro/provincias",
+            { codigo: codigoDepartamento, codigoDos: null },
+            15_000,
+          );
+          return { data: Array.isArray(body.data) ? body.data : [] };
+        } catch (err) {
+          if (err instanceof DigemidHttpError) {
+            console.warn("[precios/provincias]", err.message);
+          }
+          return { data: [] };
         }
-        return [];
-      }
+      },
     });
 
-    return jsonOk(data, { userId: rl.userId, isNew: rl.isNew });
+    return jsonOk(cached.value, { userId: rl.userId, isNew: rl.isNew });
   } catch (err) {
     if (err instanceof ZodError) return jsonValidationError(err);
     console.error("[precios/provincias]", err);

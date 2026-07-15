@@ -6,8 +6,10 @@ import {
   jsonValidationError,
   readJsonBody,
 } from "@/lib/api";
+import { CACHE_TTL, digemidCacheRemember } from "@/lib/cache";
 import {
   DigemidHttpError,
+  cacheKey,
   detalleSchema,
   digemidPost,
   isDigemidSuccess,
@@ -55,25 +57,38 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const key = cacheKey("snippf_detalle", [
+      String(codigoProducto),
+      input.codEstablecimiento,
+    ]);
+
     try {
-      const body = await digemidPost(
-        "/precioproducto/obtener",
-        {
-          codigoProducto,
-          codEstablecimiento: input.codEstablecimiento,
-          tokenGoogle: "",
+      const cached = await digemidCacheRemember({
+        key,
+        endpoint: "detalle",
+        ttlSeconds: CACHE_TTL.detalle,
+        factory: async () => {
+          const body = await digemidPost(
+            "/precioproducto/obtener",
+            {
+              codigoProducto,
+              codEstablecimiento: input.codEstablecimiento,
+              tokenGoogle: "",
+            },
+            15_000,
+          );
+
+          if (!isDigemidSuccess(body)) {
+            throw new DigemidHttpError(
+              body.mensaje ?? "Error al obtener el detalle.",
+            );
+          }
+
+          return { data: body.entidad ?? null };
         },
-        15_000,
-      );
+      });
 
-      if (isDigemidSuccess(body)) {
-        return jsonOk(body.entidad ?? null, {
-          userId: rl.userId,
-          isNew: rl.isNew,
-        });
-      }
-
-      return jsonFail(body.mensaje ?? "Error al obtener el detalle.", {
+      return jsonOk(cached.value, {
         userId: rl.userId,
         isNew: rl.isNew,
       });

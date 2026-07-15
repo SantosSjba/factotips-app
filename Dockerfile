@@ -7,6 +7,8 @@ WORKDIR /app
 FROM base AS deps
 RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY prisma ./prisma
+COPY prisma.config.ts ./
 RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
@@ -14,6 +16,9 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+# prisma generate no necesita DB real
+ENV DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/factotips_db"
+RUN pnpm exec prisma generate
 RUN pnpm build
 
 FROM base AS runner
@@ -29,6 +34,7 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/lib/generated ./lib/generated
 
 USER nextjs
 EXPOSE 3000
