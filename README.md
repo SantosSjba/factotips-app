@@ -67,32 +67,17 @@ Las respuestas DIGEMID se cachean en Postgres (`digemid_cache`) según TTL: busc
 
 ## Deploy (Coolify)
 
-App en Coolify: **FACTOSYS TIPS → factotips-app** con **Nixpacks**.
+**Patrón FactoFarm:** compilar en la Mac → `santossjba/factotips-app:latest` → Coolify solo hace pull (sin Nixpacks en el VPS).
 
-### Requisitos
-
-1. **Build Pack:** Nixpacks (puerto `3000`).
-2. Variables de entorno (ya configurables por API Coolify):
+Guía completa: [`docs/COOLIFY-DOCKER-DEPLOY.md`](./docs/COOLIFY-DOCKER-DEPLOY.md)
 
 ```bash
-HOSTNAME=0.0.0.0
-PORT=3000
-NODE_ENV=production
-NEXT_TELEMETRY_DISABLED=1
-NEXT_PUBLIC_SITE_URL=https://facto-tips.factosysperu.com
-DIGEMID_BASE_URL=https://ms-opm.minsa.gob.pe/msopmcovid
-DIGEMID_ORIGIN=https://opm-digemid.minsa.gob.pe
-# Hostname interno del postgresql-db (red Docker Coolify):
-DATABASE_URL=postgresql://postgres:PASSWORD@e84y1cim7bbgl5g0627kxdba:5432/factotips_db
+# Docker Desktop + login santossjba
+./scripts/deploy-image.sh
+# Luego en Coolify: Deploy (pull latest)
 ```
 
-`nixpacks.toml` incluye un `DATABASE_URL` placeholder solo para `prisma generate` en build; en runtime Coolify inyecta el valor real.
-
-3. Redeploy tras subir cambios a `main`.
-
-### Alternativa: Vercel
-
-Conectar el mismo repo en Vercel, definir las mismas env vars y desplegar.
+Runtime env en Coolify (ej. `DATABASE_URL` interno a `postgresql-db` / `factotips_db`). Migraciones: `pnpm db:deploy` desde tu Mac.
 
 ## Stack
 

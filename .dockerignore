@@ -1,9 +1,21 @@
-Dockerfile
+# Build context lean — nunca subir store/local junk a Docker Hub
+.git
+.github
+.cursor
 .next
 node_modules
-.git
-.env*
+.pnpm-store
+.pnpm-store/**
+**/.pnpm-store
+.env
+.env.*
 !.env.example
-README.md
+*.md
+!README.md
 PLAN.md
 **/__tests__
+coverage
+.DS_Store
+*.pem
+.vscode
+.idea
