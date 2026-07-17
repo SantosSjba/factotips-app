@@ -33,6 +33,14 @@ export function ToolsSection() {
       status: "ready" as const,
       icon: "mdi:currency-usd",
     },
+    {
+      id: "qr",
+      title: t.landing.toolQrTitle,
+      description: t.landing.toolQrDesc,
+      href: "/herramientas/qr",
+      status: "ready" as const,
+      icon: "mdi:qrcode",
+    },
   ];
 
   return (

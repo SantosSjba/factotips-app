@@ -33,4 +33,12 @@ export const TOOLS: Tool[] = [
     href: "/herramientas/uit",
     status: "ready",
   },
+  {
+    id: "qr",
+    title: "Generador de código QR",
+    description:
+      "Crea QR con tu logo, colores y estilos. URL, WhatsApp o WiFi. Descarga PNG o SVG en tu dispositivo.",
+    href: "/herramientas/qr",
+    status: "ready",
+  },
 ];

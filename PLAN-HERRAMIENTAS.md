@@ -143,9 +143,10 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 
 ### Funcionalidad
 
-- [ ] Texto / URL → QR PNG
-- [ ] Descargar imagen
-- [ ] (Opcional v1.1) tamaño / margen
+- [x] Texto / URL → QR PNG
+- [x] Descargar imagen
+- [x] (Opcional v1.1) tamaño / margen
+- [x] Logo, colores, estilos, WhatsApp / WiFi, PNG + SVG
 
 ### SEO
 
@@ -153,8 +154,8 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 
 ### Checklist entrega
 
-- [ ] Landing + app + hub
-- [ ] Privacidad: “se genera en tu dispositivo”
+- [x] Landing + app + hub
+- [x] Privacidad: “se genera en tu dispositivo”
 
 ---
 
@@ -292,9 +293,10 @@ app/sitemap.ts                                # rutas nuevas
 | 2026-07-17 | Plan creado. Orden: IGV → UIT → QR → sueldo neto → honorarios → CTS → gratificación → PDF. |
 | 2026-07-17 | A1 Calculadora IGV entregada (`/herramientas/igv` + `/usar`). |
 | 2026-07-17 | A2 Conversor UIT entregado (`/herramientas/uit` + `/usar`). |
+| 2026-07-17 | A3 Generador QR pro entregado (logo, colores, PNG/SVG). |
 
 ---
 
 ## Próximo paso inmediato
 
-**A3 — Generador QR** (landing `/herramientas/qr` + app `/herramientas/qr/usar`).
+**Sprint B1 — Sueldo neto** (landing `/herramientas/sueldo-neto` + app `/usar`).

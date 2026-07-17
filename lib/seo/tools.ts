@@ -18,6 +18,11 @@ export const TOOL_ROUTES = {
     landingPath: "/herramientas/uit",
     appPath: "/herramientas/uit/usar",
   },
+  qr: {
+    id: "qr",
+    landingPath: "/herramientas/qr",
+    appPath: "/herramientas/qr/usar",
+  },
 } as const;
 
 export type ToolId = keyof typeof TOOL_ROUTES;
@@ -117,12 +122,43 @@ export const TOOL_SEO = {
       ogTitle: "Convertir UIT | FactoTips",
     } satisfies PageSeo,
   },
+  qr: {
+    landing: {
+      title: "Generador de código QR gratis",
+      description:
+        "Crea QR personalizados con tu logo, colores y estilos. URL, WhatsApp, WiFi o texto. Se genera en tu dispositivo; descarga PNG o SVG.",
+      path: TOOL_ROUTES.qr.landingPath,
+      keywords: [
+        "generar código QR",
+        "QR gratis",
+        "crear QR WhatsApp",
+        "QR para negocio",
+        "QR con logo",
+        "generador QR Perú",
+        "QR personalizado",
+      ],
+      ogTitle: "Generador de código QR gratis | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Crear código QR",
+      description:
+        "Personaliza tu QR con logo, colores y forma. Exporta PNG o SVG sin subir archivos a un servidor.",
+      path: TOOL_ROUTES.qr.appPath,
+      keywords: [
+        "crear QR online",
+        "QR con logo",
+        "descargar QR PNG",
+        "QR WiFi",
+      ],
+      ogTitle: "Crear código QR | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
   title: `Herramientas útiles — ${SITE_BRAND}`,
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, convierte UIT, compara precios DIGEMID y más utilidades.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, convierte UIT, genera QR y compara precios DIGEMID.",
   path: "/",
   keywords: [
     "herramientas útiles",
@@ -130,6 +166,7 @@ export const HUB_SEO = {
     "utilidades Perú",
     "calculadora IGV",
     "UIT 2026",
+    "generador QR",
     "comparar precios medicamentos",
     "DIGEMID",
   ],
@@ -233,6 +270,16 @@ export function uitSoftwareJsonLd() {
     description: seo.description,
     path: seo.path,
     applicationCategory: "FinanceApplication",
+  });
+}
+
+export function qrSoftwareJsonLd() {
+  const seo = TOOL_SEO.qr.landing;
+  return softwareJsonLd({
+    name: "Generador de código QR — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "UtilitiesApplication",
   });
 }
 
