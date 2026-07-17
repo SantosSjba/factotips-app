@@ -4,6 +4,10 @@ export const INDICADORES_ANIO = 2026;
 
 /** UIT 2026 — D.S. 301-2025-EF */
 export const UIT_SOLES = 5500;
+export const UIT_NORMA = "D.S. 301-2025-EF";
+
+/** Fracciones UIT frecuentes (multas, rentas, trámites). */
+export const UIT_QUICK = [0.5, 1, 2, 3, 5, 7, 10, 14, 15] as const;
 
 /** RMV vigente (verificar MEF/MTPE al actualizar). */
 export const RMV_SOLES = 1130;

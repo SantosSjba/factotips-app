@@ -24,12 +24,12 @@ export const en: Dictionary = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Useful everyday tools: calculate IGV and compare official medicine prices in Peru.",
+      "Useful everyday tools: calculate IGV, convert UIT, and compare official medicine prices in Peru.",
     ctaCompare: "Compare prices",
     ctaTools: "View tools",
     toolsTitle: "Tools",
     toolsSubtitle:
-      "Practical utilities, one at a time. DIGEMID comparer and IGV calculator are ready.",
+      "Practical utilities: DIGEMID comparer, IGV calculator, and UIT converter.",
     openTool: "Open tool",
     comingSoon: "Coming soon",
     toolPreciosTitle: "Medicine price comparer",
@@ -38,6 +38,9 @@ export const en: Dictionary = {
     toolIgvTitle: "IGV calculator",
     toolIgvDesc:
       "Add or remove IGV (18% or 10% MYPE) from a price in soles. Base, tax, and total instantly.",
+    toolUitTitle: "UIT converter",
+    toolUitDesc:
+      "Convert UIT to soles and soles to UIT with the 2026 value (S/ 5,500).",
     toolSoon1Title: "More tools on the way",
     toolSoon1Desc:
       "FactoTips will grow with more practical everyday utilities.",
@@ -254,6 +257,94 @@ export const en: Dictionary = {
     rulesSource: "Always check official information at",
     disclaimer:
       "Orientation tool by FactoTips. Not SUNAT and not tax advice. Verify current rates, regimes, and exemptions in official sources.",
+  },
+  uitLanding: {
+    eyebrow: "FactoTips · Peru UIT",
+    headline: "Convert UIT to soles instantly",
+    subtitle:
+      "Go from UIT to soles or soles to UIT with the 2026 value. Useful for fines, taxes, and procedures.",
+    ctaPrimary: "Open converter",
+    ctaSecondary: "See how it works",
+    whyTitle: "One unit, many uses",
+    whyText:
+      "UIT is updated every year and appears in rules, fines, and tax caps. Convert it here without doing the math by hand.",
+    benefit1Title: "Both ways",
+    benefit1Text: "UIT → soles and soles → UIT with the same current value.",
+    benefit2Title: "Year value",
+    benefit2Text:
+      "We show UIT 2026 (S/ 5,500) and the reference rule (D.S. 301-2025-EF).",
+    benefit3Title: "Quick table",
+    benefit3Text:
+      "Common fractions (0.5, 1, 2, 7, 10 UIT…) ready to use.",
+    howTitle: "How it works",
+    howSubtitle: "Three steps to a clear conversion.",
+    step1Title: "Pick the direction",
+    step1Text: "From UIT to soles or from soles to UIT.",
+    step2Title: "Enter the amount",
+    step2Text: "Type the value or pick a row from the quick table.",
+    step3Title: "Copy the result",
+    step3Text: "Take UIT and soles into your note, quote, or filing.",
+    faqTitle: "Frequently asked questions",
+    faq1Q: "What is UIT?",
+    faq1A:
+      "The Tax Unit (Unidad Impositiva Tributaria) is a soles value set each year in Peru to calculate taxes, fines, caps, and other regulated amounts.",
+    faq2Q: "How much is 1 UIT in 2026?",
+    faq2A:
+      "In 2026 UIT is S/ 5,500 under D.S. 301-2025-EF. FactoTips shows that reference value; always confirm with official MEF sources.",
+    faq3Q: "Does FactoTips publish the official value?",
+    faq3A:
+      "No. FactoTips is not MEF or a state entity. It only helps convert using the current value documented in the tool.",
+    faq4Q: "Why convert UIT?",
+    faq4A:
+      "To estimate fines, income-tax brackets, and procedure amounts that norms express in UIT.",
+    finalTitle: "Ready to convert UIT",
+    finalText: "Open the converter and get soles or UIT fractions in seconds.",
+    finalCta: "Convert UIT now",
+    backHub: "Back to FactoTips",
+  },
+  uit: {
+    back: "Back to converter",
+    title: "UIT converter",
+    subtitle:
+      "Convert UIT ↔ soles with the current value. Use the quick table for common fractions.",
+    friendlyEyebrow: "Fast and clear",
+    friendlySubtitle:
+      "Pick a shortcut, type an amount, or swap direction. The result updates instantly.",
+    uitBadge: "Current UIT",
+    modeLabel: "What do you want to do?",
+    modeUitToSoles: "UIT → soles",
+    modeSolesToUit: "Soles → UIT",
+    modeHintUit: "I have UIT, I want soles",
+    modeHintSoles: "I have soles, I want UIT",
+    swap: "Swap",
+    tryThese: "Try these",
+    amountUit: "How many UIT?",
+    amountSoles: "How many soles?",
+    amountPlaceholder: "E.g. 1 or 5500",
+    invalidAmount: "Enter a valid number (0 or more).",
+    resultTitle: "Result",
+    friendlyResult: "Here’s the result",
+    equalsLine: "{uit} UIT = {soles}",
+    resultUit: "In UIT",
+    resultSoles: "In soles",
+    scaleLabel: "Visual reference (up to 15 UIT)",
+    formulaHint:
+      "1 UIT = {uit} ({year}). Rounding: soles to 2 decimals, UIT up to 4.",
+    tableTitle: "Common shortcuts",
+    tableSubtitle: "Common fractions. Tap “Use” to load them into the converter.",
+    tableSubtitleFriendly: "Tap a card and it loads into the converter.",
+    colUit: "UIT",
+    colSoles: "Soles",
+    useRow: "Use",
+    usesTitle: "What is this for?",
+    usesIntro: "UIT shows up in everyday rules. Typical examples:",
+    use1: "Fines and penalties expressed in UIT.",
+    use2: "Tax brackets and caps (income tax, deductions).",
+    use3: "Requirements and amounts in administrative procedures.",
+    copy: "Copy",
+    copied: "Copied!",
+    disclaimer:
+      "Orientation tool. The official UIT value is published by MEF. FactoTips is not a state entity and does not provide tax advice.",
   },
   precios: {
     back: "Back to comparer",

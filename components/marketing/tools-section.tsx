@@ -26,12 +26,12 @@ export function ToolsSection() {
       icon: "mdi:calculator-variant",
     },
     {
-      id: "soon-1",
-      title: t.landing.toolSoon1Title,
-      description: t.landing.toolSoon1Desc,
-      href: "#herramientas",
-      status: "soon" as const,
-      icon: "mdi:clock-outline",
+      id: "uit",
+      title: t.landing.toolUitTitle,
+      description: t.landing.toolUitDesc,
+      href: "/herramientas/uit",
+      status: "ready" as const,
+      icon: "mdi:currency-usd",
     },
   ];
 

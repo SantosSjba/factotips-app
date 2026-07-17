@@ -4,6 +4,7 @@ import { TOOL_ROUTES } from "@/lib/seo/tools";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  const tools = Object.values(TOOL_ROUTES);
 
   return [
     {
@@ -12,29 +13,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
-    {
-      url: absoluteUrl(TOOL_ROUTES.precios.landingPath),
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: absoluteUrl(TOOL_ROUTES.precios.appPath),
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: absoluteUrl(TOOL_ROUTES.igv.landingPath),
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: absoluteUrl(TOOL_ROUTES.igv.appPath),
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
+    ...tools.flatMap((tool) => [
+      {
+        url: absoluteUrl(tool.landingPath),
+        lastModified: now,
+        changeFrequency: "weekly" as const,
+        priority: 0.95,
+      },
+      {
+        url: absoluteUrl(tool.appPath),
+        lastModified: now,
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      },
+    ]),
   ];
 }

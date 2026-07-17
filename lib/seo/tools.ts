@@ -13,6 +13,11 @@ export const TOOL_ROUTES = {
     landingPath: "/herramientas/igv",
     appPath: "/herramientas/igv/usar",
   },
+  uit: {
+    id: "uit",
+    landingPath: "/herramientas/uit",
+    appPath: "/herramientas/uit/usar",
+  },
 } as const;
 
 export type ToolId = keyof typeof TOOL_ROUTES;
@@ -81,18 +86,50 @@ export const TOOL_SEO = {
       ogTitle: "Calcular IGV | FactoTips",
     } satisfies PageSeo,
   },
+  uit: {
+    landing: {
+      title: "Conversor UIT a soles 2026",
+      description:
+        "Convierte UIT a soles y soles a UIT con el valor vigente 2026 (S/ 5,500). Tabla rápida de fracciones para multas, rentas y trámites.",
+      path: TOOL_ROUTES.uit.landingPath,
+      keywords: [
+        "UIT 2026",
+        "cuánto es 1 UIT",
+        "convertir UIT a soles",
+        "UIT Perú",
+        "valor UIT",
+        "UIT en soles",
+        "conversor UIT",
+      ],
+      ogTitle: "Conversor UIT a soles 2026 | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Convertir UIT",
+      description:
+        "Pasa de UIT a soles o de soles a UIT con el valor oficial vigente. Incluye tabla de fracciones frecuentes.",
+      path: TOOL_ROUTES.uit.appPath,
+      keywords: [
+        "convertir UIT",
+        "UIT a soles",
+        "soles a UIT",
+        "calculadora UIT",
+      ],
+      ogTitle: "Convertir UIT | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
   title: `Herramientas útiles — ${SITE_BRAND}`,
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, compara precios DIGEMID y más utilidades prácticas.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, convierte UIT, compara precios DIGEMID y más utilidades.",
   path: "/",
   keywords: [
     "herramientas útiles",
     "FactoTips",
     "utilidades Perú",
     "calculadora IGV",
+    "UIT 2026",
     "comparar precios medicamentos",
     "DIGEMID",
   ],
@@ -183,6 +220,16 @@ export function igvSoftwareJsonLd() {
   const seo = TOOL_SEO.igv.landing;
   return softwareJsonLd({
     name: "Calculadora de IGV — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "FinanceApplication",
+  });
+}
+
+export function uitSoftwareJsonLd() {
+  const seo = TOOL_SEO.uit.landing;
+  return softwareJsonLd({
+    name: "Conversor UIT — FactoTips",
     description: seo.description,
     path: seo.path,
     applicationCategory: "FinanceApplication",

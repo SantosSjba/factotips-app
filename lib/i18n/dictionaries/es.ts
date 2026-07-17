@@ -23,12 +23,12 @@ export const es = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Herramientas útiles para el día a día: calcula IGV y compara precios oficiales de medicamentos en el Perú.",
+      "Herramientas útiles para el día a día: calcula IGV, convierte UIT y compara precios oficiales de medicamentos.",
     ctaCompare: "Comparar precios",
     ctaTools: "Ver herramientas",
     toolsTitle: "Herramientas",
     toolsSubtitle:
-      "Utilidades prácticas, una a la vez. Comparador DIGEMID y calculadora de IGV ya disponibles.",
+      "Utilidades prácticas: comparador DIGEMID, calculadora de IGV y conversor UIT.",
     openTool: "Abrir herramienta",
     comingSoon: "Próximamente",
     toolPreciosTitle: "Comparador de precios de medicamentos",
@@ -37,6 +37,9 @@ export const es = {
     toolIgvTitle: "Calculadora de IGV",
     toolIgvDesc:
       "Agrega o saca el IGV (18% o 10% MYPE) de un precio en soles. Base, impuesto y total al instante.",
+    toolUitTitle: "Conversor UIT",
+    toolUitDesc:
+      "Convierte UIT a soles y soles a UIT con el valor vigente 2026 (S/ 5,500).",
     toolSoon1Title: "Más herramientas en camino",
     toolSoon1Desc:
       "FactoTips crecerá con nuevas utilidades prácticas para el día a día.",
@@ -256,6 +259,94 @@ export const es = {
     rulesSource: "Consulta siempre la información oficial en",
     disclaimer:
       "Herramienta orientativa de FactoTips. No es SUNAT ni asesora fiscal. Verifica tasas, regímenes y exoneraciones vigentes en fuentes oficiales.",
+  },
+  uitLanding: {
+    eyebrow: "FactoTips · UIT Perú",
+    headline: "Convierte UIT a soles al instante",
+    subtitle:
+      "Pasa de UIT a soles o de soles a UIT con el valor vigente 2026. Ideal para multas, rentas y trámites.",
+    ctaPrimary: "Abrir conversor",
+    ctaSecondary: "Ver cómo funciona",
+    whyTitle: "Una unidad, muchos usos",
+    whyText:
+      "La UIT se actualiza cada año y aparece en normas, multas y topes tributarios. Aquí la conviertes sin calculadora a mano.",
+    benefit1Title: "Ida y vuelta",
+    benefit1Text: "UIT → soles y soles → UIT con el mismo valor vigente.",
+    benefit2Title: "Valor del año",
+    benefit2Text:
+      "Mostramos UIT 2026 (S/ 5,500) y la norma de referencia (D.S. 301-2025-EF).",
+    benefit3Title: "Tabla rápida",
+    benefit3Text:
+      "Fracciones frecuentes (0.5, 1, 2, 7, 10 UIT…) listas para usar.",
+    howTitle: "Cómo funciona",
+    howSubtitle: "Tres pasos para una conversión clara.",
+    step1Title: "Elige el sentido",
+    step1Text: "De UIT a soles o de soles a UIT.",
+    step2Title: "Ingresa el monto",
+    step2Text: "Escribe la cantidad o elige una fila de la tabla rápida.",
+    step3Title: "Copia el resultado",
+    step3Text: "Lleva UIT y soles a tu nota, cotización o trámite.",
+    faqTitle: "Preguntas frecuentes",
+    faq1Q: "¿Qué es la UIT?",
+    faq1A:
+      "La Unidad Impositiva Tributaria es un valor en soles que el Estado peruano fija cada año para calcular impuestos, multas, topes y otros montos normativos.",
+    faq2Q: "¿Cuánto vale 1 UIT en 2026?",
+    faq2A:
+      "En 2026 la UIT es S/ 5,500 según el D.S. 301-2025-EF. FactoTips muestra ese valor de referencia; confirma siempre en fuentes oficiales del MEF.",
+    faq3Q: "¿FactoTips publica el valor oficial?",
+    faq3A:
+      "No. FactoTips no es el MEF ni una entidad estatal. Solo facilita la conversión con el valor vigente documentado en la herramienta.",
+    faq4Q: "¿Para qué sirve convertir UIT?",
+    faq4A:
+      "Para estimar multas, topes de renta, requisitos en trámites y montos que las normas expresan en UIT.",
+    finalTitle: "Listo para convertir tu UIT",
+    finalText:
+      "Abre el conversor y obtén soles o fracciones de UIT en segundos.",
+    finalCta: "Convertir UIT ahora",
+    backHub: "Volver a FactoTips",
+  },
+  uit: {
+    back: "Volver al conversor",
+    title: "Conversor UIT",
+    subtitle:
+      "Convierte UIT ↔ soles con el valor vigente. Usa la tabla rápida para fracciones comunes.",
+    friendlyEyebrow: "Rápido y claro",
+    friendlySubtitle:
+      "Elige un atajo, escribe un monto o intercambia el sentido. El resultado se actualiza al instante.",
+    uitBadge: "UIT vigente",
+    modeLabel: "¿Qué quieres hacer?",
+    modeUitToSoles: "UIT → soles",
+    modeSolesToUit: "Soles → UIT",
+    modeHintUit: "Tengo UIT, quiero soles",
+    modeHintSoles: "Tengo soles, quiero UIT",
+    swap: "Intercambiar",
+    tryThese: "Prueba con",
+    amountUit: "¿Cuántas UIT?",
+    amountSoles: "¿Cuántos soles?",
+    amountPlaceholder: "Ej. 1 o 5500",
+    invalidAmount: "Escribe un número válido (0 o más).",
+    resultTitle: "Resultado",
+    friendlyResult: "Así queda",
+    equalsLine: "{uit} UIT = {soles}",
+    resultUit: "En UIT",
+    resultSoles: "En soles",
+    scaleLabel: "Referencia visual (hasta 15 UIT)",
+    formulaHint: "1 UIT = {uit} ({year}). Redondeo: soles a 2 decimales, UIT hasta 4.",
+    tableTitle: "Atajos frecuentes",
+    tableSubtitle: "Fracciones frecuentes. Toca “Usar” para cargarlas en el conversor.",
+    tableSubtitleFriendly: "Toca una tarjeta y se carga sola en el conversor.",
+    colUit: "UIT",
+    colSoles: "Soles",
+    useRow: "Usar",
+    usesTitle: "¿Para qué sirve esto?",
+    usesIntro: "La UIT aparece en normas del día a día. Estos son ejemplos típicos:",
+    use1: "Multas y sanciones expresadas en UIT.",
+    use2: "Topes y tramos tributarios (rentas, deducciones).",
+    use3: "Requisitos y montos en trámites administrativos.",
+    copy: "Copiar",
+    copied: "¡Copiado!",
+    disclaimer:
+      "Herramienta orientativa. El valor oficial de la UIT lo publica el MEF. FactoTips no es entidad estatal ni asesora fiscal.",
   },
   precios: {
     back: "Volver al comparador",

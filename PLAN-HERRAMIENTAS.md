@@ -114,9 +114,9 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 
 ### Funcionalidad
 
-- [ ] UIT → soles y soles → UIT
-- [ ] Mostrar UIT vigente + año
-- [ ] Tabla rápida (0.5, 1, 2, 7, 10 UIT…)
+- [x] UIT → soles y soles → UIT
+- [x] Mostrar UIT vigente + año
+- [x] Tabla rápida (0.5, 1, 2, 7, 10 UIT…)
 
 ### SEO
 
@@ -124,8 +124,8 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 
 ### Checklist entrega
 
-- [ ] Landing + app + hub
-- [ ] FAQ + disclaimer (valor oficial MEF; FactoTips no es entidad estatal)
+- [x] Landing + app + hub
+- [x] FAQ + disclaimer (valor oficial MEF; FactoTips no es entidad estatal)
 
 ---
 
@@ -291,9 +291,10 @@ app/sitemap.ts                                # rutas nuevas
 |-------|------|
 | 2026-07-17 | Plan creado. Orden: IGV → UIT → QR → sueldo neto → honorarios → CTS → gratificación → PDF. |
 | 2026-07-17 | A1 Calculadora IGV entregada (`/herramientas/igv` + `/usar`). |
+| 2026-07-17 | A2 Conversor UIT entregado (`/herramientas/uit` + `/usar`). |
 
 ---
 
 ## Próximo paso inmediato
 
-**A2 — Conversor UIT** (landing `/herramientas/uit` + app `/herramientas/uit/usar`).
+**A3 — Generador QR** (landing `/herramientas/qr` + app `/herramientas/qr/usar`).

@@ -105,4 +105,8 @@ body {
   .hero-atmosphere::before {
     animation: none !important;
   }
+
+  .animate-ping {
+    animation: none !important;
+  }
 }

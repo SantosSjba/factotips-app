@@ -26,11 +26,11 @@ export const TOOLS: Tool[] = [
     status: "ready",
   },
   {
-    id: "soon-1",
-    title: "Más herramientas en camino",
+    id: "uit",
+    title: "Conversor UIT",
     description:
-      "FactoTips crecerá con nuevas utilidades prácticas para el día a día.",
-    href: "#herramientas",
-    status: "soon",
+      "Convierte UIT a soles y soles a UIT con el valor vigente 2026 (S/ 5,500).",
+    href: "/herramientas/uit",
+    status: "ready",
   },
 ];
