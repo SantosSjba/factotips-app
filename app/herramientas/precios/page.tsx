@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PreciosLanding } from "@/components/marketing/precios-landing";
 import { JsonLd } from "@/lib/seo/metadata";
 import {
-  preciosFaqJsonLd,
+  faqJsonLd,
   preciosSoftwareJsonLd,
   toolLandingMetadata,
 } from "@/lib/seo/tools";
@@ -21,7 +21,7 @@ export default function PreciosLandingPage() {
   return (
     <main className="flex-1">
       <JsonLd data={preciosSoftwareJsonLd()} />
-      <JsonLd data={preciosFaqJsonLd(faqs)} />
+      <JsonLd data={faqJsonLd(faqs)} />
       <PreciosLanding />
     </main>
   );

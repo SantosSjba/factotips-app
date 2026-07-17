@@ -8,6 +8,11 @@ export const TOOL_ROUTES = {
     landingPath: "/herramientas/precios",
     appPath: "/herramientas/precios/consultar",
   },
+  igv: {
+    id: "igv",
+    landingPath: "/herramientas/igv",
+    appPath: "/herramientas/igv/usar",
+  },
 } as const;
 
 export type ToolId = keyof typeof TOOL_ROUTES;
@@ -45,17 +50,49 @@ export const TOOL_SEO = {
       ogTitle: "Consultar precios DIGEMID | FactoTips",
     } satisfies PageSeo,
   },
+  igv: {
+    landing: {
+      title: "Calculadora de IGV Perú",
+      description:
+        "Calcula IGV al 18% o 10% (MYPE). Agrega o saca el impuesto de un precio en soles: base, IGV y total al instante.",
+      path: TOOL_ROUTES.igv.landingPath,
+      keywords: [
+        "calcular IGV",
+        "IGV 18% Perú",
+        "precio con IGV",
+        "sacar IGV",
+        "IGV MYPE",
+        "calculadora IGV",
+        "cómo sacar el IGV",
+      ],
+      ogTitle: "Calculadora de IGV Perú | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Calcular IGV",
+      description:
+        "Herramienta para agregar o extraer IGV (18% o 10%). Obtén base imponible, impuesto y total en soles.",
+      path: TOOL_ROUTES.igv.appPath,
+      keywords: [
+        "calcular IGV online",
+        "agregar IGV",
+        "extraer IGV",
+        "IGV 18",
+      ],
+      ogTitle: "Calcular IGV | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
   title: `Herramientas útiles — ${SITE_BRAND}`,
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Compara precios oficiales de medicamentos DIGEMID y descubre más utilidades prácticas.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, compara precios DIGEMID y más utilidades prácticas.",
   path: "/",
   keywords: [
     "herramientas útiles",
     "FactoTips",
     "utilidades Perú",
+    "calculadora IGV",
     "comparar precios medicamentos",
     "DIGEMID",
   ],
@@ -104,16 +141,20 @@ export function websiteJsonLd() {
   };
 }
 
-export function preciosSoftwareJsonLd() {
-  const seo = TOOL_SEO.precios.landing;
+function softwareJsonLd(opts: {
+  name: string;
+  description: string;
+  path: string;
+  applicationCategory: string;
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Comparador de precios de medicamentos — FactoTips",
-    applicationCategory: "HealthApplication",
+    name: opts.name,
+    applicationCategory: opts.applicationCategory,
     operatingSystem: "Web",
-    url: absoluteUrl(seo.path),
-    description: seo.description,
+    url: absoluteUrl(opts.path),
+    description: opts.description,
     inLanguage: "es-PE",
     offers: {
       "@type": "Offer",
@@ -128,9 +169,27 @@ export function preciosSoftwareJsonLd() {
   };
 }
 
-export function preciosFaqJsonLd(
-  faqs: { question: string; answer: string }[],
-) {
+export function preciosSoftwareJsonLd() {
+  const seo = TOOL_SEO.precios.landing;
+  return softwareJsonLd({
+    name: "Comparador de precios de medicamentos — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "HealthApplication",
+  });
+}
+
+export function igvSoftwareJsonLd() {
+  const seo = TOOL_SEO.igv.landing;
+  return softwareJsonLd({
+    name: "Calculadora de IGV — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "FinanceApplication",
+  });
+}
+
+export function faqJsonLd(faqs: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -144,3 +203,4 @@ export function preciosFaqJsonLd(
     })),
   };
 }
+

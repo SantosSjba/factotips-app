@@ -24,5 +24,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      url: absoluteUrl(TOOL_ROUTES.igv.landingPath),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: absoluteUrl(TOOL_ROUTES.igv.appPath),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
   ];
 }

@@ -405,14 +405,16 @@ No incluir en el MVP salvo decisión explícita:
 
 ## Roadmap posterior (post-v1)
 
-Ideas para el hub (sin checklist de MVP):
+Ideas para el hub (detalle y sprints en [`PLAN-HERRAMIENTAS.md`](./PLAN-HERRAMIENTAS.md)):
 
-- [ ] Más herramientas bajo `/herramientas/...`
+- [ ] Calculadoras PE: IGV, UIT, sueldo neto, honorarios, CTS, gratificación
+- [ ] Generador QR / kit PDF (client-side)
 - [ ] Analytics anónimas de uso (qué se busca más)
 - [ ] Rate limit Redis/Upstash por defecto
 - [ ] Guardar búsquedas favoritas (requeriría auth) — historial anónimo ya existe; favoritos pinneados + cross-device con login
 - [ ] PWA / share de resultados
 - [ ] Login: asociar `search_history` anónimo vía `claimAnonymousHistory(ft_uid, userId)`
+- [ ] Consulta RUC (solo API pública + rate limit; opcional)
 
 ---
 

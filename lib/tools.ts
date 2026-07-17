@@ -18,17 +18,18 @@ export const TOOLS: Tool[] = [
     status: "ready",
   },
   {
+    id: "igv",
+    title: "Calculadora de IGV",
+    description:
+      "Agrega o saca el IGV (18% o 10% MYPE) de un precio en soles. Base, impuesto y total al instante.",
+    href: "/herramientas/igv",
+    status: "ready",
+  },
+  {
     id: "soon-1",
     title: "Más herramientas en camino",
     description:
       "FactoTips crecerá con nuevas utilidades prácticas para el día a día.",
-    href: "#herramientas",
-    status: "soon",
-  },
-  {
-    id: "soon-2",
-    title: "Próximamente",
-    description: "Nueva herramienta de utilidad — anunciaremos pronto.",
     href: "#herramientas",
     status: "soon",
   },

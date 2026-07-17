@@ -15,6 +15,15 @@ export function ToolsSection() {
       description: t.landing.toolPreciosDesc,
       href: "/herramientas/precios",
       status: "ready" as const,
+      icon: "mdi:pill",
+    },
+    {
+      id: "igv",
+      title: t.landing.toolIgvTitle,
+      description: t.landing.toolIgvDesc,
+      href: "/herramientas/igv",
+      status: "ready" as const,
+      icon: "mdi:calculator-variant",
     },
     {
       id: "soon-1",
@@ -22,13 +31,7 @@ export function ToolsSection() {
       description: t.landing.toolSoon1Desc,
       href: "#herramientas",
       status: "soon" as const,
-    },
-    {
-      id: "soon-2",
-      title: t.landing.toolSoon2Title,
-      description: t.landing.toolSoon2Desc,
-      href: "#herramientas",
-      status: "soon" as const,
+      icon: "mdi:clock-outline",
     },
   ];
 
@@ -66,10 +69,7 @@ export function ToolsSection() {
                       ready ? "bg-brand text-white" : "bg-border/60 text-muted",
                     )}
                   >
-                    <Icon
-                      icon={ready ? "mdi:pill" : "mdi:clock-outline"}
-                      className="h-5 w-5"
-                    />
+                    <Icon icon={tool.icon} className="h-5 w-5" />
                   </span>
                   {ready ? (
                     <Icon

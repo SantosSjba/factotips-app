@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Compara precios oficiales de medicamentos DIGEMID y más utilidades.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, compara precios DIGEMID y más utilidades.",
   applicationName: SITE_NAME,
   authors: [{ name: SITE_BRAND }],
   creator: SITE_BRAND,
@@ -35,6 +35,7 @@ export const metadata: Metadata = {
     SITE_BRAND,
     "Perú",
     "herramientas útiles",
+    "calculadora IGV",
     "medicamentos",
     "precios",
     "DIGEMID",
@@ -46,13 +47,13 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} | Herramientas útiles — ${SITE_BRAND}`,
     description:
-      "Hub de herramientas de utilidad de Factosys Perú. Empieza con el comparador de precios DIGEMID.",
+      "Hub de herramientas de utilidad de Factosys Perú. Calcula IGV y compara precios DIGEMID.",
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} | Herramientas útiles`,
     description:
-      "Hub de herramientas de utilidad de Factosys Perú. Compara precios oficiales de medicamentos.",
+      "Hub de herramientas de utilidad de Factosys Perú. Calcula IGV y compara precios oficiales.",
   },
   robots: {
     index: true,
