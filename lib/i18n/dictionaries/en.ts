@@ -5,16 +5,27 @@ export const en: Dictionary = {
     home: "Home",
     tools: "Tools",
     comparePrices: "Compare prices",
+    ctaTool: "Calculate IGV",
+    viewAllTools: "View all",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     byFactosys: "by Factosys",
   },
   footer: {
-    tagline: "Utility tools hub by Factosys Perú.",
+    tagline:
+      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, and QR.",
+    toolsTitle: "Tools",
+    notesTitle: "Notices",
+    linkPrecios: "DIGEMID prices",
+    linkIgv: "IGV calculator",
+    linkUit: "UIT converter",
+    linkQr: "QR generator",
     pricesSource: "Medicine prices come from the official observatory",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips does not sell medicines or intermediate commercial sales.",
+    orientative:
+      "Calculators (IGV, UIT) and the QR tool are for orientation; always verify official sources.",
     rights: "All rights reserved.",
     viewTools: "View tools",
     byOwner: "A product of",

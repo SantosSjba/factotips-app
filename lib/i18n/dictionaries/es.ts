@@ -1,11 +1,20 @@
 export const es = {
   footer: {
-    tagline: "Hub de herramientas de utilidad de Factosys Perú.",
+    tagline:
+      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT y QR.",
+    toolsTitle: "Herramientas",
+    notesTitle: "Avisos",
+    linkPrecios: "Precios DIGEMID",
+    linkIgv: "Calculadora IGV",
+    linkUit: "Conversor UIT",
+    linkQr: "Generador QR",
     pricesSource:
       "Los precios de medicamentos provienen del observatorio oficial",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips no vende medicamentos ni intermedia operaciones comerciales.",
+    orientative:
+      "Las calculadoras (IGV, UIT) y el QR son orientativos; verifica siempre fuentes oficiales.",
     rights: "Todos los derechos reservados.",
     viewTools: "Ver herramientas",
     byOwner: "Un producto de",
@@ -15,6 +24,8 @@ export const es = {
     home: "Inicio",
     tools: "Herramientas",
     comparePrices: "Comparar precios",
+    ctaTool: "Calcular IGV",
+    viewAllTools: "Ver todas",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
     byFactosys: "by Factosys",
