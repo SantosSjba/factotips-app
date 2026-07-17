@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolVisitTracker } from "@/components/analytics/tool-visit-tracker";
 import { IgvLanding } from "@/components/marketing/igv-landing";
 import { es } from "@/lib/i18n/dictionaries/es";
 import { JsonLd } from "@/lib/seo/metadata";
@@ -20,6 +21,7 @@ const faqs = [
 export default function IgvLandingPage() {
   return (
     <main className="flex-1">
+      <ToolVisitTracker toolId="igv" />
       <JsonLd data={igvSoftwareJsonLd()} />
       <JsonLd data={faqJsonLd(faqs)} />
       <IgvLanding />

@@ -3,7 +3,7 @@ import { Pool } from "pg";
 import { PrismaClient } from "@/lib/generated/prisma/client";
 
 /** Subir si cambia el schema y el singleton de HMR queda stale. */
-const PRISMA_CLIENT_GEN = 3;
+const PRISMA_CLIENT_GEN = 4;
 
 const globalForPrisma = globalThis as unknown as {
   __ftPrisma?: PrismaClient;
@@ -39,7 +39,8 @@ export function getPrisma(): PrismaClient | null {
   const stale =
     !globalForPrisma.__ftPrisma ||
     globalForPrisma.__ftPrismaGen !== PRISMA_CLIENT_GEN ||
-    typeof globalForPrisma.__ftPrisma.searchHistory?.findMany !== "function";
+    typeof globalForPrisma.__ftPrisma.searchHistory?.findMany !== "function" ||
+    typeof globalForPrisma.__ftPrisma.toolVisit?.create !== "function";
 
   if (stale) {
     globalForPrisma.__ftPrisma = createPrisma();

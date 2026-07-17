@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolVisitTracker } from "@/components/analytics/tool-visit-tracker";
 import { UitLanding } from "@/components/marketing/uit-landing";
 import { es } from "@/lib/i18n/dictionaries/es";
 import { JsonLd } from "@/lib/seo/metadata";
@@ -20,6 +21,7 @@ const faqs = [
 export default function UitLandingPage() {
   return (
     <main className="flex-1">
+      <ToolVisitTracker toolId="uit" />
       <JsonLd data={uitSoftwareJsonLd()} />
       <JsonLd data={faqJsonLd(faqs)} />
       <UitLanding />

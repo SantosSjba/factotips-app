@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolVisitTracker } from "@/components/analytics/tool-visit-tracker";
 import { PreciosLanding } from "@/components/marketing/precios-landing";
 import { JsonLd } from "@/lib/seo/metadata";
 import {
@@ -20,6 +21,7 @@ const faqs = [
 export default function PreciosLandingPage() {
   return (
     <main className="flex-1">
+      <ToolVisitTracker toolId="precios" />
       <JsonLd data={preciosSoftwareJsonLd()} />
       <JsonLd data={faqJsonLd(faqs)} />
       <PreciosLanding />

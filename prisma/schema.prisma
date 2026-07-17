@@ -50,3 +50,18 @@ model SearchHistory {
   @@index([userId, createdAt(sort: Desc)])
   @@map("search_history")
 }
+
+/// Visitas a herramientas (landing o app) por visitante anónimo `ft_uid`.
+model ToolVisit {
+  id          String   @id @default(cuid())
+  anonymousId String   @map("anonymous_id")
+  userId      String?  @map("user_id")
+  toolId      String   @map("tool_id")
+  path        String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([toolId, createdAt(sort: Desc)])
+  @@index([anonymousId, toolId, createdAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+  @@map("tool_visit")
+}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolVisitTracker } from "@/components/analytics/tool-visit-tracker";
 import { QrLanding } from "@/components/marketing/qr-landing";
 import { es } from "@/lib/i18n/dictionaries/es";
 import { JsonLd } from "@/lib/seo/metadata";
@@ -20,6 +21,7 @@ const faqs = [
 export default function QrLandingPage() {
   return (
     <main className="flex-1">
+      <ToolVisitTracker toolId="qr" />
       <JsonLd data={qrSoftwareJsonLd()} />
       <JsonLd data={faqJsonLd(faqs)} />
       <QrLanding />
