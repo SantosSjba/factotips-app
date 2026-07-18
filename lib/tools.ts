@@ -57,4 +57,12 @@ export const TOOLS: Tool[] = [
     href: "/herramientas/honorarios",
     status: "ready",
   },
+  {
+    id: "cts",
+    title: "Calculadora de CTS",
+    description:
+      "Estima el depósito de mayo o noviembre con remuneración computable y tiempo trabajado.",
+    href: "/herramientas/cts",
+    status: "ready",
+  },
 ];

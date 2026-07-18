@@ -13,7 +13,7 @@ export const en: Dictionary = {
   },
   footer: {
     tagline:
-      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, net salary, and fees.",
+      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, net salary, fees, and CTS.",
     toolsTitle: "Tools",
     notesTitle: "Notices",
     linkPrecios: "DIGEMID prices",
@@ -22,12 +22,13 @@ export const en: Dictionary = {
     linkQr: "QR generator",
     linkSueldoNeto: "Net salary",
     linkHonorarios: "Fees / RHE",
+    linkCts: "CTS",
     pricesSource: "Medicine prices come from the official observatory",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips does not sell medicines or intermediate commercial sales.",
     orientative:
-      "Calculators (IGV, UIT, net salary, fees) and the QR tool are for orientation; always verify official sources.",
+      "Calculators (IGV, UIT, net salary, fees, CTS) and the QR tool are for orientation; always verify official sources.",
     rights: "All rights reserved.",
     viewTools: "View tools",
     byOwner: "A product of",
@@ -37,12 +38,12 @@ export const en: Dictionary = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Useful tools: calculate IGV, net salary, and fees, convert UIT, generate QR, and compare medicine prices.",
+      "Useful tools: calculate IGV, net salary, fees, and CTS, convert UIT, generate QR, and compare medicine prices.",
     ctaCompare: "Compare prices",
     ctaTools: "View tools",
     toolsTitle: "Tools",
     toolsSubtitle:
-      "DIGEMID comparer, IGV, UIT, QR, net salary, and professional fees.",
+      "DIGEMID comparer, IGV, UIT, QR, net salary, fees, and CTS.",
     openTool: "Open tool",
     comingSoon: "Coming soon",
     toolPreciosTitle: "Medicine price comparer",
@@ -63,6 +64,9 @@ export const en: Dictionary = {
     toolHonorariosTitle: "Professional fees receipt",
     toolHonorariosDesc:
       "8% withholding on 4th-category income, net to receive, and SUNAT suspension guidance.",
+    toolCtsTitle: "CTS calculator",
+    toolCtsDesc:
+      "Estimate the May or November deposit with computable pay and time worked.",
     toolSoon1Title: "More tools on the way",
     toolSoon1Desc:
       "FactoTips will grow with more practical everyday utilities.",
@@ -697,6 +701,110 @@ export const en: Dictionary = {
     rule4: "Does not file 1609 or declare to SUNAT: calculate and guide only.",
     disclaimer:
       "Orientation tool by FactoTips. Not SUNAT and not tax advice. Verify withholding, thresholds, suspension caps, and your case in official sources or with an accountant.",
+  },
+  ctsLanding: {
+    eyebrow: "FactoTips · Peru CTS",
+    headline: "Calculate your May or November CTS",
+    subtitle:
+      "Computable pay, 1/6 of the bonus, months and days. Estimate the semi-annual deposit in seconds.",
+    ctaPrimary: "Calculate my CTS",
+    ctaSecondary: "See how it works",
+    whyTitle: "Your deposit, no mystery",
+    whyText:
+      "CTS is deposited twice a year. See how the base is built and how much you get for time worked.",
+    benefit1Title: "May and November",
+    benefit1Text:
+      "Pick the semester: Nov–Apr (May deposit) or May–Oct (November deposit).",
+    benefit2Title: "Clear formula",
+    benefit2Text:
+      "Salary + family allowance + 1/6 bonus. Then (RC/12)×months + (RC/360)×days.",
+    benefit3Title: "Labor guidance",
+    benefit3Text:
+      "Notes on deposit deadlines and withdrawals. Not a payslip or MTPE ruling.",
+    howTitle: "How it works",
+    howSubtitle: "Three steps to estimate your CTS.",
+    step1Title: "Enter your salary",
+    step1Text: "Monthly gross, family allowance, and last bonus.",
+    step2Title: "Pick the period",
+    step2Text: "May or November, with months and days in the semester.",
+    step3Title: "Review the deposit",
+    step3Text: "Computable pay and estimated total CTS.",
+    faqTitle: "Frequently asked questions",
+    faq1Q: "When is CTS deposited?",
+    faq1A:
+      "By May 15 (Nov–Apr semester) and by November 15 (May–Oct semester). If the 15th is not a business day, it is usually moved to the previous business day.",
+    faq2Q: "What goes into computable pay?",
+    faq2A:
+      "Gross salary, family allowance if applicable, one-sixth of the last bonus received (without the 9% extraordinary bonus), and other permanent computable items.",
+    faq3Q: "Who is entitled to CTS?",
+    faq3A:
+      "Private-sector workers with at least a 4-hour daily schedule, under D. Leg. 650 and D.S. 001-97-TR. There are exceptions; confirm your regime.",
+    faq4Q: "Can I withdraw 100% of my CTS?",
+    faq4A:
+      "Free availability can change by law (e.g. temporary regimes). Check current rules with MTPE or your bank/employer. This tool only estimates the deposit.",
+    finalTitle: "Ready to estimate your CTS",
+    finalText: "Open the calculator and get the semester amount in seconds.",
+    finalCta: "Calculate CTS now",
+    backHub: "Back to FactoTips",
+  },
+  cts: {
+    back: "Back to calculator",
+    eyebrow: "CTS · Peru 2026",
+    title: "CTS calculator",
+    subtitle:
+      "Estimate the May or November deposit with computable pay and time worked.",
+    chipDeposito: "Deposit ≤ day 15",
+    periodoLabel: "Deposit period",
+    periodo: "Period",
+    periodoMayo: "May",
+    periodoMayoHint: "Nov–Apr semester · December bonus",
+    periodoNov: "November",
+    periodoNovHint: "May–Oct semester · July bonus",
+    sueldoLabel: "Monthly gross salary",
+    asignacionLabel: "Family allowance",
+    asignacionHint: "10% of RMV = {monto} if applicable.",
+    gratiDicLabel: "December bonus (without 9% extra)",
+    gratiJulLabel: "July bonus (without 9% extra)",
+    gratiUsarSueldo: "Use ≈ salary",
+    gratiHint:
+      "Do not include the 9% extraordinary bonus (it does not count for CTS).",
+    otrosLabel: "Other computable items (S/)",
+    otrosHint: "Commissions or other fixed items in the CTS base.",
+    mesesLabel: "Months (0–6)",
+    diasLabel: "Days (0–29)",
+    tiempoHint: "Full months in the semester + extra days.",
+    invalid: "Enter a valid salary (0 or more).",
+    resultTitle: "Estimated CTS",
+    ctsHint: "{periodo} deposit (usual deadline: day {dia}).",
+    rc: "Computable pay",
+    ctsMeses: "CTS for months",
+    ctsDias: "CTS for days",
+    ctsTotal: "Semester CTS",
+    copy: "Copy",
+    copied: "Copied!",
+    copyTitle: "CTS — FactoTips",
+    disclaimerShort: "Orientation estimate. Not an official settlement.",
+    rcTitle: "Computable pay",
+    rcSubtitle: "Base used to calculate the deposit.",
+    sueldo: "Gross salary",
+    asignacion: "Family allowance",
+    sexta: "1/6 of bonus",
+    otros: "Other computable",
+    formulaTitle: "Formula used",
+    formulaMeses: "For months: (RC ÷ 12) × months worked.",
+    formulaDias: "For days: (RC ÷ 360) × extra days.",
+    formulaTotal: "Total CTS = months CTS + days CTS.",
+    retiroNote:
+      "Free availability of CTS depends on current law. Confirm with MTPE or your depositary.",
+    rulesTitle: "What this estimate includes",
+    rule1:
+      "RC = salary + family allowance + 1/6 bonus + other computable items.",
+    rule2: "May uses the December bonus; November uses the July bonus.",
+    rule3: "The 9% extraordinary bonus on the grati does not enter CTS.",
+    rule4:
+      "Typical private regime (≥ 4 h/day). Does not cover every special regime.",
+    disclaimer:
+      "Orientation tool by FactoTips. Not MTPE or an official payroll settlement. Verify your regime, computable items, and deadlines in official sources or with a labor advisor.",
   },
   precios: {
     back: "Back to comparer",

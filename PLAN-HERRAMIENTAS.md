@@ -218,8 +218,8 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 **Esfuerzo:** ~1–2 días  
 
 - Landing: `/herramientas/cts` · App: `/herramientas/cts/usar`
-- [ ] Cálculo CTS (may / nov) con inputs claros
-- [ ] FAQ + base legal resumida + disclaimer
+- [x] Cálculo CTS (may / nov) con inputs claros
+- [x] FAQ + base legal resumida + disclaimer
 
 ## C2. Gratificación
 
@@ -296,9 +296,10 @@ app/sitemap.ts                                # rutas nuevas
 | 2026-07-17 | A3 Generador QR pro entregado (logo, colores, PNG/SVG). |
 | 2026-07-17 | B1 Calculadora sueldo neto entregada (`/herramientas/sueldo-neto` + `/usar`). |
 | 2026-07-17 | B2 Recibo por honorarios entregado (`/herramientas/honorarios` + `/usar`). |
+| 2026-07-17 | C1 Calculadora CTS entregada (`/herramientas/cts` + `/usar`). |
 
 ---
 
 ## Próximo paso inmediato
 
-**Sprint C1 — CTS** (landing `/herramientas/cts` + app `/usar`).
+**Sprint C2 — Gratificación** (landing `/herramientas/gratificacion` + app `/usar`).

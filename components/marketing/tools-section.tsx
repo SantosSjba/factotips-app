@@ -57,6 +57,14 @@ export function ToolsSection() {
       status: "ready" as const,
       icon: "mdi:file-document-edit-outline",
     },
+    {
+      id: "cts",
+      title: t.landing.toolCtsTitle,
+      description: t.landing.toolCtsDesc,
+      href: "/herramientas/cts",
+      status: "ready" as const,
+      icon: "mdi:piggy-bank-outline",
+    },
   ];
 
   return (

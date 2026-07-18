@@ -33,6 +33,11 @@ export const TOOL_ROUTES = {
     landingPath: "/herramientas/honorarios",
     appPath: "/herramientas/honorarios/usar",
   },
+  cts: {
+    id: "cts",
+    landingPath: "/herramientas/cts",
+    appPath: "/herramientas/cts/usar",
+  },
 } as const;
 
 export type ToolId = keyof typeof TOOL_ROUTES;
@@ -226,12 +231,43 @@ export const TOOL_SEO = {
       ogTitle: "Calcular honorarios | FactoTips",
     } satisfies PageSeo,
   },
+  cts: {
+    landing: {
+      title: "Calculadora de CTS Perú 2026",
+      description:
+        "Calcula tu CTS de mayo o noviembre: remuneración computable, 1/6 de gratificación, meses y días. Fórmula clara para el depósito semestral.",
+      path: TOOL_ROUTES.cts.landingPath,
+      keywords: [
+        "calcular CTS",
+        "CTS mayo 2026",
+        "CTS noviembre",
+        "compensación por tiempo de servicios",
+        "calculadora CTS Perú",
+        "depósito CTS",
+        "remuneración computable CTS",
+      ],
+      ogTitle: "Calculadora de CTS Perú 2026 | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Calcular CTS",
+      description:
+        "Estima el depósito CTS con sueldo, asignación familiar, 1/6 de grati y tiempo trabajado en el semestre.",
+      path: TOOL_ROUTES.cts.appPath,
+      keywords: [
+        "calcular CTS online",
+        "CTS semestre",
+        "1/6 gratificación CTS",
+        "depósito 15 mayo noviembre",
+      ],
+      ogTitle: "Calcular CTS | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
   title: `Herramientas útiles — ${SITE_BRAND}`,
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, honorarios, convierte UIT, genera QR y compara precios DIGEMID.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, honorarios, CTS, convierte UIT, genera QR y compara precios DIGEMID.",
   path: "/",
   keywords: [
     "herramientas útiles",
@@ -240,6 +276,7 @@ export const HUB_SEO = {
     "calculadora IGV",
     "sueldo neto Perú",
     "recibo por honorarios",
+    "calculadora CTS",
     "UIT 2026",
     "generador QR",
     "comparar precios medicamentos",
@@ -372,6 +409,16 @@ export function honorariosSoftwareJsonLd() {
   const seo = TOOL_SEO.honorarios.landing;
   return softwareJsonLd({
     name: "Calculadora de recibo por honorarios — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "FinanceApplication",
+  });
+}
+
+export function ctsSoftwareJsonLd() {
+  const seo = TOOL_SEO.cts.landing;
+  return softwareJsonLd({
+    name: "Calculadora de CTS — FactoTips",
     description: seo.description,
     path: seo.path,
     applicationCategory: "FinanceApplication",

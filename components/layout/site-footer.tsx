@@ -23,6 +23,10 @@ export function SiteFooter() {
       href: TOOL_ROUTES.honorarios.landingPath,
       label: t.footer.linkHonorarios,
     },
+    {
+      href: TOOL_ROUTES.cts.landingPath,
+      label: t.footer.linkCts,
+    },
   ] as const;
 
   return (

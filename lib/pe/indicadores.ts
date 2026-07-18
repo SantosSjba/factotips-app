@@ -72,6 +72,28 @@ export const HONORARIOS_SUSPENSION = {
 
 export type HonorariosPerfil = keyof typeof HONORARIOS_SUSPENSION;
 
+/** Depósitos CTS — plazo habitual día 15 (adelantar si no laborable). */
+export const CTS_DEPOSITO_DIA = 15;
+
+export type CtsPeriodo = "mayo" | "noviembre";
+
+export type CtsPeriodoInfo = {
+  id: CtsPeriodo;
+  /** Meses del semestre (1–6). */
+  mesesMax: number;
+  /** Día límite de depósito (mes del id). */
+  depositoDia: number;
+};
+
+/**
+ * Semestres CTS (D. Leg. 650 / D.S. 001-97-TR).
+ * Mayo: nov–abr · Noviembre: may–oct.
+ */
+export const CTS_PERIODOS: Record<CtsPeriodo, CtsPeriodoInfo> = {
+  mayo: { id: "mayo", mesesMax: 6, depositoDia: CTS_DEPOSITO_DIA },
+  noviembre: { id: "noviembre", mesesMax: 6, depositoDia: CTS_DEPOSITO_DIA },
+};
+
 /**
  * Tramos progresivos sobre renta neta (Art. 53 LIR), en UIT.
  * Cada tramo paga su tasa marginal.

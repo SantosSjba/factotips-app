@@ -1,7 +1,7 @@
 export const es = {
   footer: {
     tagline:
-      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR, sueldo neto y honorarios.",
+      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR, sueldo neto, honorarios y CTS.",
     toolsTitle: "Herramientas",
     notesTitle: "Avisos",
     linkPrecios: "Precios DIGEMID",
@@ -10,13 +10,14 @@ export const es = {
     linkQr: "Generador QR",
     linkSueldoNeto: "Sueldo neto",
     linkHonorarios: "Honorarios",
+    linkCts: "CTS",
     pricesSource:
       "Los precios de medicamentos provienen del observatorio oficial",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips no vende medicamentos ni intermedia operaciones comerciales.",
     orientative:
-      "Las calculadoras (IGV, UIT, sueldo neto, honorarios) y el QR son orientativos; verifica siempre fuentes oficiales.",
+      "Las calculadoras (IGV, UIT, sueldo neto, honorarios, CTS) y el QR son orientativos; verifica siempre fuentes oficiales.",
     rights: "Todos los derechos reservados.",
     viewTools: "Ver herramientas",
     byOwner: "Un producto de",
@@ -36,12 +37,12 @@ export const es = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Herramientas útiles: calcula IGV, sueldo neto y honorarios, convierte UIT, genera QR y compara precios de medicamentos.",
+      "Herramientas útiles: calcula IGV, sueldo neto, honorarios y CTS, convierte UIT, genera QR y compara precios de medicamentos.",
     ctaCompare: "Comparar precios",
     ctaTools: "Ver herramientas",
     toolsTitle: "Herramientas",
     toolsSubtitle:
-      "Comparador DIGEMID, IGV, UIT, QR, sueldo neto y recibo por honorarios.",
+      "Comparador DIGEMID, IGV, UIT, QR, sueldo neto, honorarios y CTS.",
     openTool: "Abrir herramienta",
     comingSoon: "Próximamente",
     toolPreciosTitle: "Comparador de precios de medicamentos",
@@ -62,6 +63,9 @@ export const es = {
     toolHonorariosTitle: "Recibo por honorarios",
     toolHonorariosDesc:
       "Retención 8% en renta 4ta, neto a cobrar y orientación sobre suspensión SUNAT.",
+    toolCtsTitle: "Calculadora de CTS",
+    toolCtsDesc:
+      "Estima el depósito de mayo o noviembre con remuneración computable y tiempo trabajado.",
     toolSoon1Title: "Más herramientas en camino",
     toolSoon1Desc:
       "FactoTips crecerá con nuevas utilidades prácticas para el día a día.",
@@ -703,6 +707,110 @@ export const es = {
     rule4: "No tramita el 1609 ni declara ante SUNAT: solo calcula y orienta.",
     disclaimer:
       "Herramienta orientativa de FactoTips. No es SUNAT ni asesora tributaria. Verifica retención, umbrales, topes de suspensión y tu caso en fuentes oficiales o con un contador.",
+  },
+  ctsLanding: {
+    eyebrow: "FactoTips · CTS Perú",
+    headline: "Calcula tu CTS de mayo o noviembre",
+    subtitle:
+      "Remuneración computable, 1/6 de gratificación, meses y días. Estima el depósito semestral en segundos.",
+    ctaPrimary: "Calcular mi CTS",
+    ctaSecondary: "Ver cómo funciona",
+    whyTitle: "Tu depósito, sin misterio",
+    whyText:
+      "La CTS se deposita dos veces al año. Aquí ves cómo se arma la base y cuánto corresponde según el tiempo trabajado.",
+    benefit1Title: "Mayo y noviembre",
+    benefit1Text:
+      "Elige el semestre: nov–abr (depósito mayo) o may–oct (depósito noviembre).",
+    benefit2Title: "Fórmula clara",
+    benefit2Text:
+      "Sueldo + asignación familiar + 1/6 de grati. Luego (RC/12)×meses + (RC/360)×días.",
+    benefit3Title: "Orientación laboral",
+    benefit3Text:
+      "Nota sobre plazos de depósito y retiro. No reemplaza a tu boleta ni al MTPE.",
+    howTitle: "Cómo funciona",
+    howSubtitle: "Tres pasos para estimar tu CTS.",
+    step1Title: "Ingresa tu sueldo",
+    step1Text: "Bruto mensual, asignación familiar y última gratificación.",
+    step2Title: "Elige el periodo",
+    step2Text: "Mayo o noviembre, con meses y días del semestre.",
+    step3Title: "Revisa el depósito",
+    step3Text: "Remuneración computable y CTS total estimada.",
+    faqTitle: "Preguntas frecuentes",
+    faq1Q: "¿Cuándo se deposita la CTS?",
+    faq1A:
+      "Hasta el 15 de mayo (semestre noviembre–abril) y hasta el 15 de noviembre (semestre mayo–octubre). Si el 15 no es laborable, suele adelantarse al día hábil anterior.",
+    faq2Q: "¿Qué entra en la remuneración computable?",
+    faq2A:
+      "Sueldo bruto, asignación familiar si aplica, un sexto de la última gratificación percibida (sin la bonificación extraordinaria del 9%) y otros conceptos computables permanentes.",
+    faq3Q: "¿Quiénes tienen derecho a CTS?",
+    faq3A:
+      "Trabajadores del régimen laboral privado con jornada mínima de 4 horas diarias, según las reglas del D. Leg. 650 y el D.S. 001-97-TR. Hay excepciones; confirma tu régimen.",
+    faq4Q: "¿Puedo retirar el 100% de mi CTS?",
+    faq4A:
+      "La disponibilidad libre puede cambiar por ley (p. ej. regímenes temporales). Verifica la norma vigente en el MTPE o con tu banco/empleador. Esta herramienta solo estima el depósito.",
+    finalTitle: "Listo para estimar tu CTS",
+    finalText: "Abre la calculadora y obtén el monto del semestre en segundos.",
+    finalCta: "Calcular CTS ahora",
+    backHub: "Volver a FactoTips",
+  },
+  cts: {
+    back: "Volver a la calculadora",
+    eyebrow: "CTS · Perú 2026",
+    title: "Calculadora de CTS",
+    subtitle:
+      "Estima el depósito de mayo o noviembre con remuneración computable y tiempo trabajado.",
+    chipDeposito: "Depósito ≤ día 15",
+    periodoLabel: "Periodo de depósito",
+    periodo: "Periodo",
+    periodoMayo: "Mayo",
+    periodoMayoHint: "Semestre nov–abr · grati diciembre",
+    periodoNov: "Noviembre",
+    periodoNovHint: "Semestre may–oct · grati julio",
+    sueldoLabel: "Sueldo bruto mensual",
+    asignacionLabel: "Asignación familiar",
+    asignacionHint: "10% RMV = {monto} si corresponde.",
+    gratiDicLabel: "Gratificación de diciembre (sin bonif. 9%)",
+    gratiJulLabel: "Gratificación de julio (sin bonif. 9%)",
+    gratiUsarSueldo: "Usar ≈ sueldo",
+    gratiHint:
+      "No incluyas la bonificación extraordinaria del 9% (no computa para CTS).",
+    otrosLabel: "Otros computables (S/)",
+    otrosHint: "Comisiones u otros fijos que entren a la base CTS.",
+    mesesLabel: "Meses (0–6)",
+    diasLabel: "Días (0–29)",
+    tiempoHint: "Meses completos del semestre + días adicionales.",
+    invalid: "Escribe un sueldo válido (0 o más).",
+    resultTitle: "CTS estimada",
+    ctsHint: "Depósito de {periodo} (plazo habitual: día {dia}).",
+    rc: "Remuneración computable",
+    ctsMeses: "CTS por meses",
+    ctsDias: "CTS por días",
+    ctsTotal: "CTS del semestre",
+    copy: "Copiar",
+    copied: "¡Copiado!",
+    copyTitle: "CTS — FactoTips",
+    disclaimerShort: "Estimación orientativa. No es liquidación oficial.",
+    rcTitle: "Remuneración computable",
+    rcSubtitle: "Base sobre la que se calcula el depósito.",
+    sueldo: "Sueldo bruto",
+    asignacion: "Asignación familiar",
+    sexta: "1/6 de gratificación",
+    otros: "Otros computables",
+    formulaTitle: "Fórmula usada",
+    formulaMeses: "Por meses: (RC ÷ 12) × meses trabajados.",
+    formulaDias: "Por días: (RC ÷ 360) × días adicionales.",
+    formulaTotal: "CTS total = CTS meses + CTS días.",
+    retiroNote:
+      "La libre disponibilidad de la CTS depende de la ley vigente. Confirma en MTPE o con tu entidad depositaria.",
+    rulesTitle: "Qué incluye esta estimación",
+    rule1:
+      "RC = sueldo + asignación familiar + 1/6 grati + otros computables.",
+    rule2: "Mayo usa grati de diciembre; noviembre usa grati de julio.",
+    rule3: "La bonificación extraordinaria 9% de la grati no entra a la CTS.",
+    rule4:
+      "Aplica al régimen privado típico (≥ 4 h/día). No cubre todos los regímenes especiales.",
+    disclaimer:
+      "Herramienta orientativa de FactoTips. No es MTPE ni liquidación oficial de planilla. Verifica tu régimen, conceptos computables y plazos en fuentes oficiales o con un contador/abogado laboral.",
   },
   precios: {
     back: "Volver al comparador",
