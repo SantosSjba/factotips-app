@@ -12,6 +12,9 @@ export const UIT_QUICK = [0.5, 1, 2, 3, 5, 7, 10, 14, 15] as const;
 /** RMV vigente (verificar MEF/MTPE al actualizar). */
 export const RMV_SOLES = 1130;
 
+/** Asignación familiar = 10% RMV (hijo menor / estudiante hasta 24). */
+export const ASIGNACION_FAMILIAR_SOLES = Math.round(RMV_SOLES * 0.1);
+
 /**
  * En la práctica al consumidor el “IGV 18%” = IGV 16% + IPM 2%.
  * SUNAT/normativa: IGV (Impuesto General a las Ventas) + IPM (Impuesto de Promoción Municipal).
@@ -37,3 +40,95 @@ export type IgvTasaKey = keyof typeof IGV_TASAS;
 
 /** Montos rápidos para presets en la UI. */
 export const IGV_PRESETS = [50, 100, 200, 500, 1000, 5000] as const;
+
+/** Deducción fija renta 5ta / 4ta (Art. 46 LIR) — 7 UIT. */
+export const RENTA_DEDUCCION_UIT = 7;
+
+/** Deducción adicional opcional por gastos (Ley 30734) — hasta 3 UIT. */
+export const RENTA_GASTOS_MAX_UIT = 3;
+
+/**
+ * Tramos progresivos sobre renta neta (Art. 53 LIR), en UIT.
+ * Cada tramo paga su tasa marginal.
+ */
+export const QUINTA_TRAMOS_UIT = [
+  { hastaUit: 5, tasa: 0.08 },
+  { hastaUit: 20, tasa: 0.14 },
+  { hastaUit: 35, tasa: 0.17 },
+  { hastaUit: 45, tasa: 0.2 },
+  { hastaUit: Infinity, tasa: 0.3 },
+] as const;
+
+/** ONP — aporte obligatorio del trabajador. */
+export const ONP_TASA = 0.13;
+
+/** AFP — aporte al fondo (obligatorio). */
+export const AFP_FONDO_TASA = 0.1;
+
+/** AFP — prima de seguro (SBS; igual en todas las AFP). */
+export const AFP_SEGURO_TASA = 0.0137;
+
+/**
+ * Remuneración máxima asegurable AFP (SBS, mes de devengue AFP_COMISIONES_PERIODO).
+ * Sobre el exceso no se calculan aportes AFP ni prima de seguro.
+ */
+export const AFP_TOPE_ASEGURABLE = 12_672.65;
+
+/** Essalud lo paga el empleador (9%) — no descuenta al trabajador. */
+export const ESSALUD_TASA_EMPLEADOR = 0.09;
+
+/** Mes de referencia SBS para comisiones / tope AFP. */
+export const AFP_COMISIONES_PERIODO = "2026-07";
+
+export type AfpComisionTipo = "flujo" | "saldo";
+
+export type AfpComisionPreset = {
+  id: string;
+  nombre: string;
+  /** Comisión sobre flujo (% remuneración bruta mensual). */
+  comisionFlujo: number;
+  /**
+   * Comisión anual sobre saldo (% del fondo).
+   * Desde feb-2023 el esquema “mixto” solo cobra esto (0% sobre el sueldo).
+   */
+  comisionSaldoAnual: number;
+};
+
+/**
+ * Comisiones AFP — fuente SBS (empleadores / comisiones SPP).
+ * Verificar en https://www.sbs.gob.pe al actualizar el periodo.
+ */
+export const AFP_COMISIONES: AfpComisionPreset[] = [
+  {
+    id: "habitat",
+    nombre: "Habitat",
+    comisionFlujo: 0.0147,
+    comisionSaldoAnual: 0.0125,
+  },
+  {
+    id: "integra",
+    nombre: "Integra",
+    comisionFlujo: 0.0155,
+    comisionSaldoAnual: 0.0078,
+  },
+  {
+    id: "prima",
+    nombre: "Prima",
+    comisionFlujo: 0.016,
+    comisionSaldoAnual: 0.0125,
+  },
+  {
+    id: "profuturo",
+    nombre: "Profuturo",
+    comisionFlujo: 0.0169,
+    comisionSaldoAnual: 0.0068,
+  },
+];
+
+/** Comisión mensual que sí se descuenta de la boleta. */
+export function afpComisionMensualBoleta(
+  afp: AfpComisionPreset,
+  tipo: AfpComisionTipo,
+): number {
+  return tipo === "flujo" ? afp.comisionFlujo : 0;
+}

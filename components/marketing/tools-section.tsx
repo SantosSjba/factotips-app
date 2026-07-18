@@ -41,6 +41,14 @@ export function ToolsSection() {
       status: "ready" as const,
       icon: "mdi:qrcode",
     },
+    {
+      id: "sueldo-neto",
+      title: t.landing.toolSueldoNetoTitle,
+      description: t.landing.toolSueldoNetoDesc,
+      href: "/herramientas/sueldo-neto",
+      status: "ready" as const,
+      icon: "mdi:cash-check",
+    },
   ];
 
   return (

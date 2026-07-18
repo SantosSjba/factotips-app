@@ -175,10 +175,10 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 
 ### Funcionalidad
 
-- [ ] Bruto → neto (AFP o ONP)
-- [ ] Mostrar descuentos desglosados
-- [ ] RMV / topes documentados en UI
-- [ ] Disclaimer: estimativo, no liquidación oficial
+- [x] Bruto → neto (AFP o ONP)
+- [x] Mostrar descuentos desglosados
+- [x] RMV / topes documentados en UI
+- [x] Disclaimer: estimativo, no liquidación oficial
 
 ### SEO
 
@@ -294,9 +294,10 @@ app/sitemap.ts                                # rutas nuevas
 | 2026-07-17 | A1 Calculadora IGV entregada (`/herramientas/igv` + `/usar`). |
 | 2026-07-17 | A2 Conversor UIT entregado (`/herramientas/uit` + `/usar`). |
 | 2026-07-17 | A3 Generador QR pro entregado (logo, colores, PNG/SVG). |
+| 2026-07-17 | B1 Calculadora sueldo neto entregada (`/herramientas/sueldo-neto` + `/usar`). |
 
 ---
 
 ## Próximo paso inmediato
 
-**Sprint B1 — Sueldo neto** (landing `/herramientas/sueldo-neto` + app `/usar`).
+**Sprint B2 — Honorarios / renta 4ta** (landing `/herramientas/honorarios` + app `/usar`).

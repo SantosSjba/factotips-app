@@ -13,19 +13,20 @@ export const en: Dictionary = {
   },
   footer: {
     tagline:
-      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, and QR.",
+      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, and net salary.",
     toolsTitle: "Tools",
     notesTitle: "Notices",
     linkPrecios: "DIGEMID prices",
     linkIgv: "IGV calculator",
     linkUit: "UIT converter",
     linkQr: "QR generator",
+    linkSueldoNeto: "Net salary",
     pricesSource: "Medicine prices come from the official observatory",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips does not sell medicines or intermediate commercial sales.",
     orientative:
-      "Calculators (IGV, UIT) and the QR tool are for orientation; always verify official sources.",
+      "Calculators (IGV, UIT, net salary) and the QR tool are for orientation; always verify official sources.",
     rights: "All rights reserved.",
     viewTools: "View tools",
     byOwner: "A product of",
@@ -35,12 +36,12 @@ export const en: Dictionary = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Useful tools: calculate IGV, convert UIT, generate QR, and compare medicine prices.",
+      "Useful tools: calculate IGV and net salary, convert UIT, generate QR, and compare medicine prices.",
     ctaCompare: "Compare prices",
     ctaTools: "View tools",
     toolsTitle: "Tools",
     toolsSubtitle:
-      "DIGEMID comparer, IGV, UIT, and a personalized QR generator.",
+      "DIGEMID comparer, IGV, UIT, QR, and a net salary calculator.",
     openTool: "Open tool",
     comingSoon: "Coming soon",
     toolPreciosTitle: "Medicine price comparer",
@@ -55,6 +56,9 @@ export const en: Dictionary = {
     toolQrTitle: "QR code generator",
     toolQrDesc:
       "QR with logo, colors, and styles. URL, WhatsApp, or WiFi. Generated on your device.",
+    toolSueldoNetoTitle: "Net salary calculator",
+    toolSueldoNetoDesc:
+      "Gross to net with AFP or ONP, fifth-category tax, family allowance, and bonuses.",
     toolSoon1Title: "More tools on the way",
     toolSoon1Desc:
       "FactoTips will grow with more practical everyday utilities.",
@@ -447,6 +451,135 @@ export const en: Dictionary = {
     exportHint: "Chosen size applies on download (preview stays fixed).",
     disclaimer:
       "Free FactoTips tool. The QR is generated locally; always test scanning before large print runs.",
+  },
+  sueldoNetoLanding: {
+    eyebrow: "FactoTips · 5th-category tax",
+    headline: "Calculate your net salary in Peru",
+    subtitle:
+      "AFP or ONP, fifth-category income tax, family allowance, and bonuses. A clear breakdown of what gets deducted.",
+    ctaPrimary: "Calculate my net pay",
+    ctaSecondary: "See how it works",
+    whyTitle: "From gross to net, without the mystery",
+    whyText:
+      "Your payslip mixes pension, fifth-category tax, and extras. We project the year with UIT 2026 and show each deduction separately.",
+    benefit1Title: "AFP or ONP",
+    benefit1Text:
+      "Pick the system and a reference commission. See fund, insurance, and fee broken down.",
+    benefit2Title: "Fifth-category tax",
+    benefit2Text:
+      "Annual income, 7 UIT deduction, 8%–30% brackets, and estimated monthly withholding.",
+    benefit3Title: "Payroll extras",
+    benefit3Text:
+      "Family allowance, 14 payments with bonuses, deductible expenses up to 3 UIT, and employer Essalud cost.",
+    howTitle: "How it works",
+    howSubtitle: "Three steps to a clear estimate.",
+    step1Title: "Enter your gross pay",
+    step1Text: "Monthly salary and family allowance if it applies.",
+    step2Title: "Pick pension and extras",
+    step2Text: "AFP/ONP, bonuses, other income, and deductible expenses.",
+    step3Title: "Review the breakdown",
+    step3Text: "Monthly net, tax by bracket, and estimated employer cost.",
+    faqTitle: "Frequently asked questions",
+    faq1Q: "Is this my official SUNAT settlement?",
+    faq1A:
+      "No. It is an orientation estimate. Real fifth-category withholding can vary month to month under SUNAT’s method, prior income, and employer projections.",
+    faq2Q: "How is fifth-category tax calculated?",
+    faq2A:
+      "Project annual gross income (12 or 14 payments), subtract 7 UIT and optionally deductible expenses up to 3 UIT. Progressive brackets (8%, 14%, 17%, 20%, 30%) apply to net income.",
+    faq3Q: "Are AFP and ONP subtracted before the tax?",
+    faq3A:
+      "In this calculator pension is deducted to get net pay, but the fifth-category base is projected on remuneration (without subtracting AFP/ONP from annual gross income), matching the usual fifth-category approach.",
+    faq4Q: "Which UIT and RMV do you use?",
+    faq4A:
+      "UIT 2026 (S/ 5,500, D.S. 301-2025-EF) and the documented reference RMV in the tool. Always verify with MEF / MTPE / SBS / SUNAT.",
+    finalTitle: "Ready to see your net pay",
+    finalText: "Open the calculator and get gross, deductions, and net in seconds.",
+    finalCta: "Calculate net salary",
+    backHub: "Back to FactoTips",
+  },
+  sueldoNeto: {
+    back: "Back to calculator",
+    eyebrow: "5th category · Peru 2026",
+    title: "Net salary calculator",
+    subtitle:
+      "Estimate monthly net pay with AFP or ONP, fifth-category tax, family allowance, and bonuses.",
+    brutoLabel: "Monthly gross salary",
+    sistemaLabel: "Pension system",
+    sistemaAfp: "AFP",
+    sistemaOnp: "ONP",
+    afpLabel: "Your AFP",
+    afpHint:
+      "SBS rates (accrual {periodo}). Fund 10% + insurance 1.37% for all. Confirm at sbs.gob.pe.",
+    afpTipoLabel: "Commission type",
+    afpTipoFlujo: "On flow",
+    afpTipoFlujoHint: "% of salary deducted each month",
+    afpTipoSaldo: "On balance",
+    afpTipoSaldoHint: "0% on payslip; annual fee on fund",
+    afpOptFlujo: "flow",
+    afpOptSaldo: "balance",
+    afpSaldoNote:
+      "With {afp} on the balance scheme there is no commission on the payslip. The AFP charges {saldo} yearly on your fund (it does not affect this monthly net).",
+    afpTablaTitle: "SBS commissions · {periodo}",
+    afpColFlujo: "Flow (payslip)",
+    afpColSaldo: "Balance (yearly)",
+    afpTablaHint:
+      "Since Feb 2023 the mixed scheme only charges the annual balance fee (0% on salary).",
+    onpHint: "ONP withholds 13% of insurable remuneration.",
+    asignacionLabel: "Family allowance",
+    asignacionHint: "10% of RMV = {monto} (minor child or student up to 24).",
+    gratiLabel: "Include bonuses (14 payments)",
+    gratiHint:
+      "Projects the year with 12 salaries + 2 bonuses (July and December) and the 9% extraordinary bonus (Law 29351).",
+    otrosLabel: "Other annual income (S/)",
+    gastosLabel: "Deductible expenses (S/)",
+    gastosHint: "Law 30734, cap {max} (3 UIT). Orientation only.",
+    invalid: "Enter a valid gross salary (0 or more).",
+    resultTitle: "Your estimated net",
+    netoHint: "After pension and estimated monthly fifth-category withholding.",
+    remuneracion: "Month remuneration",
+    bruto: "Gross",
+    pension: "Pension",
+    quintaMensual: "5th tax (monthly est.)",
+    neto: "Net to receive",
+    quintaAnual: "Annual 5th tax",
+    copy: "Copy",
+    copied: "Copied!",
+    copyTitle: "Net salary — FactoTips",
+    disclaimerShort: "Orientation estimate. Not an official settlement.",
+    pensionDetailTitle: "Pension breakdown",
+    baseAporte: "Contribution base",
+    afpFondo: "Fund (10%)",
+    afpSeguro: "Insurance",
+    afpComision: "Commission (payslip)",
+    onpAporte: "ONP contribution (13%)",
+    topeHint:
+      "SBS AFP insurable cap ({periodo}): {tope}. Insurance 1.37% + fund 10%.",
+    quintaTitle: "Fifth-category income tax",
+    quintaSubtitle:
+      "Annual projection → 7 UIT → optional expenses → progressive brackets.",
+    rentaBruta: "Annual gross income",
+    rentaBrutaHint:
+      "Includes {pagos} payments; 9% extraordinary bonus on grati: {bonif}.",
+    deduccion7: "7 UIT deduction",
+    gastosAplicados: "Deductible expenses",
+    rentaNeta: "Net income",
+    tramoBase: "Base",
+    tramoTasa: "Rate",
+    tramoImpuesto: "Tax",
+    sinQuinta: "With this projection there is no fifth-category tax (net income ≤ 0).",
+    empleadorTitle: "Employer cost (informational)",
+    empleadorHint: "Essalud is paid by the employer; it is not deducted from your payslip.",
+    essalud: "Essalud 9%",
+    costoEmpleador: "Estimated monthly cost",
+    rulesTitle: "What this estimate includes",
+    rule1:
+      "Pension: ONP 13% or AFP (10% fund + 1.37% insurance + SBS flow fee; on balance scheme payslip commission is 0%).",
+    rule2: "5th tax: 12 or 14 payments (+ 9% extra on bonuses), minus 7 UIT and expenses (max 3 UIT).",
+    rule3: "Art. 53 LIR brackets: 8%, 14%, 17%, 20%, and 30% on net income.",
+    rule4:
+      "Monthly withholding ≈ annual tax ÷ 12 (real SUNAT method may differ).",
+    disclaimer:
+      "Orientation tool by FactoTips. Not SUNAT, SBS, or an official payroll settlement. Verify UIT, RMV, AFP fees, insurable cap, and your case in official sources or with an accountant.",
   },
   precios: {
     back: "Back to comparer",

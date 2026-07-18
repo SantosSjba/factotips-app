@@ -1,20 +1,21 @@
 export const es = {
   footer: {
     tagline:
-      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT y QR.",
+      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR y sueldo neto.",
     toolsTitle: "Herramientas",
     notesTitle: "Avisos",
     linkPrecios: "Precios DIGEMID",
     linkIgv: "Calculadora IGV",
     linkUit: "Conversor UIT",
     linkQr: "Generador QR",
+    linkSueldoNeto: "Sueldo neto",
     pricesSource:
       "Los precios de medicamentos provienen del observatorio oficial",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips no vende medicamentos ni intermedia operaciones comerciales.",
     orientative:
-      "Las calculadoras (IGV, UIT) y el QR son orientativos; verifica siempre fuentes oficiales.",
+      "Las calculadoras (IGV, UIT, sueldo neto) y el QR son orientativos; verifica siempre fuentes oficiales.",
     rights: "Todos los derechos reservados.",
     viewTools: "Ver herramientas",
     byOwner: "Un producto de",
@@ -34,12 +35,12 @@ export const es = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Herramientas útiles: calcula IGV, convierte UIT, genera QR y compara precios de medicamentos.",
+      "Herramientas útiles: calcula IGV y sueldo neto, convierte UIT, genera QR y compara precios de medicamentos.",
     ctaCompare: "Comparar precios",
     ctaTools: "Ver herramientas",
     toolsTitle: "Herramientas",
     toolsSubtitle:
-      "Comparador DIGEMID, IGV, UIT y generador de QR personalizado.",
+      "Comparador DIGEMID, IGV, UIT, QR y calculadora de sueldo neto.",
     openTool: "Abrir herramienta",
     comingSoon: "Próximamente",
     toolPreciosTitle: "Comparador de precios de medicamentos",
@@ -54,6 +55,9 @@ export const es = {
     toolQrTitle: "Generador de código QR",
     toolQrDesc:
       "QR con logo, colores y estilos. URL, WhatsApp o WiFi. Se genera en tu dispositivo.",
+    toolSueldoNetoTitle: "Calculadora de sueldo neto",
+    toolSueldoNetoDesc:
+      "Bruto a neto con AFP u ONP, quinta categoría, asignación familiar y gratificaciones.",
     toolSoon1Title: "Más herramientas en camino",
     toolSoon1Desc:
       "FactoTips crecerá con nuevas utilidades prácticas para el día a día.",
@@ -450,6 +454,138 @@ export const es = {
     exportHint: "El tamaño elegido se aplica al descargar (la vista previa es fija).",
     disclaimer:
       "Herramienta gratuita de FactoTips. El QR se genera localmente; verifica siempre que escanee bien antes de imprimir en volumen.",
+  },
+  sueldoNetoLanding: {
+    eyebrow: "FactoTips · Renta 5ta",
+    headline: "Calcula tu sueldo neto en Perú",
+    subtitle:
+      "AFP u ONP, quinta categoría, asignación familiar y gratificaciones. Desglose claro de lo que te descuentan.",
+    ctaPrimary: "Calcular mi neto",
+    ctaSecondary: "Ver cómo funciona",
+    whyTitle: "Del bruto al neto, sin misterio",
+    whyText:
+      "Tu boleta mezcla pensión, quinta y extras. Aquí proyectamos el año con UIT 2026 y ves cada descuento por separado.",
+    benefit1Title: "AFP u ONP",
+    benefit1Text:
+      "Elige sistema y comisión referencial. Ves fondo, seguro y comisión desglosados.",
+    benefit2Title: "Quinta categoría",
+    benefit2Text:
+      "Renta anual, deducción de 7 UIT, tramos 8%–30% y retención mensual estimada.",
+    benefit3Title: "Extras laborales",
+    benefit3Text:
+      "Asignación familiar, 14 pagos con gratificaciones, gastos deducibles hasta 3 UIT y costo Essalud del empleador.",
+    howTitle: "Cómo funciona",
+    howSubtitle: "Tres pasos para una estimación clara.",
+    step1Title: "Ingresa tu bruto",
+    step1Text: "Sueldo mensual y, si aplica, asignación familiar.",
+    step2Title: "Elige pensión y extras",
+    step2Text: "AFP/ONP, gratificaciones, otros ingresos y gastos deducibles.",
+    step3Title: "Revisa el desglose",
+    step3Text: "Neto mensual, quinta por tramos y costo estimado del empleador.",
+    faqTitle: "Preguntas frecuentes",
+    faq1Q: "¿Esto es mi liquidación oficial de SUNAT?",
+    faq1A:
+      "No. Es una estimación orientativa. La retención real de quinta puede variar mes a mes según el método SUNAT, ingresos previos y proyecciones del empleador.",
+    faq2Q: "¿Cómo se calcula la quinta categoría?",
+    faq2A:
+      "Se proyecta la renta bruta del año (12 o 14 pagos), se restan 7 UIT y, opcionalmente, gastos deducibles hasta 3 UIT. Sobre la renta neta se aplican los tramos progresivos (8%, 14%, 17%, 20% y 30%).",
+    faq3Q: "¿AFP y ONP se restan antes de la quinta?",
+    faq3A:
+      "En esta calculadora la pensión se descuenta del sueldo para obtener el neto, pero la base de quinta se proyecta sobre la remuneración (sin restar AFP/ONP de la renta bruta anual), alineado al enfoque usual de renta de quinta.",
+    faq4Q: "¿Qué UIT y RMV usan?",
+    faq4A:
+      "UIT 2026 (S/ 5,500, D.S. 301-2025-EF) y RMV referencial vigente documentada en la herramienta. Verifica siempre en MEF / MTPE / SBS / SUNAT.",
+    finalTitle: "Listo para conocer tu neto",
+    finalText:
+      "Abre la calculadora y obtén bruto, descuentos y neto en segundos.",
+    finalCta: "Calcular sueldo neto",
+    backHub: "Volver a FactoTips",
+  },
+  sueldoNeto: {
+    back: "Volver a la calculadora",
+    eyebrow: "Renta 5ta · Perú 2026",
+    title: "Calculadora de sueldo neto",
+    subtitle:
+      "Estima tu neto mensual con AFP u ONP, quinta categoría, asignación familiar y gratificaciones.",
+    brutoLabel: "Sueldo bruto mensual",
+    sistemaLabel: "Sistema de pensiones",
+    sistemaAfp: "AFP",
+    sistemaOnp: "ONP",
+    afpLabel: "Tu AFP",
+    afpHint:
+      "Tasas SBS (devengue {periodo}). Fondo 10% + seguro 1.37% en todas. Confirma en sbs.gob.pe.",
+    afpTipoLabel: "Tipo de comisión",
+    afpTipoFlujo: "Sobre flujo",
+    afpTipoFlujoHint: "Se descuenta % del sueldo cada mes",
+    afpTipoSaldo: "Sobre saldo",
+    afpTipoSaldoHint: "0% en boleta; cobro anual del fondo",
+    afpOptFlujo: "flujo",
+    afpOptSaldo: "saldo",
+    afpSaldoNote:
+      "Con {afp} en esquema sobre saldo no hay comisión en la boleta. La AFP cobra {saldo} anual sobre tu fondo (no afecta este neto mensual).",
+    afpTablaTitle: "Comisiones SBS · {periodo}",
+    afpColFlujo: "Flujo (boleta)",
+    afpColSaldo: "Saldo (anual)",
+    afpTablaHint:
+      "Desde feb-2023 el esquema mixto solo cobra comisión anual sobre saldo (0% sobre el sueldo).",
+    onpHint: "ONP descuenta 13% sobre la remuneración asegurable.",
+    asignacionLabel: "Asignación familiar",
+    asignacionHint: "10% de la RMV = {monto} (hijo menor o estudiante hasta 24).",
+    gratiLabel: "Incluir gratificaciones (14 pagos)",
+    gratiHint:
+      "Proyecta el año con 12 sueldos + 2 gratificaciones (julio y diciembre) y la bonificación extraordinaria 9% (Ley 29351).",
+    otrosLabel: "Otros ingresos anuales (S/)",
+    gastosLabel: "Gastos deducibles (S/)",
+    gastosHint: "Ley 30734, tope {max} (3 UIT). Orientativo.",
+    invalid: "Escribe un sueldo bruto válido (0 o más).",
+    resultTitle: "Tu neto estimado",
+    netoHint: "Después de pensión y retención mensual estimada de quinta.",
+    remuneracion: "Remuneración del mes",
+    bruto: "Bruto",
+    pension: "Pensión",
+    quintaMensual: "Quinta (mensual est.)",
+    neto: "Neto a recibir",
+    quintaAnual: "Quinta anual",
+    copy: "Copiar",
+    copied: "¡Copiado!",
+    copyTitle: "Sueldo neto — FactoTips",
+    disclaimerShort: "Estimación orientativa. No es liquidación oficial.",
+    pensionDetailTitle: "Desglose de pensión",
+    baseAporte: "Base de aporte",
+    afpFondo: "Fondo (10%)",
+    afpSeguro: "Seguro",
+    afpComision: "Comisión (boleta)",
+    onpAporte: "Aporte ONP (13%)",
+    topeHint:
+      "Tope AFP asegurable SBS ({periodo}): {tope}. Seguro 1.37% + fondo 10%.",
+    quintaTitle: "Renta de quinta categoría",
+    quintaSubtitle:
+      "Proyección anual → 7 UIT → gastos opcionales → tramos progresivos.",
+    rentaBruta: "Renta bruta anual",
+    rentaBrutaHint:
+      "Incluye {pagos} pagos; bonif. extraordinaria 9% s/ grati: {bonif}.",
+    deduccion7: "Deducción 7 UIT",
+    gastosAplicados: "Gastos deducibles",
+    rentaNeta: "Renta neta",
+    tramoBase: "Base",
+    tramoTasa: "Tasa",
+    tramoImpuesto: "Impuesto",
+    sinQuinta: "Con esta proyección no hay impuesto de quinta (renta neta ≤ 0).",
+    empleadorTitle: "Costo del empleador (informativo)",
+    empleadorHint: "Essalud lo paga el empleador; no se descuenta de tu boleta.",
+    essalud: "Essalud 9%",
+    costoEmpleador: "Costo mensual estimado",
+    rulesTitle: "Qué incluye esta estimación",
+    rule1:
+      "Pensión: ONP 13% o AFP (fondo 10% + seguro 1.37% + comisión flujo según SBS; en saldo la comisión de boleta es 0%).",
+    rule2:
+      "Quinta: proyección 12 o 14 pagos (+ bonif. 9% s/ grati), menos 7 UIT y gastos (máx. 3 UIT).",
+    rule3:
+      "Tramos Art. 53 LIR: 8%, 14%, 17%, 20% y 30% sobre la renta neta.",
+    rule4:
+      "Retención mensual ≈ impuesto anual ÷ 12 (el método real SUNAT puede diferir).",
+    disclaimer:
+      "Herramienta orientativa de FactoTips. No es SUNAT, SBS ni liquidación oficial de planilla. Verifica UIT, RMV, comisiones AFP, tope asegurable y tu caso concreto en fuentes oficiales o con un contador.",
   },
   precios: {
     back: "Volver al comparador",

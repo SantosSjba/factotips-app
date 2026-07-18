@@ -41,4 +41,12 @@ export const TOOLS: Tool[] = [
     href: "/herramientas/qr",
     status: "ready",
   },
+  {
+    id: "sueldo-neto",
+    title: "Calculadora de sueldo neto",
+    description:
+      "Bruto a neto con AFP u ONP, quinta categoría, asignación familiar y gratificaciones.",
+    href: "/herramientas/sueldo-neto",
+    status: "ready",
+  },
 ];

@@ -22,6 +22,10 @@ export function SiteHeader() {
     { href: TOOL_ROUTES.igv.landingPath, label: t.footer.linkIgv },
     { href: TOOL_ROUTES.uit.landingPath, label: t.footer.linkUit },
     { href: TOOL_ROUTES.qr.landingPath, label: t.footer.linkQr },
+    {
+      href: TOOL_ROUTES["sueldo-neto"].landingPath,
+      label: t.footer.linkSueldoNeto,
+    },
   ] as const;
 
   function clearCloseTimer() {

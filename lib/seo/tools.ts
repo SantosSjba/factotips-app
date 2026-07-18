@@ -23,6 +23,11 @@ export const TOOL_ROUTES = {
     landingPath: "/herramientas/qr",
     appPath: "/herramientas/qr/usar",
   },
+  "sueldo-neto": {
+    id: "sueldo-neto",
+    landingPath: "/herramientas/sueldo-neto",
+    appPath: "/herramientas/sueldo-neto/usar",
+  },
 } as const;
 
 export type ToolId = keyof typeof TOOL_ROUTES;
@@ -153,18 +158,51 @@ export const TOOL_SEO = {
       ogTitle: "Crear código QR | FactoTips",
     } satisfies PageSeo,
   },
+  "sueldo-neto": {
+    landing: {
+      title: "Calculadora de sueldo neto Perú 2026",
+      description:
+        "Calcula tu sueldo neto en Perú: AFP u ONP, quinta categoría, asignación familiar y gratificaciones. Desglose claro de descuentos.",
+      path: TOOL_ROUTES["sueldo-neto"].landingPath,
+      keywords: [
+        "sueldo neto Perú",
+        "calcular quinta categoría",
+        "descuento AFP sueldo",
+        "bruto a neto",
+        "calculadora sueldo neto",
+        "retención quinta",
+        "ONP descuento sueldo",
+        "neto mensual Perú",
+      ],
+      ogTitle: "Calculadora de sueldo neto Perú 2026 | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Calcular sueldo neto",
+      description:
+        "De bruto a neto con AFP/ONP, quinta categoría, 7 UIT y gastos deducibles. Estimación orientativa para Perú 2026.",
+      path: TOOL_ROUTES["sueldo-neto"].appPath,
+      keywords: [
+        "calcular sueldo neto",
+        "quinta categoría online",
+        "AFP ONP descuento",
+        "retención IR 5ta",
+      ],
+      ogTitle: "Calcular sueldo neto | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
   title: `Herramientas útiles — ${SITE_BRAND}`,
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, convierte UIT, genera QR y compara precios DIGEMID.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, convierte UIT, genera QR y compara precios DIGEMID.",
   path: "/",
   keywords: [
     "herramientas útiles",
     "FactoTips",
     "utilidades Perú",
     "calculadora IGV",
+    "sueldo neto Perú",
     "UIT 2026",
     "generador QR",
     "comparar precios medicamentos",
@@ -280,6 +318,16 @@ export function qrSoftwareJsonLd() {
     description: seo.description,
     path: seo.path,
     applicationCategory: "UtilitiesApplication",
+  });
+}
+
+export function sueldoNetoSoftwareJsonLd() {
+  const seo = TOOL_SEO["sueldo-neto"].landing;
+  return softwareJsonLd({
+    name: "Calculadora de sueldo neto — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "FinanceApplication",
   });
 }
 
