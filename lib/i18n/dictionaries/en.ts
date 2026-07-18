@@ -13,7 +13,7 @@ export const en: Dictionary = {
   },
   footer: {
     tagline:
-      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, net salary, fees, and CTS.",
+      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, net salary, fees, CTS, and bonuses.",
     toolsTitle: "Tools",
     notesTitle: "Notices",
     linkPrecios: "DIGEMID prices",
@@ -23,12 +23,13 @@ export const en: Dictionary = {
     linkSueldoNeto: "Net salary",
     linkHonorarios: "Fees / RHE",
     linkCts: "CTS",
+    linkGratificacion: "Bonus / gratificación",
     pricesSource: "Medicine prices come from the official observatory",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips does not sell medicines or intermediate commercial sales.",
     orientative:
-      "Calculators (IGV, UIT, net salary, fees, CTS) and the QR tool are for orientation; always verify official sources.",
+      "Calculators (IGV, UIT, net salary, fees, CTS, bonuses) and the QR tool are for orientation; always verify official sources.",
     rights: "All rights reserved.",
     viewTools: "View tools",
     byOwner: "A product of",
@@ -38,12 +39,12 @@ export const en: Dictionary = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Useful tools: calculate IGV, net salary, fees, and CTS, convert UIT, generate QR, and compare medicine prices.",
+      "Useful tools: calculate IGV, net salary, fees, CTS, and bonuses, convert UIT, generate QR, and compare medicine prices.",
     ctaCompare: "Compare prices",
     ctaTools: "View tools",
     toolsTitle: "Tools",
     toolsSubtitle:
-      "DIGEMID comparer, IGV, UIT, QR, net salary, fees, and CTS.",
+      "DIGEMID comparer, IGV, UIT, QR, net salary, fees, CTS, and bonuses.",
     openTool: "Open tool",
     comingSoon: "Coming soon",
     toolPreciosTitle: "Medicine price comparer",
@@ -67,6 +68,9 @@ export const en: Dictionary = {
     toolCtsTitle: "CTS calculator",
     toolCtsDesc:
       "Estimate the May or November deposit with computable pay and time worked.",
+    toolGratificacionTitle: "Bonus / gratificación calculator",
+    toolGratificacionDesc:
+      "July or December plus Essalud 9% or EPS 6.75% extraordinary bonus.",
     toolSoon1Title: "More tools on the way",
     toolSoon1Desc:
       "FactoTips will grow with more practical everyday utilities.",
@@ -805,6 +809,104 @@ export const en: Dictionary = {
       "Typical private regime (≥ 4 h/day). Does not cover every special regime.",
     disclaimer:
       "Orientation tool by FactoTips. Not MTPE or an official payroll settlement. Verify your regime, computable items, and deadlines in official sources or with a labor advisor.",
+  },
+  gratificacionLanding: {
+    eyebrow: "FactoTips · Bonus / gratificación",
+    headline: "Calculate your July or December bonus",
+    subtitle:
+      "Independence Day or Christmas, plus the extraordinary bonus 9% (Essalud) or 6.75% (EPS).",
+    ctaPrimary: "Calculate bonus",
+    ctaSecondary: "See how it works",
+    whyTitle: "An extra salary, clearly estimated",
+    whyText:
+      "A full semester means one full pay. Less time means a proportional amount — plus the extraordinary bonus on top.",
+    benefit1Title: "July and December",
+    benefit1Text:
+      "Fiestas Patrias (Jan–Jun) or Christmas (Jul–Nov), usual deadline day 15.",
+    benefit2Title: "Essalud / EPS bonus",
+    benefit2Text:
+      "9% if on Essalud or 6.75% if on EPS, applied to the bonus amount.",
+    benefit3Title: "Clear proportion",
+    benefit3Text:
+      "Months and days in the semester: RC × (months/6 + days/180).",
+    howTitle: "How it works",
+    howSubtitle: "Three steps to estimate your payment.",
+    step1Title: "Enter your salary",
+    step1Text: "Gross pay, family allowance, and other computable items.",
+    step2Title: "Pick period and insurance",
+    step2Text: "July or December, Essalud or EPS, months worked.",
+    step3Title: "Review the total",
+    step3Text: "Bonus + extraordinary bonus = what you would receive.",
+    faqTitle: "Frequently asked questions",
+    faq1Q: "When is the bonus paid?",
+    faq1A:
+      "In the first half of July (Fiestas Patrias) and December (Christmas). The usual deadline is the 15th of each month.",
+    faq2Q: "What is the 9% bonus?",
+    faq2A:
+      "It is the extraordinary bonus (Laws 30334 / 29351): the employer contribution that is not paid to Essalud on the gratificación is paid to the worker. With EPS it is usually 6.75%.",
+    faq3Q: "Does the bonus have AFP or ONP deductions?",
+    faq3A:
+      "In the typical private regime it is not subject to AFP, ONP, or Essalud contributions. Fifth-category tax or court orders may still apply. Confirm your case.",
+    faq4Q: "What if I did not work the full semester?",
+    faq4A:
+      "It is paid proportionally for complete calendar months (and days in this orientation formula). At least one month in the semester is usually required.",
+    finalTitle: "Ready to estimate your bonus",
+    finalText: "Open the calculator and get the total with the extra bonus in seconds.",
+    finalCta: "Calculate now",
+    backHub: "Back to FactoTips",
+  },
+  gratificacion: {
+    back: "Back to calculator",
+    eyebrow: "Bonus · Peru 2026",
+    title: "Bonus / gratificación calculator",
+    subtitle:
+      "Fiestas Patrias or Christmas + Essalud 9% or EPS 6.75% extraordinary bonus.",
+    periodoLabel: "Payment period",
+    periodo: "Period",
+    periodoJulio: "July",
+    periodoJulioHint: "Fiestas Patrias · Jan–Jun",
+    periodoDic: "December",
+    periodoDicHint: "Christmas · Jul–Nov",
+    sueldoLabel: "Monthly gross salary",
+    asignacionLabel: "Family allowance",
+    asignacionHint: "10% of RMV = {monto} if applicable.",
+    otrosLabel: "Other computable items (S/)",
+    otrosHint: "Variables paid ≥ 3 times in the semester, if applicable.",
+    mesesLabel: "Months (0–6)",
+    diasLabel: "Days (0–29)",
+    tiempoHint: "Full calendar months + days. Full ≈ 6 (July) or 5 (Dec).",
+    seguroLabel: "Health insurance",
+    seguroEssalud: "Essalud",
+    seguroEps: "EPS",
+    invalid: "Enter a valid salary (0 or more).",
+    resultTitle: "Estimated total",
+    totalHint: "{periodo} payment (usual deadline: day {dia}).",
+    rc: "Computable pay",
+    gratificacion: "Bonus (gratificación)",
+    bonificacion: "Extraordinary bonus",
+    total: "Total to receive",
+    copy: "Copy",
+    copied: "Copied!",
+    copyTitle: "Bonus — FactoTips",
+    disclaimerShort: "Orientation estimate. Not an official settlement.",
+    rcTitle: "Computable pay",
+    rcSubtitle: "Base for the semester bonus.",
+    sueldo: "Gross salary",
+    asignacion: "Family allowance",
+    otros: "Other computable",
+    formulaTitle: "Formula used",
+    formulaGrati: "Bonus = RC × (months/6 + days/180), capped at 1 RC.",
+    formulaBonif: "Extra = bonus × 9% (Essalud) or 6.75% (EPS).",
+    formulaTotal: "Total = bonus + extraordinary bonus.",
+    inafectaNote:
+      "In the typical private regime the bonus is free of AFP/ONP/Essalud; other withholdings (income tax, court) may apply.",
+    rulesTitle: "What this estimate includes",
+    rule1: "Law 27735: one full pay for a full semester, or proportional.",
+    rule2: "Permanent extraordinary bonus: 9% Essalud / 6.75% EPS.",
+    rule3: "July: Jan–Jun semester. December: Jul–Nov (paid before the 15th).",
+    rule4: "Does not cover every special regime or court withholdings.",
+    disclaimer:
+      "Orientation tool by FactoTips. Not MTPE or an official settlement. Verify your regime, computable items, and withholdings in official sources or with a labor advisor.",
   },
   precios: {
     back: "Back to comparer",

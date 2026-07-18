@@ -38,6 +38,11 @@ export const TOOL_ROUTES = {
     landingPath: "/herramientas/cts",
     appPath: "/herramientas/cts/usar",
   },
+  gratificacion: {
+    id: "gratificacion",
+    landingPath: "/herramientas/gratificacion",
+    appPath: "/herramientas/gratificacion/usar",
+  },
 } as const;
 
 export type ToolId = keyof typeof TOOL_ROUTES;
@@ -262,12 +267,43 @@ export const TOOL_SEO = {
       ogTitle: "Calcular CTS | FactoTips",
     } satisfies PageSeo,
   },
+  gratificacion: {
+    landing: {
+      title: "Calculadora de gratificación Perú 2026",
+      description:
+        "Calcula tu gratificación de julio o diciembre más la bonificación extraordinaria 9% (Essalud) o 6.75% (EPS). Proporcional por meses.",
+      path: TOOL_ROUTES.gratificacion.landingPath,
+      keywords: [
+        "calcular gratificación",
+        "gratificación julio 2026",
+        "gratificación diciembre",
+        "bonificación 9% Essalud",
+        "gratificación EPS 6.75",
+        "Fiestas Patrias gratificación",
+        "calculadora gratificación Perú",
+      ],
+      ogTitle: "Calculadora de gratificación Perú 2026 | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Calcular gratificación",
+      description:
+        "Estima Fiestas Patrias o Navidad con asignación familiar, meses trabajados y bonificación Essalud/EPS.",
+      path: TOOL_ROUTES.gratificacion.appPath,
+      keywords: [
+        "calcular gratificación online",
+        "bonificación extraordinaria",
+        "gratificación proporcional",
+        "pago 15 julio diciembre",
+      ],
+      ogTitle: "Calcular gratificación | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
   title: `Herramientas útiles — ${SITE_BRAND}`,
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, honorarios, CTS, convierte UIT, genera QR y compara precios DIGEMID.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, honorarios, CTS, gratificación, convierte UIT, genera QR y compara precios DIGEMID.",
   path: "/",
   keywords: [
     "herramientas útiles",
@@ -277,6 +313,7 @@ export const HUB_SEO = {
     "sueldo neto Perú",
     "recibo por honorarios",
     "calculadora CTS",
+    "calculadora gratificación",
     "UIT 2026",
     "generador QR",
     "comparar precios medicamentos",
@@ -419,6 +456,16 @@ export function ctsSoftwareJsonLd() {
   const seo = TOOL_SEO.cts.landing;
   return softwareJsonLd({
     name: "Calculadora de CTS — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "FinanceApplication",
+  });
+}
+
+export function gratificacionSoftwareJsonLd() {
+  const seo = TOOL_SEO.gratificacion.landing;
+  return softwareJsonLd({
+    name: "Calculadora de gratificación — FactoTips",
     description: seo.description,
     path: seo.path,
     applicationCategory: "FinanceApplication",

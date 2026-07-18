@@ -1,7 +1,7 @@
 export const es = {
   footer: {
     tagline:
-      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR, sueldo neto, honorarios y CTS.",
+      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR, sueldo neto, honorarios, CTS y gratificación.",
     toolsTitle: "Herramientas",
     notesTitle: "Avisos",
     linkPrecios: "Precios DIGEMID",
@@ -11,13 +11,14 @@ export const es = {
     linkSueldoNeto: "Sueldo neto",
     linkHonorarios: "Honorarios",
     linkCts: "CTS",
+    linkGratificacion: "Gratificación",
     pricesSource:
       "Los precios de medicamentos provienen del observatorio oficial",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips no vende medicamentos ni intermedia operaciones comerciales.",
     orientative:
-      "Las calculadoras (IGV, UIT, sueldo neto, honorarios, CTS) y el QR son orientativos; verifica siempre fuentes oficiales.",
+      "Las calculadoras (IGV, UIT, sueldo neto, honorarios, CTS, gratificación) y el QR son orientativos; verifica siempre fuentes oficiales.",
     rights: "Todos los derechos reservados.",
     viewTools: "Ver herramientas",
     byOwner: "Un producto de",
@@ -37,12 +38,12 @@ export const es = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Herramientas útiles: calcula IGV, sueldo neto, honorarios y CTS, convierte UIT, genera QR y compara precios de medicamentos.",
+      "Herramientas útiles: calcula IGV, sueldo neto, honorarios, CTS y gratificación, convierte UIT, genera QR y compara precios de medicamentos.",
     ctaCompare: "Comparar precios",
     ctaTools: "Ver herramientas",
     toolsTitle: "Herramientas",
     toolsSubtitle:
-      "Comparador DIGEMID, IGV, UIT, QR, sueldo neto, honorarios y CTS.",
+      "Comparador DIGEMID, IGV, UIT, QR, sueldo neto, honorarios, CTS y gratificación.",
     openTool: "Abrir herramienta",
     comingSoon: "Próximamente",
     toolPreciosTitle: "Comparador de precios de medicamentos",
@@ -66,6 +67,9 @@ export const es = {
     toolCtsTitle: "Calculadora de CTS",
     toolCtsDesc:
       "Estima el depósito de mayo o noviembre con remuneración computable y tiempo trabajado.",
+    toolGratificacionTitle: "Calculadora de gratificación",
+    toolGratificacionDesc:
+      "Julio o diciembre más bonificación Essalud 9% o EPS 6.75%.",
     toolSoon1Title: "Más herramientas en camino",
     toolSoon1Desc:
       "FactoTips crecerá con nuevas utilidades prácticas para el día a día.",
@@ -811,6 +815,104 @@ export const es = {
       "Aplica al régimen privado típico (≥ 4 h/día). No cubre todos los regímenes especiales.",
     disclaimer:
       "Herramienta orientativa de FactoTips. No es MTPE ni liquidación oficial de planilla. Verifica tu régimen, conceptos computables y plazos en fuentes oficiales o con un contador/abogado laboral.",
+  },
+  gratificacionLanding: {
+    eyebrow: "FactoTips · Gratificación",
+    headline: "Calcula tu gratificación de julio o diciembre",
+    subtitle:
+      "Fiestas Patrias o Navidad, más la bonificación extraordinaria 9% (Essalud) o 6.75% (EPS).",
+    ctaPrimary: "Calcular gratificación",
+    ctaSecondary: "Ver cómo funciona",
+    whyTitle: "Un sueldo extra, bien estimado",
+    whyText:
+      "Si trabajaste el semestre completo te corresponde una remuneración. Si no, es proporcional. Y encima va la bonificación extraordinaria.",
+    benefit1Title: "Julio y diciembre",
+    benefit1Text:
+      "Fiestas Patrias (ene–jun) o Navidad (jul–nov), con plazo habitual al día 15.",
+    benefit2Title: "Bonificación Essalud / EPS",
+    benefit2Text:
+      "9% si estás en Essalud o 6.75% si tienes EPS, sobre la gratificación.",
+    benefit3Title: "Proporcional clara",
+    benefit3Text:
+      "Meses y días del semestre: RC × (meses/6 + días/180).",
+    howTitle: "Cómo funciona",
+    howSubtitle: "Tres pasos para estimar tu pago.",
+    step1Title: "Ingresa tu sueldo",
+    step1Text: "Bruto, asignación familiar y otros computables.",
+    step2Title: "Elige periodo y seguro",
+    step2Text: "Julio o diciembre, Essalud o EPS, meses trabajados.",
+    step3Title: "Revisa el total",
+    step3Text: "Gratificación + bonificación = lo que recibirías.",
+    faqTitle: "Preguntas frecuentes",
+    faq1Q: "¿Cuándo se paga la gratificación?",
+    faq1A:
+      "En la primera quincena de julio (Fiestas Patrias) y de diciembre (Navidad). El plazo habitual es hasta el día 15 de cada mes.",
+    faq2Q: "¿Qué es la bonificación del 9%?",
+    faq2A:
+      "Es la bonificación extraordinaria (Ley 30334 / 29351): el aporte que el empleador no paga a Essalud sobre la gratificación se entrega al trabajador. Con EPS suele ser 6.75%.",
+    faq3Q: "¿La gratificación tiene descuentos de AFP u ONP?",
+    faq3A:
+      "En el régimen privado típico está inafecta de aportes y contribuciones (AFP, ONP, Essalud). Pueden aplicar retenciones por quinta u órdenes judiciales. Confirma tu caso.",
+    faq4Q: "¿Y si no trabajé el semestre completo?",
+    faq4A:
+      "Se paga en forma proporcional a los meses calendario completos (y días, según el cálculo orientativo). Un mes mínimo en el semestre suele ser requisito para cobrar.",
+    finalTitle: "Listo para estimar tu gratificación",
+    finalText: "Abre la calculadora y obtén el total con bonificación en segundos.",
+    finalCta: "Calcular ahora",
+    backHub: "Volver a FactoTips",
+  },
+  gratificacion: {
+    back: "Volver a la calculadora",
+    eyebrow: "Gratificación · Perú 2026",
+    title: "Calculadora de gratificación",
+    subtitle:
+      "Fiestas Patrias o Navidad + bonificación Essalud 9% o EPS 6.75%.",
+    periodoLabel: "Periodo de pago",
+    periodo: "Periodo",
+    periodoJulio: "Julio",
+    periodoJulioHint: "Fiestas Patrias · ene–jun",
+    periodoDic: "Diciembre",
+    periodoDicHint: "Navidad · jul–nov",
+    sueldoLabel: "Sueldo bruto mensual",
+    asignacionLabel: "Asignación familiar",
+    asignacionHint: "10% RMV = {monto} si corresponde.",
+    otrosLabel: "Otros computables (S/)",
+    otrosHint: "Variables percibidas ≥ 3 veces en el semestre, si aplican.",
+    mesesLabel: "Meses (0–6)",
+    diasLabel: "Días (0–29)",
+    tiempoHint: "Meses calendario completos + días. Completo ≈ 6 (julio) o 5 (dic).",
+    seguroLabel: "Seguro de salud",
+    seguroEssalud: "Essalud",
+    seguroEps: "EPS",
+    invalid: "Escribe un sueldo válido (0 o más).",
+    resultTitle: "Total estimado",
+    totalHint: "Pago de {periodo} (plazo habitual: día {dia}).",
+    rc: "Remuneración computable",
+    gratificacion: "Gratificación",
+    bonificacion: "Bonificación extra",
+    total: "Total a recibir",
+    copy: "Copiar",
+    copied: "¡Copiado!",
+    copyTitle: "Gratificación — FactoTips",
+    disclaimerShort: "Estimación orientativa. No es liquidación oficial.",
+    rcTitle: "Remuneración computable",
+    rcSubtitle: "Base para la gratificación del semestre.",
+    sueldo: "Sueldo bruto",
+    asignacion: "Asignación familiar",
+    otros: "Otros computables",
+    formulaTitle: "Fórmula usada",
+    formulaGrati: "Gratificación = RC × (meses/6 + días/180), tope 1 RC.",
+    formulaBonif: "Bonificación = gratificación × 9% (Essalud) o 6.75% (EPS).",
+    formulaTotal: "Total = gratificación + bonificación.",
+    inafectaNote:
+      "En el régimen privado típico la gratificación está inafecta de AFP/ONP/Essalud; pueden aplicar otras retenciones (quinta, judiciales).",
+    rulesTitle: "Qué incluye esta estimación",
+    rule1: "Ley 27735: una remuneración por semestre completo, o proporcional.",
+    rule2: "Bonificación extraordinaria permanente: 9% Essalud / 6.75% EPS.",
+    rule3: "Julio: semestre ene–jun. Diciembre: jul–nov (pago antes del 15).",
+    rule4: "No cubre todos los regímenes especiales ni retenciones judiciales.",
+    disclaimer:
+      "Herramienta orientativa de FactoTips. No es MTPE ni liquidación oficial. Verifica tu régimen, conceptos computables y retenciones en fuentes oficiales o con un asesor laboral.",
   },
   precios: {
     back: "Volver al comparador",

@@ -65,6 +65,14 @@ export function ToolsSection() {
       status: "ready" as const,
       icon: "mdi:piggy-bank-outline",
     },
+    {
+      id: "gratificacion",
+      title: t.landing.toolGratificacionTitle,
+      description: t.landing.toolGratificacionDesc,
+      href: "/herramientas/gratificacion",
+      status: "ready" as const,
+      icon: "mdi:gift-outline",
+    },
   ];
 
   return (

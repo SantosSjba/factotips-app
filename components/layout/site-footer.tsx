@@ -27,6 +27,10 @@ export function SiteFooter() {
       href: TOOL_ROUTES.cts.landingPath,
       label: t.footer.linkCts,
     },
+    {
+      href: TOOL_ROUTES.gratificacion.landingPath,
+      label: t.footer.linkGratificacion,
+    },
   ] as const;
 
   return (

@@ -65,4 +65,12 @@ export const TOOLS: Tool[] = [
     href: "/herramientas/cts",
     status: "ready",
   },
+  {
+    id: "gratificacion",
+    title: "Calculadora de gratificación",
+    description:
+      "Julio o diciembre más bonificación Essalud 9% o EPS 6.75%.",
+    href: "/herramientas/gratificacion",
+    status: "ready",
+  },
 ];

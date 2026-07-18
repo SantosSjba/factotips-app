@@ -227,8 +227,8 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 **Esfuerzo:** ~1–2 días  
 
 - Landing: `/herramientas/gratificacion` · App: `/herramientas/gratificacion/usar`
-- [ ] Fiestas Patrias / Navidad
-- [ ] Bonificación Essalud / EPS si aplica en UI simple
+- [x] Fiestas Patrias / Navidad
+- [x] Bonificación Essalud / EPS si aplica en UI simple
 
 ---
 
@@ -297,9 +297,10 @@ app/sitemap.ts                                # rutas nuevas
 | 2026-07-17 | B1 Calculadora sueldo neto entregada (`/herramientas/sueldo-neto` + `/usar`). |
 | 2026-07-17 | B2 Recibo por honorarios entregado (`/herramientas/honorarios` + `/usar`). |
 | 2026-07-17 | C1 Calculadora CTS entregada (`/herramientas/cts` + `/usar`). |
+| 2026-07-17 | C2 Calculadora gratificación entregada (`/herramientas/gratificacion` + `/usar`). |
 
 ---
 
 ## Próximo paso inmediato
 
-**Sprint C2 — Gratificación** (landing `/herramientas/gratificacion` + app `/usar`).
+**Sprint D1 — Kit PDF** (landing `/herramientas/pdf` + app `/usar`).

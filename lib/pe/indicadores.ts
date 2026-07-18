@@ -94,6 +94,19 @@ export const CTS_PERIODOS: Record<CtsPeriodo, CtsPeriodoInfo> = {
   noviembre: { id: "noviembre", mesesMax: 6, depositoDia: CTS_DEPOSITO_DIA },
 };
 
+/** Plazo habitual de pago de gratificaciones (día 15). */
+export const GRATIFICACION_PAGO_DIA = 15;
+
+export type GratificacionPeriodo = "julio" | "diciembre";
+
+export type GratificacionSeguro = "essalud" | "eps";
+
+/** Bonificación extraordinaria sobre la gratificación (Ley 30334 / 29351). */
+export const GRATIFICACION_BONIF = {
+  essalud: 0.09,
+  eps: 0.0675,
+} as const;
+
 /**
  * Tramos progresivos sobre renta neta (Art. 53 LIR), en UIT.
  * Cada tramo paga su tasa marginal.
