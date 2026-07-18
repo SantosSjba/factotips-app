@@ -48,6 +48,31 @@ export const RENTA_DEDUCCION_UIT = 7;
 export const RENTA_GASTOS_MAX_UIT = 3;
 
 /**
+ * Retención a cuenta IR 4ta en recibo por honorarios (Art. 74 LIR) — 8%.
+ * El pagador retiene si el monto del RHE supera el umbral.
+ */
+export const HONORARIOS_RETENCION_TASA = 0.08;
+
+/**
+ * Umbral por recibo: por debajo o igual, en la práctica no hay retención del 8%
+ * (referencia operativa habitual Art. 74 / usos SUNAT).
+ */
+export const HONORARIOS_UMBRAL_RETENCION = 1500;
+
+/**
+ * Topes suspensión de retenciones / pagos a cuenta 4ta — SUNAT 2026
+ * (Formulario virtual 1609). Orientativo; confirma en SUNAT.
+ */
+export const HONORARIOS_SUSPENSION = {
+  /** Ejercicio de profesión, arte u oficio (inciso a). */
+  profesional: { anual: 48_125, mensual: 4_010 },
+  /** Director, síndico, mandatario y similares (inciso b). */
+  director: { anual: 38_500, mensual: 3_208 },
+} as const;
+
+export type HonorariosPerfil = keyof typeof HONORARIOS_SUSPENSION;
+
+/**
  * Tramos progresivos sobre renta neta (Art. 53 LIR), en UIT.
  * Cada tramo paga su tasa marginal.
  */

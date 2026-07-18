@@ -1,7 +1,7 @@
 export const es = {
   footer: {
     tagline:
-      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR y sueldo neto.",
+      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR, sueldo neto y honorarios.",
     toolsTitle: "Herramientas",
     notesTitle: "Avisos",
     linkPrecios: "Precios DIGEMID",
@@ -9,13 +9,14 @@ export const es = {
     linkUit: "Conversor UIT",
     linkQr: "Generador QR",
     linkSueldoNeto: "Sueldo neto",
+    linkHonorarios: "Honorarios",
     pricesSource:
       "Los precios de medicamentos provienen del observatorio oficial",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips no vende medicamentos ni intermedia operaciones comerciales.",
     orientative:
-      "Las calculadoras (IGV, UIT, sueldo neto) y el QR son orientativos; verifica siempre fuentes oficiales.",
+      "Las calculadoras (IGV, UIT, sueldo neto, honorarios) y el QR son orientativos; verifica siempre fuentes oficiales.",
     rights: "Todos los derechos reservados.",
     viewTools: "Ver herramientas",
     byOwner: "Un producto de",
@@ -35,12 +36,12 @@ export const es = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Herramientas útiles: calcula IGV y sueldo neto, convierte UIT, genera QR y compara precios de medicamentos.",
+      "Herramientas útiles: calcula IGV, sueldo neto y honorarios, convierte UIT, genera QR y compara precios de medicamentos.",
     ctaCompare: "Comparar precios",
     ctaTools: "Ver herramientas",
     toolsTitle: "Herramientas",
     toolsSubtitle:
-      "Comparador DIGEMID, IGV, UIT, QR y calculadora de sueldo neto.",
+      "Comparador DIGEMID, IGV, UIT, QR, sueldo neto y recibo por honorarios.",
     openTool: "Abrir herramienta",
     comingSoon: "Próximamente",
     toolPreciosTitle: "Comparador de precios de medicamentos",
@@ -58,6 +59,9 @@ export const es = {
     toolSueldoNetoTitle: "Calculadora de sueldo neto",
     toolSueldoNetoDesc:
       "Bruto a neto con AFP u ONP, quinta categoría, asignación familiar y gratificaciones.",
+    toolHonorariosTitle: "Recibo por honorarios",
+    toolHonorariosDesc:
+      "Retención 8% en renta 4ta, neto a cobrar y orientación sobre suspensión SUNAT.",
     toolSoon1Title: "Más herramientas en camino",
     toolSoon1Desc:
       "FactoTips crecerá con nuevas utilidades prácticas para el día a día.",
@@ -586,6 +590,119 @@ export const es = {
       "Retención mensual ≈ impuesto anual ÷ 12 (el método real SUNAT puede diferir).",
     disclaimer:
       "Herramienta orientativa de FactoTips. No es SUNAT, SBS ni liquidación oficial de planilla. Verifica UIT, RMV, comisiones AFP, tope asegurable y tu caso concreto en fuentes oficiales o con un contador.",
+  },
+  honorariosLanding: {
+    eyebrow: "FactoTips · Renta 4ta",
+    headline: "Calcula tu recibo por honorarios",
+    subtitle:
+      "Retención del 8%, neto a cobrar y orientación sobre la suspensión SUNAT. Ideal si emites RHE.",
+    ctaPrimary: "Calcular honorarios",
+    ctaSecondary: "Ver cómo funciona",
+    whyTitle: "Del honorario al neto, claro",
+    whyText:
+      "Sabes cuánto facturar y cuánto te queda después del 8%. También ves si tu proyección cabe en los topes de suspensión 2026.",
+    benefit1Title: "Retención 8%",
+    benefit1Text:
+      "Calcula bruto, retención y neto. Respeta el umbral habitual de S/ 1,500 por recibo.",
+    benefit2Title: "Ida y vuelta",
+    benefit2Text:
+      "De honorario a neto, o del neto deseado al monto a emitir en el RHE.",
+    benefit3Title: "Suspensión 1609",
+    benefit3Text:
+      "Topes anuales y mensuales 2026 (profesional / director). Solo orientación; el trámite es en SUNAT.",
+    howTitle: "Cómo funciona",
+    howSubtitle: "Tres pasos para tu recibo.",
+    step1Title: "Ingresa el monto",
+    step1Text: "Honorario bruto o neto que quieres recibir.",
+    step2Title: "Elige el escenario",
+    step2Text: "Con retención o con constancia de suspensión.",
+    step3Title: "Revisa el desglose",
+    step3Text: "Neto, retención y uso del tope de suspensión.",
+    faqTitle: "Preguntas frecuentes",
+    faq1Q: "¿Cuánto es la retención en un recibo por honorarios?",
+    faq1A:
+      "En general el pagador retiene el 8% a cuenta del Impuesto a la Renta de cuarta categoría cuando el recibo supera el umbral operativo (S/ 1,500). Si tienes suspensión vigente, no te retienen.",
+    faq2Q: "¿Qué es la suspensión de retenciones?",
+    faq2A:
+      "Es un trámite en SUNAT (Formulario virtual 1609) si proyectas no superar los topes del año. En 2026: S/ 48,125 (profesión) o S/ 38,500 (director y similares). FactoTips solo orienta; no presenta el formulario.",
+    faq3Q: "¿Esto reemplaza a SUNAT?",
+    faq3A:
+      "No. Es una calculadora orientativa de FactoTips. Confirma tasas, umbrales y tu caso en SUNAT o con un contador.",
+    faq4Q: "¿Puedo calcular cuánto emitir si quiero un neto fijo?",
+    faq4A:
+      "Sí. Usa el modo “neto → bruto” y obtienes el monto del recibo considerando el 8% (o sin retención si marcas suspensión).",
+    finalTitle: "Listo para tu próximo RHE",
+    finalText: "Abre la calculadora y obtén bruto, retención y neto en segundos.",
+    finalCta: "Calcular ahora",
+    backHub: "Volver a FactoTips",
+  },
+  honorarios: {
+    back: "Volver a la calculadora",
+    eyebrow: "Renta 4ta · Perú 2026",
+    title: "Recibo por honorarios",
+    subtitle:
+      "Retención 8%, neto a cobrar y topes de suspensión SUNAT. Orientativo.",
+    chipRetencion: "retención",
+    chipUmbral: "Umbral",
+    modeLabel: "¿Qué quieres calcular?",
+    modeBrutoNeto: "Bruto → neto",
+    modeBrutoNetoHint: "Tengo el monto del recibo",
+    modeNetoBruto: "Neto → bruto",
+    modeNetoBrutoHint: "Quiero cobrar un neto",
+    montoBruto: "Monto del recibo (bruto)",
+    montoNeto: "Neto que quieres recibir",
+    suspensionLabel: "Tengo suspensión de retenciones (1609)",
+    suspensionHint:
+      "Si marcas esto, no se calcula el 8%. Debes tener constancia vigente y entregarla al pagador.",
+    perfilLabel: "Perfil para topes de suspensión",
+    perfilProfesional: "Profesión / oficio",
+    perfilDirector: "Director / similares",
+    proyectadoLabel: "Ingresos anuales proyectados (S/)",
+    proyectadoHint:
+      "Suma 4ta (y 5ta si aplica) para ver cuánto del tope de suspensión usas.",
+    invalid: "Escribe un monto válido (0 o más).",
+    resultTitle: "Resultado",
+    netoHint: "Lo que recibirías después de la retención.",
+    brutoHint: "Monto a emitir en el recibo por honorarios.",
+    bruto: "Honorario bruto",
+    retencion: "Retención",
+    neto: "Neto a cobrar",
+    copy: "Copiar",
+    copied: "¡Copiado!",
+    copyTitle: "Honorarios — FactoTips",
+    disclaimerShort: "Estimación orientativa. No es trámite SUNAT.",
+    sinRetencion: "Sin retención en este cálculo.",
+    sinRetencionUmbral:
+      "Sin retención: el recibo no supera el umbral de {umbral}.",
+    sinRetencionSuspension:
+      "Sin retención: marcaste suspensión (constancia 1609).",
+    suspensionTitle: "Suspensión de retenciones",
+    suspensionSubtitle:
+      "Topes SUNAT 2026. Solo orientación; el Form. 1609 se hace en SOL.",
+    topeAnual: "Tope anual",
+    topeMensual: "Tope mensual",
+    proyectado: "Proyectado",
+    restante: "Restante del tope",
+    usoTope: "Uso del tope anual",
+    dentroTope: "Tu proyección está dentro del tope anual de suspensión.",
+    fueraTope:
+      "Tu proyección supera el tope: la suspensión puede no aplicar o debes reiniciar retenciones.",
+    suspensionOrientacion:
+      "Trámite en SUNAT Operaciones en Línea → Formulario virtual 1609. Entrega la constancia a quien te paga.",
+    topesTitle: "Topes 2026 (referencia)",
+    topesSubtitle: "Según perfil. Confirma siempre en SUNAT / gob.pe.",
+    colPerfil: "Perfil",
+    colAnual: "Anual",
+    colMensual: "Mensual",
+    topesHint:
+      "Profesión: S/ 48,125 / S/ 4,010. Director: S/ 38,500 / S/ 3,208. Umbral por recibo ≈ S/ 1,500.",
+    rulesTitle: "Qué incluye esta estimación",
+    rule1: "Retención 8% sobre el honorario bruto si supera el umbral y no hay suspensión.",
+    rule2: "Modo neto → bruto: monto a emitir = neto ÷ 0.92 (con retención).",
+    rule3: "Topes de suspensión 2026 por perfil (profesional vs director).",
+    rule4: "No tramita el 1609 ni declara ante SUNAT: solo calcula y orienta.",
+    disclaimer:
+      "Herramienta orientativa de FactoTips. No es SUNAT ni asesora tributaria. Verifica retención, umbrales, topes de suspensión y tu caso en fuentes oficiales o con un contador.",
   },
   precios: {
     back: "Volver al comparador",

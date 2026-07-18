@@ -49,4 +49,12 @@ export const TOOLS: Tool[] = [
     href: "/herramientas/sueldo-neto",
     status: "ready",
   },
+  {
+    id: "honorarios",
+    title: "Recibo por honorarios",
+    description:
+      "Retención 8% en renta 4ta, neto a cobrar y orientación sobre suspensión SUNAT.",
+    href: "/herramientas/honorarios",
+    status: "ready",
+  },
 ];

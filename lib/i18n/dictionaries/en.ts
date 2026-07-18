@@ -13,7 +13,7 @@ export const en: Dictionary = {
   },
   footer: {
     tagline:
-      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, and net salary.",
+      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, net salary, and fees.",
     toolsTitle: "Tools",
     notesTitle: "Notices",
     linkPrecios: "DIGEMID prices",
@@ -21,12 +21,13 @@ export const en: Dictionary = {
     linkUit: "UIT converter",
     linkQr: "QR generator",
     linkSueldoNeto: "Net salary",
+    linkHonorarios: "Fees / RHE",
     pricesSource: "Medicine prices come from the official observatory",
     digemid: "DIGEMID / MINSA",
     noSell:
       "FactoTips does not sell medicines or intermediate commercial sales.",
     orientative:
-      "Calculators (IGV, UIT, net salary) and the QR tool are for orientation; always verify official sources.",
+      "Calculators (IGV, UIT, net salary, fees) and the QR tool are for orientation; always verify official sources.",
     rights: "All rights reserved.",
     viewTools: "View tools",
     byOwner: "A product of",
@@ -36,12 +37,12 @@ export const en: Dictionary = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Useful tools: calculate IGV and net salary, convert UIT, generate QR, and compare medicine prices.",
+      "Useful tools: calculate IGV, net salary, and fees, convert UIT, generate QR, and compare medicine prices.",
     ctaCompare: "Compare prices",
     ctaTools: "View tools",
     toolsTitle: "Tools",
     toolsSubtitle:
-      "DIGEMID comparer, IGV, UIT, QR, and a net salary calculator.",
+      "DIGEMID comparer, IGV, UIT, QR, net salary, and professional fees.",
     openTool: "Open tool",
     comingSoon: "Coming soon",
     toolPreciosTitle: "Medicine price comparer",
@@ -59,6 +60,9 @@ export const en: Dictionary = {
     toolSueldoNetoTitle: "Net salary calculator",
     toolSueldoNetoDesc:
       "Gross to net with AFP or ONP, fifth-category tax, family allowance, and bonuses.",
+    toolHonorariosTitle: "Professional fees receipt",
+    toolHonorariosDesc:
+      "8% withholding on 4th-category income, net to receive, and SUNAT suspension guidance.",
     toolSoon1Title: "More tools on the way",
     toolSoon1Desc:
       "FactoTips will grow with more practical everyday utilities.",
@@ -580,6 +584,119 @@ export const en: Dictionary = {
       "Monthly withholding ≈ annual tax ÷ 12 (real SUNAT method may differ).",
     disclaimer:
       "Orientation tool by FactoTips. Not SUNAT, SBS, or an official payroll settlement. Verify UIT, RMV, AFP fees, insurable cap, and your case in official sources or with an accountant.",
+  },
+  honorariosLanding: {
+    eyebrow: "FactoTips · 4th-category income",
+    headline: "Calculate your professional fees receipt",
+    subtitle:
+      "8% withholding, net to receive, and guidance on SUNAT suspension. Built for RHE issuers.",
+    ctaPrimary: "Calculate fees",
+    ctaSecondary: "See how it works",
+    whyTitle: "From fee to net, clearly",
+    whyText:
+      "Know how much to invoice and what you keep after 8%. Also see if your projection fits 2026 suspension caps.",
+    benefit1Title: "8% withholding",
+    benefit1Text:
+      "Gross, withholding, and net. Respects the usual S/ 1,500 per-receipt threshold.",
+    benefit2Title: "Both ways",
+    benefit2Text:
+      "From fee to net, or from desired net to the amount to put on the RHE.",
+    benefit3Title: "Suspension 1609",
+    benefit3Text:
+      "2026 annual and monthly caps (professional / director). Guidance only; the filing is at SUNAT.",
+    howTitle: "How it works",
+    howSubtitle: "Three steps for your receipt.",
+    step1Title: "Enter the amount",
+    step1Text: "Gross fee or net you want to receive.",
+    step2Title: "Pick the scenario",
+    step2Text: "With withholding or with a suspension certificate.",
+    step3Title: "Review the breakdown",
+    step3Text: "Net, withholding, and suspension-cap usage.",
+    faqTitle: "Frequently asked questions",
+    faq1Q: "How much is withheld on a fees receipt?",
+    faq1A:
+      "Usually the payer withholds 8% toward fourth-category income tax when the receipt exceeds the operational threshold (S/ 1,500). With a valid suspension, they do not withhold.",
+    faq2Q: "What is withholding suspension?",
+    faq2A:
+      "A SUNAT process (virtual Form 1609) if you project not to exceed the year’s caps. In 2026: S/ 48,125 (profession) or S/ 38,500 (director and similar). FactoTips only guides; it does not file the form.",
+    faq3Q: "Does this replace SUNAT?",
+    faq3A:
+      "No. It is an orientation calculator by FactoTips. Confirm rates, thresholds, and your case with SUNAT or an accountant.",
+    faq4Q: "Can I calculate how much to invoice for a fixed net?",
+    faq4A:
+      "Yes. Use “net → gross” to get the receipt amount with 8% (or without withholding if you mark suspension).",
+    finalTitle: "Ready for your next RHE",
+    finalText: "Open the calculator and get gross, withholding, and net in seconds.",
+    finalCta: "Calculate now",
+    backHub: "Back to FactoTips",
+  },
+  honorarios: {
+    back: "Back to calculator",
+    eyebrow: "4th category · Peru 2026",
+    title: "Professional fees receipt",
+    subtitle:
+      "8% withholding, net to receive, and SUNAT suspension caps. Orientation only.",
+    chipRetencion: "withholding",
+    chipUmbral: "Threshold",
+    modeLabel: "What do you want to calculate?",
+    modeBrutoNeto: "Gross → net",
+    modeBrutoNetoHint: "I have the receipt amount",
+    modeNetoBruto: "Net → gross",
+    modeNetoBrutoHint: "I want a fixed net",
+    montoBruto: "Receipt amount (gross)",
+    montoNeto: "Net you want to receive",
+    suspensionLabel: "I have withholding suspension (1609)",
+    suspensionHint:
+      "If checked, 8% is not calculated. You need a valid certificate and must give it to the payer.",
+    perfilLabel: "Profile for suspension caps",
+    perfilProfesional: "Profession / trade",
+    perfilDirector: "Director / similar",
+    proyectadoLabel: "Projected annual income (S/)",
+    proyectadoHint:
+      "Sum 4th (and 5th if any) to see how much of the suspension cap you use.",
+    invalid: "Enter a valid amount (0 or more).",
+    resultTitle: "Result",
+    netoHint: "What you would receive after withholding.",
+    brutoHint: "Amount to put on the fees receipt.",
+    bruto: "Gross fee",
+    retencion: "Withholding",
+    neto: "Net to receive",
+    copy: "Copy",
+    copied: "Copied!",
+    copyTitle: "Fees — FactoTips",
+    disclaimerShort: "Orientation estimate. Not a SUNAT filing.",
+    sinRetencion: "No withholding in this calculation.",
+    sinRetencionUmbral:
+      "No withholding: the receipt does not exceed the {umbral} threshold.",
+    sinRetencionSuspension:
+      "No withholding: you marked suspension (1609 certificate).",
+    suspensionTitle: "Withholding suspension",
+    suspensionSubtitle:
+      "SUNAT 2026 caps. Guidance only; Form 1609 is filed in SOL.",
+    topeAnual: "Annual cap",
+    topeMensual: "Monthly cap",
+    proyectado: "Projected",
+    restante: "Remaining under cap",
+    usoTope: "Annual cap usage",
+    dentroTope: "Your projection is within the annual suspension cap.",
+    fueraTope:
+      "Your projection exceeds the cap: suspension may not apply or you must resume withholdings.",
+    suspensionOrientacion:
+      "File in SUNAT Online Operations → virtual Form 1609. Give the certificate to whoever pays you.",
+    topesTitle: "2026 caps (reference)",
+    topesSubtitle: "By profile. Always confirm with SUNAT / gob.pe.",
+    colPerfil: "Profile",
+    colAnual: "Annual",
+    colMensual: "Monthly",
+    topesHint:
+      "Profession: S/ 48,125 / S/ 4,010. Director: S/ 38,500 / S/ 3,208. Per-receipt threshold ≈ S/ 1,500.",
+    rulesTitle: "What this estimate includes",
+    rule1: "8% withholding on gross fee if above the threshold and no suspension.",
+    rule2: "Net → gross mode: invoice amount = net ÷ 0.92 (with withholding).",
+    rule3: "2026 suspension caps by profile (professional vs director).",
+    rule4: "Does not file 1609 or declare to SUNAT: calculate and guide only.",
+    disclaimer:
+      "Orientation tool by FactoTips. Not SUNAT and not tax advice. Verify withholding, thresholds, suspension caps, and your case in official sources or with an accountant.",
   },
   precios: {
     back: "Back to comparer",

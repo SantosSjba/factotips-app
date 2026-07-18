@@ -49,6 +49,14 @@ export function ToolsSection() {
       status: "ready" as const,
       icon: "mdi:cash-check",
     },
+    {
+      id: "honorarios",
+      title: t.landing.toolHonorariosTitle,
+      description: t.landing.toolHonorariosDesc,
+      href: "/herramientas/honorarios",
+      status: "ready" as const,
+      icon: "mdi:file-document-edit-outline",
+    },
   ];
 
   return (

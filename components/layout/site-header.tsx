@@ -26,6 +26,10 @@ export function SiteHeader() {
       href: TOOL_ROUTES["sueldo-neto"].landingPath,
       label: t.footer.linkSueldoNeto,
     },
+    {
+      href: TOOL_ROUTES.honorarios.landingPath,
+      label: t.footer.linkHonorarios,
+    },
   ] as const;
 
   function clearCloseTimer() {

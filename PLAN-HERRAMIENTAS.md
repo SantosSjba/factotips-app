@@ -200,9 +200,9 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 
 ### Funcionalidad
 
-- [ ] Monto honorario → retención 8% → neto
-- [ ] Nota sobre suspensión de retención (< 7 UIT anuales — orientar, no tramitar)
-- [ ] Disclaimer SUNAT
+- [x] Monto honorario → retención 8% → neto
+- [x] Nota sobre suspensión de retención (< 7 UIT anuales — orientar, no tramitar)
+- [x] Disclaimer SUNAT
 
 ### SEO
 
@@ -295,9 +295,10 @@ app/sitemap.ts                                # rutas nuevas
 | 2026-07-17 | A2 Conversor UIT entregado (`/herramientas/uit` + `/usar`). |
 | 2026-07-17 | A3 Generador QR pro entregado (logo, colores, PNG/SVG). |
 | 2026-07-17 | B1 Calculadora sueldo neto entregada (`/herramientas/sueldo-neto` + `/usar`). |
+| 2026-07-17 | B2 Recibo por honorarios entregado (`/herramientas/honorarios` + `/usar`). |
 
 ---
 
 ## Próximo paso inmediato
 
-**Sprint B2 — Honorarios / renta 4ta** (landing `/herramientas/honorarios` + app `/usar`).
+**Sprint C1 — CTS** (landing `/herramientas/cts` + app `/usar`).

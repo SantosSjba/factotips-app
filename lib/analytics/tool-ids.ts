@@ -4,6 +4,7 @@ export const TOOL_IDS = [
   "uit",
   "qr",
   "sueldo-neto",
+  "honorarios",
 ] as const;
 export type ToolAnalyticsId = (typeof TOOL_IDS)[number];
 

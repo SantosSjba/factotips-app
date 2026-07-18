@@ -28,6 +28,11 @@ export const TOOL_ROUTES = {
     landingPath: "/herramientas/sueldo-neto",
     appPath: "/herramientas/sueldo-neto/usar",
   },
+  honorarios: {
+    id: "honorarios",
+    landingPath: "/herramientas/honorarios",
+    appPath: "/herramientas/honorarios/usar",
+  },
 } as const;
 
 export type ToolId = keyof typeof TOOL_ROUTES;
@@ -190,12 +195,43 @@ export const TOOL_SEO = {
       ogTitle: "Calcular sueldo neto | FactoTips",
     } satisfies PageSeo,
   },
+  honorarios: {
+    landing: {
+      title: "Calculadora de recibo por honorarios Perú",
+      description:
+        "Calcula la retención del 8% en recibos por honorarios (renta 4ta). Bruto a neto, neto a bruto y orientación sobre suspensión SUNAT 2026.",
+      path: TOOL_ROUTES.honorarios.landingPath,
+      keywords: [
+        "recibo por honorarios",
+        "retención 8%",
+        "renta cuarta categoría",
+        "calcular honorarios netos",
+        "suspensión retenciones 4ta",
+        "formulario 1609",
+        "honorarios Perú",
+      ],
+      ogTitle: "Calculadora de recibo por honorarios Perú | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Calcular honorarios",
+      description:
+        "Retención 8% en RHE, umbral S/ 1,500 y topes de suspensión 2026. Orientativo, no es SUNAT.",
+      path: TOOL_ROUTES.honorarios.appPath,
+      keywords: [
+        "calcular retención 8%",
+        "honorarios bruto neto",
+        "cuarta categoría online",
+        "suspensión 1609",
+      ],
+      ogTitle: "Calcular honorarios | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
   title: `Herramientas útiles — ${SITE_BRAND}`,
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, convierte UIT, genera QR y compara precios DIGEMID.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, honorarios, convierte UIT, genera QR y compara precios DIGEMID.",
   path: "/",
   keywords: [
     "herramientas útiles",
@@ -203,6 +239,7 @@ export const HUB_SEO = {
     "utilidades Perú",
     "calculadora IGV",
     "sueldo neto Perú",
+    "recibo por honorarios",
     "UIT 2026",
     "generador QR",
     "comparar precios medicamentos",
@@ -325,6 +362,16 @@ export function sueldoNetoSoftwareJsonLd() {
   const seo = TOOL_SEO["sueldo-neto"].landing;
   return softwareJsonLd({
     name: "Calculadora de sueldo neto — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "FinanceApplication",
+  });
+}
+
+export function honorariosSoftwareJsonLd() {
+  const seo = TOOL_SEO.honorarios.landing;
+  return softwareJsonLd({
+    name: "Calculadora de recibo por honorarios — FactoTips",
     description: seo.description,
     path: seo.path,
     applicationCategory: "FinanceApplication",
