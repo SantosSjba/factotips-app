@@ -5,7 +5,6 @@ import { factotipsPyFetch } from "@/lib/factotips-py/client";
 import {
   PDF_MAX_FILES_MERGE,
   PDF_MAX_UPLOAD_BYTES,
-  PDF_MIN_FILES_MERGE,
 } from "@/lib/pdf/limits";
 import {
   LIMIT_SOFT,
@@ -27,13 +26,13 @@ async function readPyErrorMessage(res: Response): Promise<string> {
   } catch {
     /* ignore */
   }
-  return "No se pudo unir los PDF. Intenta de nuevo.";
+  return "No se pudo dividir el PDF. Intenta de nuevo.";
 }
 
 export async function POST(request: NextRequest) {
   const rl = await enforceRateLimit(
     request,
-    "pdf:merge",
+    "pdf:divide",
     LIMIT_SOFT.limit,
     LIMIT_SOFT.windowSeconds,
   );
@@ -61,8 +60,23 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  const modeRaw = String(form.get("mode") ?? "").trim().toLowerCase();
+  if (modeRaw !== "split" && modeRaw !== "extract") {
+    return jsonFail("Modo inválido. Usa split o extract.", {
+      status: 400,
+      userId: rl.userId,
+      isNew: rl.isNew,
+    });
+  }
+
   const planRaw = form.get("plan");
-  const hasPlan = typeof planRaw === "string" && planRaw.trim().length > 0;
+  if (typeof planRaw !== "string" || !planRaw.trim()) {
+    return jsonFail("Falta el plan de división.", {
+      status: 400,
+      userId: rl.userId,
+      isNew: rl.isNew,
+    });
+  }
 
   const files = form
     .getAll("files")
@@ -76,16 +90,8 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  if (!hasPlan && files.length < PDF_MIN_FILES_MERGE) {
-    return jsonFail("Sube al menos 2 archivos PDF para unirlos.", {
-      status: 400,
-      userId: rl.userId,
-      isNew: rl.isNew,
-    });
-  }
-
   if (files.length > PDF_MAX_FILES_MERGE) {
-    return jsonFail(`Máximo ${PDF_MAX_FILES_MERGE} archivos por unión.`, {
+    return jsonFail(`Máximo ${PDF_MAX_FILES_MERGE} archivos.`, {
       status: 400,
       userId: rl.userId,
       isNew: rl.isNew,
@@ -119,16 +125,15 @@ export async function POST(request: NextRequest) {
   }
 
   const outbound = new FormData();
+  outbound.append("mode", modeRaw);
+  outbound.append("plan", planRaw);
   for (const file of files) {
     outbound.append("files", file, file.name);
-  }
-  if (hasPlan) {
-    outbound.append("plan", planRaw as string);
   }
 
   let upstream: Response;
   try {
-    upstream = await factotipsPyFetch("/v1/pdf/merge", {
+    upstream = await factotipsPyFetch("/v1/pdf/divide", {
       method: "POST",
       body: outbound,
     });
@@ -153,15 +158,18 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const pdfBytes = await upstream.arrayBuffer();
+  const bytes = await upstream.arrayBuffer();
+  const contentType =
+    upstream.headers.get("Content-Type") ||
+    (modeRaw === "split" ? "application/zip" : "application/pdf");
   const disposition =
     upstream.headers.get("Content-Disposition") ||
-    'attachment; filename="factotips-merged.pdf"';
+    'attachment; filename="factotips-divide.bin"';
 
-  const res = new NextResponse(pdfBytes, {
+  const res = new NextResponse(bytes, {
     status: 200,
     headers: {
-      "Content-Type": "application/pdf",
+      "Content-Type": contentType,
       "Content-Disposition": disposition,
       "Cache-Control": "no-store",
     },

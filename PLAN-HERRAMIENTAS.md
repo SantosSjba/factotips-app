@@ -283,17 +283,17 @@ Sprint G (nice-to-have)   → Tipo de cambio · Multas UIT · TEA/TCEA
 
 | # | Herramienta | Slug | Notas |
 |---|-------------|------|-------|
-| 1 | Unir PDF | `unir` | UI Archivos/Páginas (reordenar, rotar, eliminar); armado con `pdf-lib` en cliente. Proxy py `/api/pdf/merge` queda para flujos simples/servidor |
-| 2 | Dividir PDF | `dividir` | `POST /v1/pdf/split` (ZIP) |
+| 1 | Unir PDF | `unir` | UI Archivos/Páginas (reordenar, rotar, eliminar); proxy `POST /api/pdf/merge` + `plan` JSON → factotips-py `/v1/pdf/merge` |
+| 2 | Dividir PDF | `dividir` | UI Separar/Extraer multi-archivo; proxy `POST /api/pdf/divide` → factotips-py `/v1/pdf/divide` |
 | 3 | Eliminar páginas | `eliminar-paginas` | Selección de páginas |
-| 4 | Extraer páginas | `extraer-paginas` | `POST /v1/pdf/extract` |
+| 4 | Extraer páginas | `extraer-paginas` | Cubierto en modo Extraer de Dividir; tool dedicada pendiente |
 | 5 | Ordenar PDF | `ordenar` | Reordenar / drag & drop páginas |
 | 6 | Escanea a PDF | `escanear` | Cámara / imágenes → PDF |
 
 Checklist:
 
-- [x] Unir PDF — landing `/herramientas/pdf/unir` + app `/usar` + proxy Next → py
-- [ ] Dividir PDF
+- [x] Unir PDF — landing `/herramientas/pdf/unir` + app `/usar` + proxy Next → py `/v1/pdf/merge` (con plan de páginas)
+- [x] Dividir PDF — landing `/herramientas/pdf/dividir` + app `/usar` + proxy Next → py `/v1/pdf/divide`
 - [ ] Eliminar páginas
 - [ ] Extraer páginas
 - [ ] Ordenar PDF
@@ -654,12 +654,13 @@ app/sitemap.ts                                # rutas nuevas
 | 2026-07-23 | Roadmap ampliado: sprints E–G (liquidación, horas extras, AFP/ONP, calendario SUNAT, utilidades, etc.). **Consulta RUC descartada** (ya pública en SUNAT). |
 | 2026-07-23 | **Sprint D ampliado:** Kit PDF con 7 categorías en orden de producto (Ordenar → Optimizar → Convertir a PDF → Convertir desde PDF → Editar → Seguridad → Intelligence). Hub `/herramientas/pdf` + app por herramienta. |
 | 2026-07-23 | **D0 Hub PDF entregado:** `/herramientas/pdf` con catálogo completo, badges disponible/próximamente/siguiente (Unir), FAQ privacidad, SEO + hub FactoTips. |
-| 2026-07-23 | **D1 Unir PDF:** proxy `POST /api/pdf/merge` → factotips-py `/v1/pdf/merge`; landing + app; UI ordenar/descargar. Env `FACTOTIPS_PY_URL` / `FACTOTIPS_PY_API_KEY`. |
+| 2026-07-23 | **D1 Unir PDF:** proxy `POST /api/pdf/merge` (+ `plan` páginas/rotación) → factotips-py `/v1/pdf/merge`; landing + app. Env `FACTOTIPS_PY_URL` / `FACTOTIPS_PY_API_KEY`. |
+| 2026-07-23 | **D1 Dividir PDF:** landing + app Separar/Extraer multi-archivo; proxy `POST /api/pdf/divide` → factotips-py `/v1/pdf/divide` (plan JSON + pypdf). |
 
 ---
 
 ## Próximo paso inmediato
 
-**Sprint D1 — Dividir PDF** (`/herramientas/pdf/dividir` + proxy a `/v1/pdf/split`).  
-Seguir: eliminar/extraer → ordenar → escanear → D2 Optimizar…  
+**Sprint D1 — Eliminar páginas** (`/herramientas/pdf/eliminar-paginas`).  
+Seguir: extraer (si dedicada) → ordenar → escanear → D2 Optimizar…  
 Después del kit (o en paralelo por oleadas): **E1 Liquidación / vacaciones** → E2 Horas extras → E3 AFP vs ONP.

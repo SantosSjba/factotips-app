@@ -1001,7 +1001,7 @@ export const en: Dictionary = {
       "Privacy first: Merge PDF processes temporarily and we do not keep your files. Other tools may run fully in your browser.",
     catalogTitle: "Tool catalog",
     catalogSubtitle:
-      "Seven categories in product order. Merge PDF is available; the rest will unlock over time.",
+      "Seven categories in product order. Merge and Split PDF are available; the rest will unlock over time.",
     available: "Available",
     comingSoon: "Coming soon",
     nextUp: "Next",
@@ -1069,12 +1069,13 @@ export const en: Dictionary = {
       "No. FactoTips does not store your PDFs or use them for training. Temporary files are deleted after processing.",
     faq3Q: "What ships first?",
     faq3A:
-      "Merge PDF is already available. Then split, remove/extract pages, organize, and the rest in the published order.",
+      "Merge and Split PDF are already available. Then remove/extract pages, organize, and the rest in the published order.",
     faq4Q: "Is it free?",
     faq4A:
       "Yes. The FactoTips PDF kit is free and requires no account in this version.",
-    finalTitle: "Start with Merge PDF",
-    finalText: "Combine several PDFs into one and download the result in seconds.",
+    finalTitle: "Start with Merge or Split PDF",
+    finalText:
+      "Combine several PDFs or split one into parts and download the result in seconds.",
     finalCta: "Merge PDF now",
     backHub: "Back to FactoTips",
   },
@@ -1106,7 +1107,7 @@ export const en: Dictionary = {
     faqTitle: "Frequently asked questions",
     faq1Q: "Where are my files merged?",
     faq1A:
-      "Preview, page order, and final assembly run in your browser. We do not store your PDFs on FactoTips.",
+      "Preview and ordering run in your browser. On Finish we merge temporarily on our service (factotips-py) and do not store your PDFs.",
     faq2Q: "How many PDFs can I merge?",
     faq2A: "Between 2 and 20 files, up to 25 MB each.",
     faq3Q: "Can I change the order?",
@@ -1125,7 +1126,7 @@ export const en: Dictionary = {
     subtitle:
       "Upload PDFs, organize files or pages, and download one document.",
     privacyNote:
-      "Preview and assembly run in your browser. We do not store your files on FactoTips.",
+      "Preview in your browser. On Finish we process temporarily on our service and do not store your files.",
     dropTitle: "Drop your PDFs here",
     dropMoreTitle: "Add more PDFs or drop them here",
     dropHint: "Up to {max} files · max {mb} MB each",
@@ -1186,6 +1187,104 @@ export const en: Dictionary = {
     errorGeneric: "Could not generate the PDF. Please try again.",
     errorNetwork: "Network error. Check your connection and try again.",
     errorRateLimit: "Too many merges in a row. Wait a moment and try again.",
+  },
+  pdfDividirLanding: {
+    eyebrow: "FactoTips · PDF kit",
+    headline: "Split PDF online: separate or extract pages",
+    subtitle:
+      "Cut one or more PDFs into parts, or keep only the pages you need. We process temporarily and do not store your documents.",
+    ctaPrimary: "Start splitting",
+    ctaSecondary: "See how it works",
+    whyTitle: "One or more PDFs, the parts you want",
+    whyText:
+      "Great for long scans, contracts, or meeting minutes when you only need a section or several outputs.",
+    benefit1Title: "Scissor cut points",
+    benefit1Text:
+      "Mark where to split between pages, or auto-split every N pages.",
+    benefit2Title: "Several files at once",
+    benefit2Text:
+      "Add more PDFs, tell them apart by color, and extract or split from the mix.",
+    benefit3Title: "No permanent storage",
+    benefit3Text:
+      "Processing is temporary: we do not keep your documents on FactoTips.",
+    howTitle: "How it works",
+    howSubtitle: "Three steps until you download the result.",
+    step1Title: "Upload your PDFs",
+    step1Text: "One or more, up to 20. Max 25 MB each.",
+    step2Title: "Split or extract",
+    step2Text:
+      "Use scissors between pages, “every N pages”, or select pages to extract.",
+    step3Title: "Download",
+    step3Text: "Get a ZIP of parts or a PDF with your selection.",
+    faqTitle: "Frequently asked questions",
+    faq1Q: "Where is my PDF split?",
+    faq1A:
+      "Preview runs in your browser. On Finish, we process temporarily on our service (factotips-py) and do not store your PDFs.",
+    faq2Q: "What is the difference between Split and Extract?",
+    faq2A:
+      "Split cuts the document into several PDFs (ZIP). Extract builds one PDF from the pages you select (or a ZIP if you turn on “Split PDF”).",
+    faq3Q: "Can I upload more than one PDF?",
+    faq3A:
+      "Yes. Add several files, see color labels per document, and insert more between pages.",
+    faq4Q: "Is it free and account-free?",
+    faq4A: "Yes. Split PDF on FactoTips is free and needs no account.",
+    finalTitle: "Ready to split your PDF",
+    finalText: "Open the tool, upload the file, and download the parts.",
+    finalCta: "Split PDF now",
+    backHub: "Back to the PDF kit",
+  },
+  pdfDividir: {
+    back: "Back to Split PDF",
+    title: "Split PDF",
+    privacyNote:
+      "Preview in your browser. On Finish we process temporarily on our service and do not store your files.",
+    dropTitle: "Drop your PDFs here",
+    dropHint: "Up to {max} files · max {mb} MB each",
+    pickFiles: "Choose files",
+    addMore: "Add",
+    addTile: "Add more PDFs",
+    insertHere: "Insert here",
+    clearAll: "Clear",
+    remove: "Delete",
+    finishCta: "Finish",
+    working: "Generating…",
+    moreTools: "See more PDF tools",
+    disclaimer:
+      "FactoTips tool. Check the result before using it for official procedures.",
+    tabSplit: "Split",
+    tabExtract: "Extract",
+    selectAll: "Select all",
+    rotateLeft: "Rotate left",
+    rotateRight: "Rotate right",
+    undo: "Undo",
+    redo: "Redo",
+    fileNameLabel: "File name",
+    fileNamePlaceholder: "split-document",
+    fileNamePreview: "Will download as {name}",
+    statsBar: "{files} file(s) · {pages} page(s) · {parts} part(s)/sel.",
+    splitHint:
+      "Click the scissors between pages to mark cuts. Or use “every N pages”.",
+    extractHint:
+      "Select pages to extract. With “Split PDF” each page becomes a file in the ZIP. Use + to insert more PDFs.",
+    splitEveryLabel: "Split after",
+    splitEveryUnit: "pages",
+    extractSplitToggle: "Split PDF",
+    addCut: "Add cut",
+    removeCut: "Remove cut",
+    enlarge: "View larger",
+    lightboxPrev: "Previous page",
+    lightboxNext: "Next page",
+    lightboxPageOf: "Page {n} of {total}",
+    errorNotPdf: "“{name}” is not a valid PDF.",
+    errorTooLarge: "“{name}” exceeds {mb} MB.",
+    errorMaxFiles: "Maximum {n} files.",
+    errorMinPages: "Upload at least one PDF with pages.",
+    errorNeedCuts:
+      "Mark at least one cut between pages (or enable every N) to generate multiple parts.",
+    errorNeedSelection: "Select at least one page to extract.",
+    errorGeneric: "Could not generate the result. Please try again.",
+    errorNetwork: "The PDF service is unavailable. Try again later.",
+    errorRateLimit: "Too many requests. Wait a moment and try again.",
   },
   precios: {
     back: "Back to comparer",

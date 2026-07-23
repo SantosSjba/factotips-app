@@ -86,7 +86,7 @@ export const PDF_CATEGORIES: readonly PdfCategoryMeta[] = [
         id: "dividir",
         slug: "dividir",
         icon: "mdi:call-split",
-        available: false,
+        available: true,
       },
       {
         id: "eliminar-paginas",

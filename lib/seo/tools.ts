@@ -368,6 +368,30 @@ export const PDF_TOOL_SEO = {
       ogTitle: "Unir PDF | FactoTips",
     } satisfies PageSeo,
   },
+  dividir: {
+    landing: {
+      title: "Dividir PDF online gratis",
+      description:
+        "Separa uno o varios PDF en partes o extrae páginas. Procesamos de forma temporal y no guardamos tus documentos.",
+      path: "/herramientas/pdf/dividir",
+      keywords: [
+        "dividir PDF",
+        "separar PDF gratis",
+        "extraer páginas PDF",
+        "split PDF online",
+        "dividir PDF Perú",
+      ],
+      ogTitle: "Dividir PDF online gratis | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Dividir PDF",
+      description:
+        "Sube uno o más PDF, marca cortes o selecciona páginas y descarga el resultado.",
+      path: "/herramientas/pdf/dividir/usar",
+      keywords: ["dividir PDF", "separar PDF", "extraer páginas"],
+      ogTitle: "Dividir PDF | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
@@ -558,6 +582,16 @@ export function pdfUnirSoftwareJsonLd() {
   const seo = PDF_TOOL_SEO.unir.landing;
   return softwareJsonLd({
     name: "Unir PDF — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "UtilitiesApplication",
+  });
+}
+
+export function pdfDividirSoftwareJsonLd() {
+  const seo = PDF_TOOL_SEO.dividir.landing;
+  return softwareJsonLd({
+    name: "Dividir PDF — FactoTips",
     description: seo.description,
     path: seo.path,
     applicationCategory: "UtilitiesApplication",

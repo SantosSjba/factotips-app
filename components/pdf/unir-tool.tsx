@@ -13,13 +13,13 @@ import { flushSync } from "react-dom";
 import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 import { PageLightbox } from "@/components/pdf/page-lightbox";
-import { assemblePdfFromPages, downloadPdfBytes } from "@/lib/pdf/assemble";
 import { pushHistory, type HistorySnapshot } from "@/lib/pdf/history";
 import {
   PDF_MAX_FILES_MERGE,
   PDF_MAX_UPLOAD_BYTES,
   PDF_MAX_UPLOAD_MB,
 } from "@/lib/pdf/limits";
+import { buildMergePlan, requestMerge } from "@/lib/pdf/merge-api";
 import {
   loadAllPageThumbsFromBytes,
   loadPdfPreviewFromBytes,
@@ -421,19 +421,23 @@ export function UnirPdfTool() {
     setLoading(true);
     setError(null);
     try {
-      const bytesBySource = new Map(
-        sources.map((s) => [s.id, s.bytes] as const),
-      );
-      const assembled = await assemblePdfFromPages(
-        pages.map((p) => ({
-          sourceBytes: bytesBySource.get(p.sourceId)!,
-          pageIndex: p.pageIndex,
-          rotation: p.rotation,
-        })),
-      );
-      downloadPdfBytes(assembled, sanitizeDownloadName(fileName));
-    } catch {
-      setError(c.errorGeneric);
+      const { files, plan } = buildMergePlan({
+        sources,
+        pages,
+        baseName: fileName,
+      });
+      await requestMerge({
+        files,
+        plan,
+        downloadName: sanitizeDownloadName(fileName),
+      });
+    } catch (err) {
+      const status = (err as Error & { status?: number }).status;
+      const message = err instanceof Error ? err.message : "";
+      if (status === 429) setError(c.errorRateLimit);
+      else if (status === 503) setError(c.errorNetwork);
+      else if (message && message !== "MERGE_FAILED") setError(message);
+      else setError(c.errorGeneric);
     } finally {
       setLoading(false);
     }
@@ -642,8 +646,9 @@ export function UnirPdfTool() {
               <button
                 type="button"
                 onClick={clearAll}
-                className={cn(toolBtn, "text-muted")}
+                className={cn(toolBtn, "text-muted hover:border-danger/40 hover:text-danger")}
               >
+                <Icon icon="mdi:broom" className="h-4 w-4" />
                 {c.clearAll}
               </button>
 

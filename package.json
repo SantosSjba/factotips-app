@@ -26,6 +26,7 @@
     "@tsparticles/react": "^4.3.2",
     "@tsparticles/slim": "^4.3.2",
     "clsx": "^2.1.1",
+    "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
     "next": "16.2.10",
     "pdf-lib": "^1.17.1",

@@ -1005,7 +1005,7 @@ export const es = {
       "Privacidad primero: Unir PDF procesa de forma temporal y no guardamos tus archivos. Otras herramientas pueden ser 100% en tu navegador.",
     catalogTitle: "Catálogo de herramientas",
     catalogSubtitle:
-      "Siete categorías en orden. Unir PDF ya está disponible; el resto se irá activando.",
+      "Siete categorías en orden. Unir y Dividir PDF ya están disponibles; el resto se irá activando.",
     available: "Disponible",
     comingSoon: "Próximamente",
     nextUp: "Siguiente",
@@ -1073,12 +1073,13 @@ export const es = {
       "No. FactoTips no almacena tus PDFs ni los usa para entrenamiento. Los archivos temporales se eliminan tras el proceso.",
     faq3Q: "¿Qué sale primero?",
     faq3A:
-      "Unir PDF ya está disponible. Luego dividir, eliminar/extraer páginas, ordenar y el resto en el orden publicado.",
+      "Unir y Dividir PDF ya están disponibles. Luego eliminar/extraer páginas, ordenar y el resto en el orden publicado.",
     faq4Q: "¿Es gratis?",
     faq4A:
       "Sí. El kit PDF de FactoTips es gratuito y sin registro en esta versión.",
-    finalTitle: "Empieza por Unir PDF",
-    finalText: "Junta varios PDF en uno solo y descarga el resultado en segundos.",
+    finalTitle: "Empieza por Unir o Dividir PDF",
+    finalText:
+      "Junta varios PDF o sepáralos en partes y descarga el resultado en segundos.",
     finalCta: "Unir PDF ahora",
     backHub: "Volver a FactoTips",
   },
@@ -1110,7 +1111,7 @@ export const es = {
     faqTitle: "Preguntas frecuentes",
     faq1Q: "¿Dónde se unen mis archivos?",
     faq1A:
-      "La vista previa, el orden de páginas y el armado final se hacen en tu navegador. No guardamos tus PDF en FactoTips.",
+      "La vista previa y el orden se arman en tu navegador. Al terminar, unimos de forma temporal en nuestro servicio (factotips-py) y no guardamos tus PDF.",
     faq2Q: "¿Cuántos PDF puedo unir?",
     faq2A: "Entre 2 y 20 archivos, con un máximo de 25 MB cada uno.",
     faq3Q: "¿Puedo cambiar el orden?",
@@ -1130,7 +1131,7 @@ export const es = {
     subtitle:
       "Sube varios PDF, organiza archivos o páginas y descarga un solo documento.",
     privacyNote:
-      "Vista previa y armado en tu navegador. No guardamos tus archivos en FactoTips.",
+      "Vista previa en tu navegador. Al terminar, procesamos de forma temporal en nuestro servicio y no guardamos tus archivos.",
     dropTitle: "Arrastra tus PDF aquí",
     dropMoreTitle: "Agrega más PDF o suéltalos aquí",
     dropHint: "Hasta {max} archivos · máx. {mb} MB c/u",
@@ -1192,6 +1193,104 @@ export const es = {
     errorGeneric: "No se pudo generar el PDF. Intenta de nuevo.",
     errorNetwork: "Error de red. Revisa tu conexión e intenta otra vez.",
     errorRateLimit: "Demasiadas uniones seguidas. Espera un momento e intenta de nuevo.",
+  },
+  pdfDividirLanding: {
+    eyebrow: "FactoTips · Kit PDF",
+    headline: "Dividir PDF online: separa o extrae páginas",
+    subtitle:
+      "Corta uno o varios PDF en partes, o elige solo las páginas que necesitas. Procesamos de forma temporal y no guardamos tus documentos.",
+    ctaPrimary: "Empezar a dividir",
+    ctaSecondary: "Ver cómo funciona",
+    whyTitle: "Uno o varios PDF, las partes que quieras",
+    whyText:
+      "Ideal para actas, contratos o escaneos largos cuando solo necesitas un tramo o varias salidas.",
+    benefit1Title: "Cortes con tijeras",
+    benefit1Text:
+      "Marca dónde separar entre páginas o divide automáticamente cada N hojas.",
+    benefit2Title: "Varios archivos a la vez",
+    benefit2Text:
+      "Añade más PDF, distingue cada uno por color y extrae o separa desde la mezcla.",
+    benefit3Title: "Sin archivo permanente",
+    benefit3Text:
+      "El proceso es temporal: no guardamos tus documentos en FactoTips.",
+    howTitle: "Cómo funciona",
+    howSubtitle: "Tres pasos hasta descargar el resultado.",
+    step1Title: "Sube tus PDF",
+    step1Text: "Uno o varios, hasta 20. Máx. 25 MB cada uno.",
+    step2Title: "Separa o extrae",
+    step2Text:
+      "Usa tijeras entre páginas, “cada N páginas”, o marca las hojas a extraer.",
+    step3Title: "Descarga",
+    step3Text: "Obtienes un ZIP con las partes o un PDF con lo seleccionado.",
+    faqTitle: "Preguntas frecuentes",
+    faq1Q: "¿Dónde se divide mi PDF?",
+    faq1A:
+      "La vista previa se arma en tu navegador. Al terminar, procesamos de forma temporal en nuestro servicio (factotips-py) y no guardamos tus PDF.",
+    faq2Q: "¿Cuál es la diferencia entre Separar y Extraer?",
+    faq2A:
+      "Separar corta el documento en varios PDF (ZIP). Extraer arma un PDF solo con las páginas que marques (o un ZIP si activas “Dividir PDF”).",
+    faq3Q: "¿Puedo subir más de un PDF?",
+    faq3A:
+      "Sí. Añade varios archivos, verás etiquetas de color por documento y puedes insertar más entre páginas.",
+    faq4Q: "¿Es gratis y sin registro?",
+    faq4A: "Sí. Dividir PDF en FactoTips es gratuito y no requiere cuenta.",
+    finalTitle: "Listo para partir tu PDF",
+    finalText: "Abre la herramienta, sube el archivo y descarga las partes.",
+    finalCta: "Dividir PDF ahora",
+    backHub: "Volver al kit PDF",
+  },
+  pdfDividir: {
+    back: "Volver a Dividir PDF",
+    title: "Dividir PDF",
+    privacyNote:
+      "Vista previa en tu navegador. Al terminar, procesamos de forma temporal en nuestro servicio y no guardamos tus archivos.",
+    dropTitle: "Arrastra tus PDF aquí",
+    dropHint: "Hasta {max} archivos · máx. {mb} MB c/u",
+    pickFiles: "Elegir archivos",
+    addMore: "Añadir",
+    addTile: "Añade más PDF",
+    insertHere: "Insertar aquí",
+    clearAll: "Vaciar",
+    remove: "Eliminar",
+    finishCta: "Terminar",
+    working: "Generando…",
+    moreTools: "Ver más herramientas PDF",
+    disclaimer:
+      "Herramienta de FactoTips. Verifica el resultado antes de usarlo en trámites oficiales.",
+    tabSplit: "Separar",
+    tabExtract: "Extraer",
+    selectAll: "Seleccionar todo",
+    rotateLeft: "Rotar izquierda",
+    rotateRight: "Rotar derecha",
+    undo: "Deshacer",
+    redo: "Rehacer",
+    fileNameLabel: "Nombre del archivo",
+    fileNamePlaceholder: "documento-dividido",
+    fileNamePreview: "Se descargará como {name}",
+    statsBar: "{files} archivo(s) · {pages} página(s) · {parts} parte(s)/sel.",
+    splitHint:
+      "Haz clic en las tijeras entre páginas para marcar cortes. O usa “cada N páginas”.",
+    extractHint:
+      "Marca las páginas a extraer. Con “Dividir PDF” cada página sale en un archivo del ZIP. Usa + para insertar más PDF.",
+    splitEveryLabel: "Dividir después de",
+    splitEveryUnit: "páginas",
+    extractSplitToggle: "Dividir PDF",
+    addCut: "Añadir corte",
+    removeCut: "Quitar corte",
+    enlarge: "Ver en grande",
+    lightboxPrev: "Página anterior",
+    lightboxNext: "Página siguiente",
+    lightboxPageOf: "Página {n} de {total}",
+    errorNotPdf: "“{name}” no es un PDF válido.",
+    errorTooLarge: "“{name}” supera {mb} MB.",
+    errorMaxFiles: "Máximo {n} archivos.",
+    errorMinPages: "Sube al menos un PDF con páginas.",
+    errorNeedCuts:
+      "Marca al menos un corte entre páginas (o activa dividir cada N) para generar varias partes.",
+    errorNeedSelection: "Selecciona al menos una página para extraer.",
+    errorGeneric: "No se pudo generar el resultado. Intenta de nuevo.",
+    errorNetwork: "El servicio de PDF no está disponible. Intenta más tarde.",
+    errorRateLimit: "Demasiadas solicitudes. Espera un momento e intenta de nuevo.",
   },
   precios: {
     back: "Volver al comparador",
