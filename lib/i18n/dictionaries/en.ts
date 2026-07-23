@@ -15,7 +15,7 @@ export const en: Dictionary = {
   },
   footer: {
     tagline:
-      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, net salary, fees, CTS, and bonuses.",
+      "Utility tools hub by Factosys Perú: DIGEMID prices, IGV, UIT, QR, PDF kit, net salary, fees, CTS, and bonuses.",
     toolsTitle: "Tools",
     notesTitle: "Notices",
     linkPrecios: "DIGEMID prices",
@@ -31,7 +31,7 @@ export const en: Dictionary = {
     noSell:
       "FactoTips does not sell medicines or intermediate commercial sales.",
     orientative:
-      "IGV, UIT, net salary, fees, CTS, bonuses, and QR are orientation tools. Always verify official sources (SUNAT, MEF, MTPE, etc.).",
+      "IGV, UIT, net salary, fees, CTS, bonuses, QR, and PDF are orientation tools. Always verify official sources (SUNAT, MEF, MTPE, etc.).",
     rights: "All rights reserved.",
     viewTools: "View tools",
     byOwner: "A product of",
@@ -41,7 +41,7 @@ export const en: Dictionary = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Useful tools: calculate IGV, net salary, fees, CTS, and bonuses, convert UIT, generate QR, and compare medicine prices.",
+      "Useful tools: calculate IGV, net salary, fees, CTS, and bonuses, convert UIT, generate QR, use the PDF kit, and compare medicine prices.",
     ctaCompare: "Compare prices",
     ctaTools: "View tools",
     ctaOpenTool: "Open tool",
@@ -50,7 +50,7 @@ export const en: Dictionary = {
     heroNext: "Next tool",
     toolsTitle: "Tools",
     toolsSubtitle:
-      "DIGEMID comparer, IGV, UIT, QR, net salary, fees, CTS, and bonuses.",
+      "DIGEMID comparer, IGV, UIT, QR, PDF kit, net salary, fees, CTS, and bonuses.",
     openTool: "Open tool",
     comingSoon: "Coming soon",
     toolPreciosTitle: "Medicine price comparer",
@@ -85,6 +85,10 @@ export const en: Dictionary = {
     toolGratificacionShort: "Bonus",
     toolGratificacionDesc:
       "July or December plus Essalud 9% or EPS 6.75% extraordinary bonus.",
+    toolPdfTitle: "PDF kit",
+    toolPdfShort: "PDF",
+    toolPdfDesc:
+      "Merge, split, compress, convert, and more. When possible, everything runs in your browser.",
     toolSoon1Title: "More tools on the way",
     toolSoon1Desc:
       "FactoTips will grow with more practical everyday utilities.",
@@ -95,7 +99,7 @@ export const en: Dictionary = {
       "Three steps to use any FactoTips tool — no account required.",
     step1Title: "Pick a tool",
     step1Text:
-      "DIGEMID prices, IGV, UIT, QR, net salary, fees, CTS, or bonuses.",
+      "DIGEMID prices, IGV, UIT, QR, PDF kit, net salary, fees, CTS, or bonuses.",
     step2Title: "Enter your data",
     step2Text:
       "Amounts, location, or content. Most calculations run on your device.",
@@ -108,7 +112,7 @@ export const en: Dictionary = {
     disclaimerPrefix: "Official price source:",
     disclaimerObs: "Medicine Price Observatory — DIGEMID / MINSA",
     disclaimerSuffix:
-      ". Calculators and QR are orientation tools; always verify official sources.",
+      ". Calculators, QR, and the PDF kit are orientation tools; always verify official sources.",
   },
   preciosLanding: {
     eyebrow: "FactoTips · DIGEMID / MINSA",
@@ -985,6 +989,95 @@ export const en: Dictionary = {
     rule4: "Does not cover every special regime or court withholdings.",
     disclaimer:
       "Orientation tool by FactoTips. Not MTPE or an official settlement. Verify your regime, computable items, and withholdings in official sources or with a labor advisor.",
+  },
+  pdfLanding: {
+    eyebrow: "FactoTips · PDF kit",
+    headline: "PDF tools without uploading your files",
+    subtitle:
+      "Merge, split, compress, convert, and more. When a tool is fully client-side, your PDFs never leave your device.",
+    ctaPrimary: "See Merge PDF",
+    ctaSecondary: "Browse catalog",
+    privacyBanner:
+      "Privacy first: in client-side flows your files are not uploaded to FactoTips servers.",
+    catalogTitle: "Tool catalog",
+    catalogSubtitle:
+      "Seven categories in product order. We start with Merge PDF; the rest will unlock over time.",
+    available: "Available",
+    comingSoon: "Coming soon",
+    nextUp: "Next",
+    openTool: "Open",
+    categories: {
+      ordenar: "Organize PDF",
+      optimizar: "Optimize PDF",
+      "convertir-a": "Convert to PDF",
+      "convertir-desde": "Convert from PDF",
+      editar: "Edit PDF",
+      seguridad: "PDF security",
+      intelligence: "PDF Intelligence",
+    },
+    tools: {
+      unir: "Merge PDF",
+      dividir: "Split PDF",
+      "eliminar-paginas": "Remove pages",
+      "extraer-paginas": "Extract pages",
+      ordenar: "Organize PDF",
+      escanear: "Scan to PDF",
+      comprimir: "Compress PDF",
+      reparar: "Repair PDF",
+      ocr: "OCR PDF",
+      "jpg-a-pdf": "JPG to PDF",
+      "word-a-pdf": "WORD to PDF",
+      "powerpoint-a-pdf": "POWERPOINT to PDF",
+      "excel-a-pdf": "EXCEL to PDF",
+      "html-a-pdf": "HTML to PDF",
+      "pdf-a-jpg": "PDF to JPG",
+      "pdf-a-word": "PDF to WORD",
+      "pdf-a-powerpoint": "PDF to POWERPOINT",
+      "pdf-a-excel": "PDF to EXCEL",
+      "pdf-a-pdfa": "PDF to PDF/A",
+      rotar: "Rotate PDF",
+      "numeros-pagina": "Add page numbers",
+      "marca-agua": "Add watermark",
+      recortar: "Crop PDF",
+      editar: "Edit PDF",
+      formularios: "PDF forms",
+      desbloquear: "Unlock PDF",
+      proteger: "Protect PDF",
+      firmar: "Sign PDF",
+      censurar: "Redact PDF",
+      comparar: "Compare PDF",
+      "resumir-ia": "Summarize with AI",
+      traducir: "Translate PDF",
+      "pdf-a-markdown": "PDF to Markdown",
+    },
+    howTitle: "How we handle your files",
+    howSubtitle: "Three clear privacy rules.",
+    step1Title: "Pick a tool",
+    step1Text: "Merge, compress, convert, or another catalog tool.",
+    step2Title: "Process in the browser",
+    step2Text:
+      "If the tool is client-side, the PDF is read and built on your device.",
+    step3Title: "Download the result",
+    step3Text:
+      "Nobody stores your file on FactoTips. If a tool needs an API (e.g. AI), we warn you first.",
+    faqTitle: "Privacy and FAQ",
+    faq1Q: "Are my PDFs uploaded to a server?",
+    faq1A:
+      "In client-side tools, no. The file is processed in your browser. If a feature needs a server or AI, we say so clearly before you continue.",
+    faq2Q: "Do you store or review my documents?",
+    faq2A:
+      "No. FactoTips does not store your PDFs in a database or use them for training. We prefer local flows whenever possible.",
+    faq3Q: "What ships first?",
+    faq3A:
+      "Merge PDF is the first tool in the catalog. Then split, remove/extract pages, organize, and the rest in the published order.",
+    faq4Q: "Is it free?",
+    faq4A:
+      "Yes. The FactoTips PDF kit is free and requires no account in this version.",
+    finalTitle: "Start with Merge PDF",
+    finalText:
+      "The first tool in the kit. While we activate it, explore the full catalog.",
+    finalCta: "Go to Merge PDF",
+    backHub: "Back to FactoTips",
   },
   precios: {
     back: "Back to comparer",

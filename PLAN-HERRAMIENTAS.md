@@ -1,8 +1,9 @@
 # FactoTips — Plan de herramientas (roadmap)
 
 > **Producto:** hub de utilidades FactoTips (Factosys Perú)  
-> **Ya en producción:** Comparador de precios DIGEMID  
-> **Regla de producto:** cada herramienta nueva = **landing SEO + app** (igual que precios)
+> **Ya en producción:** Precios DIGEMID, IGV, UIT, QR, sueldo neto, honorarios, CTS, gratificación  
+> **Regla de producto:** cada herramienta nueva = **landing SEO + app** (igual que precios)  
+> **Fuera de alcance:** consulta RUC — SUNAT ya la ofrece al público; no duplicar
 
 Marca avance con `- [x]`. Implementar **una herramienta completa** antes de pasar a la siguiente.
 
@@ -22,7 +23,7 @@ Marca avance con `- [x]`. Implementar **una herramienta completa** antes de pasa
 ### Checklist SEO / calidad (copiar por herramienta)
 
 - [ ] `metadata` (title, description, keywords, OG) en `lib/seo/tools.ts`
-- [ ] Entrada en `TOOL_ROUTES` + `TOOLS` (hub)
+- [ ] Entrada en `TOOL_ROUTES` + `HUB_TOOLS` (hub / header / footer)
 - [ ] Landing con: marca/headline, 1 frase, CTA a la app, cómo funciona, FAQ, disclaimer
 - [ ] JSON-LD: `WebApplication` + `FAQPage` (como precios)
 - [ ] Sitemap: incluir landing (+ app si aplica)
@@ -37,7 +38,7 @@ Marca avance con `- [x]`. Implementar **una herramienta completa** antes de pasa
 |------|---------|
 | Calculadoras (IGV, UIT, sueldo…) | 100% client-side; constantes UIT/RMV en `lib/pe/` |
 | QR | Client-side (`qrcode` / similar) |
-| PDF | Client-side (`pdf-lib` + Web Workers si hace falta) |
+| PDF | Preferir client-side (`pdf-lib` / WASM); conversiones Office, OCR e IA pueden requerir worker o API documentada |
 | Consultas externas | Solo APIs oficiales/públicas + rate limit + caché Postgres si aplica |
 
 ---
@@ -58,12 +59,16 @@ Archivo sugerido: `lib/pe/indicadores.ts` (fuente única).
 ## Orden de trabajo (sprints)
 
 ```
-Sprint A (quick wins)     → IGV → UIT → QR
-Sprint B (bolsillo)       → Sueldo neto → Honorarios 4ta
-Sprint C (estacional)     → CTS → Gratificación
-Sprint D (archivos)       → PDF unir/comprimir
-Opcional                  → Consulta RUC (API pública + rate limit)
+Sprint A (quick wins)     → IGV → UIT → QR                         ✅
+Sprint B (bolsillo)       → Sueldo neto → Honorarios 4ta           ✅
+Sprint C (estacional)     → CTS → Gratificación                    ✅
+Sprint D (archivos)       → Kit PDF completo (7 categorías, orden abajo)  ← siguiente
+Sprint E (cluster laboral)→ Liquidación/vacaciones → Horas extras → AFP vs ONP
+Sprint F (SEO recurrente) → Calendario SUNAT → Utilidades laborales
+Sprint G (nice-to-have)   → Tipo de cambio · Multas UIT · TEA/TCEA
 ```
+
+**No planificar:** consulta RUC (disponible públicamente en SUNAT / gob.pe).
 
 ---
 
@@ -232,41 +237,389 @@ Opcional                  → Consulta RUC (API pública + rate limit)
 
 ---
 
-# Sprint D — Archivos (privacidad)
+# Sprint D — Kit PDF (privacidad)
 
-## D1. Kit PDF (v1)
+> Hub tipo iLovePDF: **landing catálogo** + **una app por herramienta**.  
+> Orden de categorías y herramientas = orden de producto (no reordenar).  
+> Regla: cuando sea posible, **procesar en el navegador**; si hace falta servidor/WASM/API, documentarlo en la landing y preferir no persistir archivos.
 
-**Slug:** `pdf`  
-**Esfuerzo:** ~2–3 días  
-**Tipo:** client-side (`pdf-lib`)
+**Slug hub:** `pdf`  
+**Demanda:** muy alta (global + negocios PE)  
+**Tipo:** client-side primero (`pdf-lib` + workers); excepciones abajo
 
 ### Rutas
 
-- Landing: `/herramientas/pdf`
-- App: `/herramientas/pdf/usar`
+| Tipo | Patrón | Ejemplo |
+|------|--------|---------|
+| Hub SEO | `/herramientas/pdf` | Catálogo por categorías |
+| Landing herramienta | `/herramientas/pdf/{tool}` | `/herramientas/pdf/unir` |
+| App | `/herramientas/pdf/{tool}/usar` | `/herramientas/pdf/unir/usar` |
 
-### Funcionalidad v1
+### Convenciones técnicas
 
-- [ ] Unir PDF
-- [ ] Comprimir PDF (básico)
-- [ ] (Opcional) dividir
+- [x] Catálogo en `lib/pdf/tools.ts` (id, categoría, slug, stack, esfuerzo)
+- [x] Entrada hub en `HUB_TOOLS` + `TOOL_ROUTES` (hub + tools)
+- [x] Mensaje fuerte en hub y cada app: archivos **no se suben** cuando el flujo es 100% cliente
+- [x] FAQ privacidad en hub
+- [x] Sitemap: hub + cada landing (+ `/usar` si aplica) — hub en sitemap; landings hijas al activar cada tool
+- [x] i18n ES mínimo
 
-### SEO / confianza
+### SEO (keywords seed hub)
 
-- [ ] Mensaje fuerte: archivos **no se suben** a servidor
-- [ ] FAQ privacidad
+`unir PDF`, `comprimir PDF online`, `juntar PDF gratis`, `PDF sin subir archivos`, `herramientas PDF gratis`, `editar PDF online`
 
 ---
 
-# Opcional (post-MVP herramientas)
+## D0. Hub PDF
 
-## Consulta RUC (datos públicos)
+- [x] Landing `/herramientas/pdf` con las **7 categorías** en este orden
+- [x] Cards/links a cada herramienta (estado: disponible / próximamente)
+- [x] CTA primario hacia la primera herramienta lista (Unir PDF)
+- [x] Disclaimer privacidad + FAQ
 
-**Slug:** `ruc`  
-- Solo si hay fuente oficial/pública estable  
-- Rate limit + caché Postgres  
-- Landing SEO + app  
-- **No** scrapear HTML de SUNAT
+---
+
+## D1. Ordenar PDF
+
+| # | Herramienta | Slug | Notas |
+|---|-------------|------|-------|
+| 1 | Unir PDF | `unir` | Prioridad v1 — `pdf-lib` |
+| 2 | Dividir PDF | `dividir` | Por rangos / cada N páginas |
+| 3 | Eliminar páginas | `eliminar-paginas` | Selección de páginas |
+| 4 | Extraer páginas | `extraer-paginas` | Nuevo PDF con páginas elegidas |
+| 5 | Ordenar PDF | `ordenar` | Reordenar / drag & drop páginas |
+| 6 | Escanea a PDF | `escanear` | Cámara / imágenes → PDF |
+
+Checklist:
+
+- [ ] Unir PDF
+- [ ] Dividir PDF
+- [ ] Eliminar páginas
+- [ ] Extraer páginas
+- [ ] Ordenar PDF
+- [ ] Escanea a PDF
+
+---
+
+## D2. Optimizar PDF
+
+| # | Herramienta | Slug | Notas |
+|---|-------------|------|-------|
+| 1 | Comprimir PDF | `comprimir` | Básico client-side; niveles si aplica |
+| 2 | Reparar PDF | `reparar` | Reconstrucción / limpieza básica |
+| 3 | OCR PDF | `ocr` | Texto seleccionable; Tesseract WASM o worker |
+
+Checklist:
+
+- [ ] Comprimir PDF
+- [ ] Reparar PDF
+- [ ] OCR PDF
+
+---
+
+## D3. Convertir a PDF
+
+| # | Herramienta | Slug | Notas |
+|---|-------------|------|-------|
+| 1 | JPG a PDF | `jpg-a-pdf` | Incluye PNG/WebP si es trivial |
+| 2 | WORD a PDF | `word-a-pdf` | Puede requerir conversión server/WASM |
+| 3 | POWERPOINT a PDF | `powerpoint-a-pdf` | Idem |
+| 4 | EXCEL a PDF | `excel-a-pdf` | Idem |
+| 5 | HTML a PDF | `html-a-pdf` | Print / render client o worker |
+
+Checklist:
+
+- [ ] JPG a PDF
+- [ ] WORD a PDF
+- [ ] POWERPOINT a PDF
+- [ ] EXCEL a PDF
+- [ ] HTML a PDF
+
+---
+
+## D4. Convertir desde PDF
+
+| # | Herramienta | Slug | Notas |
+|---|-------------|------|-------|
+| 1 | PDF a JPG | `pdf-a-jpg` | Render páginas (pdf.js / canvas) |
+| 2 | PDF a WORD | `pdf-a-word` | Complejidad alta; evaluar stack |
+| 3 | PDF a POWERPOINT | `pdf-a-powerpoint` | Idem |
+| 4 | PDF a EXCEL | `pdf-a-excel` | Tablas; calidad variable |
+| 5 | PDF a PDF/A | `pdf-a-pdfa` | Cumplimiento archivo |
+
+Checklist:
+
+- [ ] PDF a JPG
+- [ ] PDF a WORD
+- [ ] PDF a POWERPOINT
+- [ ] PDF a EXCEL
+- [ ] PDF a PDF/A
+
+---
+
+## D5. Editar PDF
+
+| # | Herramienta | Slug | Notas |
+|---|-------------|------|-------|
+| 1 | Rotar PDF | `rotar` | 90° / 180° / 270° |
+| 2 | Insertar números de página | `numeros-pagina` | Posición / formato |
+| 3 | Insertar marca de agua | `marca-agua` | Texto o imagen |
+| 4 | Recortar PDF | `recortar` | Crop por página / lote |
+| 5 | Editar PDF | `editar` | Texto/anotaciones básicas (scope acotado) |
+| 6 | Formularios PDF | `formularios` | Rellenar / aplanar campos |
+
+Checklist:
+
+- [ ] Rotar PDF
+- [ ] Insertar números de página
+- [ ] Insertar marca de agua
+- [ ] Recortar PDF
+- [ ] Editar PDF
+- [ ] Formularios PDF
+
+---
+
+## D6. Seguridad de PDF
+
+| # | Herramienta | Slug | Notas |
+|---|-------------|------|-------|
+| 1 | Desbloquear PDF | `desbloquear` | Quitar contraseña (con clave conocida) |
+| 2 | Proteger PDF | `proteger` | Contraseña / permisos |
+| 3 | Firmar PDF | `firmar` | Firma imagen / dibujo (no certificado cualificado v1) |
+| 4 | Censurar PDF | `censurar` | Redactar zonas (irreversible) |
+| 5 | Comparar PDF | `comparar` | Diff visual o textual orientativo |
+
+Checklist:
+
+- [ ] Desbloquear PDF
+- [ ] Proteger PDF
+- [ ] Firmar PDF
+- [ ] Censurar PDF
+- [ ] Comparar PDF
+
+---
+
+## D7. PDF Intelligence
+
+| # | Herramienta | Slug | Notas |
+|---|-------------|------|-------|
+| 1 | Resumir con IA | `resumir-ia` | Requiere API; no persistir archivo si es posible |
+| 2 | Traducir PDF | `traducir` | Idem + límites de tamaño |
+| 3 | PDF a Markdown | `pdf-a-markdown` | Extracción texto/estructura |
+
+Checklist:
+
+- [ ] Resumir con IA
+- [ ] Traducir PDF
+- [ ] PDF a Markdown
+
+### Notas IA / privacidad
+
+- [ ] Aviso si el archivo sale del navegador (API)
+- [ ] Rate limit / tamaño máximo
+- [ ] No guardar PDFs en BD
+
+---
+
+## Orden de entrega sugerido (dentro de Sprint D)
+
+Implementar **en este orden de categorías** (D1 → D7). Dentro de cada categoría, seguir la tabla de arriba.
+
+Prioridad técnica realista para primeros releases (sin romper el orden del catálogo en UI):
+
+1. **D0 hub** + **D1 Unir** (primera usable)
+2. Resto de **D1** (dividir → escanear)
+3. **D2** Comprimir → OCR
+4. **D3** JPG a PDF primero; Office después
+5. **D4** PDF a JPG primero; Office/PDF/A después
+6. **D5** Rotar / números / marca de agua antes que editor completo
+7. **D6** Proteger / desbloquear / firmar básica
+8. **D7** Intelligence al final (depende de API)
+
+**Esfuerzo orientativo del kit completo:** varias semanas (no un solo sprint de 2–3 días). Entregar por oleadas, marcando checkboxes.
+
+---
+
+# Sprint E — Cluster laboral (alta demanda PE)
+
+> Cierra el circuito con sueldo neto / CTS / gratificación. Todo **client-side** + disclaimer MTPE.
+
+## E1. Liquidación / vacaciones truncas
+
+**Slug:** `liquidacion`  
+**Demanda:** muy alta (renuncia, cese, fin de contrato)  
+**Esfuerzo:** ~2–3 días  
+**Tipo:** client-side
+
+### Rutas
+
+- Landing: `/herramientas/liquidacion`
+- App: `/herramientas/liquidacion/usar`
+
+### Funcionalidad
+
+- [ ] Vacaciones truncas / pendientes
+- [ ] CTS trunca (si aplica al cese)
+- [ ] Gratificación trunca (si aplica)
+- [ ] Resumen “total estimado a recibir”
+- [ ] Cross-links a CTS / gratificación / sueldo neto
+- [ ] Disclaimer: estimativo, no liquidación oficial del empleador
+
+### SEO
+
+`liquidación laboral Perú`, `calcular vacaciones truncas`, `liquidación por renuncia`, `beneficios sociales cese`
+
+### Checklist entrega
+
+- [ ] Landing + app + `HUB_TOOLS`
+- [ ] FAQ (qué incluye / qué no; regímenes especiales fuera de alcance)
+- [ ] `lib/pe/liquidacion.ts` + indicadores vigentes
+
+---
+
+## E2. Horas extras
+
+**Slug:** `horas-extras`  
+**Demanda:** alta  
+**Esfuerzo:** ~1 día  
+**Tipo:** client-side
+
+### Rutas
+
+- Landing: `/herramientas/horas-extras`
+- App: `/herramientas/horas-extras/usar`
+
+### Funcionalidad
+
+- [ ] Extra diurna / nocturna / feriado (recargos MTPE vigentes documentados)
+- [ ] Input: remuneración horaria o sueldo mensual → valor hora
+- [ ] Total a pagar por N horas
+- [ ] Disclaimer laboral orientativo
+
+### SEO
+
+`calcular horas extras Perú`, `hora extra 25% 35%`, `horas extras feriado`, `recargo nocturno`
+
+---
+
+## E3. Comparador AFP vs ONP
+
+**Slug:** `afp-onp`  
+**Demanda:** alta (decisión de sistema pensionario)  
+**Esfuerzo:** ~1–2 días  
+**Tipo:** client-side
+
+### Rutas
+
+- Landing: `/herramientas/afp-onp`
+- App: `/herramientas/afp-onp/usar`
+
+### Funcionalidad
+
+- [ ] Comparar descuento mensual AFP (flujo/saldo) vs ONP 13%
+- [ ] Reusar comisiones AFP de `lib/pe/sueldo-neto` / indicadores SBS
+- [ ] Proyección simple a N años (orientativa)
+- [ ] Disclaimer: no asesoría SBS / no recomienda AFP concreta
+
+### SEO
+
+`AFP o ONP`, `comparar AFP ONP`, `cuál me conviene AFP`, `descuento ONP 13%`
+
+---
+
+# Sprint F — SEO recurrente / estacional
+
+## F1. Calendario tributario SUNAT
+
+**Slug:** `calendario-sunat`  
+**Demanda:** alta (mensual; mypes y contadores)  
+**Esfuerzo:** ~1–1.5 días  
+**Tipo:** client-side (tabla del año + filtro por dígito RUC)
+
+### Rutas
+
+- Landing: `/herramientas/calendario-sunat`
+- App: `/herramientas/calendario-sunat/usar`
+
+### Funcionalidad
+
+- [ ] Vencimientos IGV-Renta / PDT según último dígito RUC
+- [ ] Año vigente editable (actualizar cada ejercicio)
+- [ ] “Próximo vencimiento” destacado
+- [ ] Fuente: calendario oficial SUNAT del año (documentar URL)
+- [ ] Disclaimer: verificar siempre en SUNAT; feriados pueden mover fechas
+
+### SEO
+
+`calendario SUNAT 2026`, `vencimiento IGV dígito RUC`, `cuándo declaro SUNAT`, `cronograma tributario`
+
+---
+
+## F2. Utilidades laborales
+
+**Slug:** `utilidades`  
+**Demanda:** alta estacional (mar–abr)  
+**Esfuerzo:** ~1–2 días  
+**Tipo:** client-side
+
+### Rutas
+
+- Landing: `/herramientas/utilidades`
+- App: `/herramientas/utilidades/usar`
+
+### Funcionalidad
+
+- [ ] Estimación según días laborados / remuneración
+- [ ] Nota por sector (mínimo: comercio / industrial genérico o input % empresa)
+- [ ] Disclaimer fuerte: el % y tope los define la empresa / ley; FactoTips no reemplaza liquidación
+
+### SEO
+
+`calcular utilidades Perú`, `utilidades laborales 2026`, `cuánto me toca de utilidades`
+
+---
+
+# Sprint G — Nice-to-have (después de E/F)
+
+## G1. Tipo de cambio soles ↔ USD
+
+**Slug:** `tipo-cambio`  
+**Demanda:** media–alta  
+**Esfuerzo:** ~0.5–1 día (+ API si no es manual)  
+**Tipo:** client-side con tasa referencial documentada **o** API pública BCRP/SBS si estable
+
+- [ ] Compra / venta / promedio (etiquetar claramente)
+- [ ] Disclaimer: referencial, no tasa bancaria garantizada
+
+## G2. Multas en UIT
+
+**Slug:** `multas-uit`  
+**Demanda:** media (trámites, SUNAFIL/SUNAT)  
+**Esfuerzo:** ~0.5 día  
+**Tipo:** client-side (reusa conversor UIT)
+
+- [ ] N UIT → soles (tabla rápida de multas frecuentes opcional)
+- [ ] Cross-link a `/herramientas/uit`
+
+## G3. TEA / TCEA (préstamos)
+
+**Slug:** `tea-tcea`  
+**Demanda:** media  
+**Esfuerzo:** ~1 día  
+**Tipo:** client-side
+
+- [ ] Estimar cuota / costo total orientativo
+- [ ] Disclaimer SBS: no reemplaza la TCEA contractual del banco
+
+---
+
+# Explicitamente fuera de alcance
+
+| Idea | Motivo |
+|------|--------|
+| **Consulta RUC** | SUNAT ya la ofrece al público (SOL / Emprender SUNAT / gob.pe). No competir ni scrapear. |
+| Emisión de comprobantes / Clave SOL | Trámite oficial; fuera de producto |
+| Liquidación “boleta-grade” perfecta | Regímenes especiales y casos judiciales → solo estimativo |
 
 ---
 
@@ -279,7 +632,7 @@ components/marketing/{slug}-landing.tsx
 components/{slug}/{slug}-tool.tsx
 lib/pe/{slug}.ts                              # lógica (si aplica)
 lib/seo/tools.ts                              # TOOL_ROUTES + TOOL_SEO + JSON-LD
-lib/tools.ts                                  # card en hub
+lib/hub-tools.ts                              # catálogo hub / header / footer / related
 lib/i18n/dictionaries/{es,en}.ts              # copy
 app/sitemap.ts                                # rutas nuevas
 ```
@@ -298,9 +651,14 @@ app/sitemap.ts                                # rutas nuevas
 | 2026-07-17 | B2 Recibo por honorarios entregado (`/herramientas/honorarios` + `/usar`). |
 | 2026-07-17 | C1 Calculadora CTS entregada (`/herramientas/cts` + `/usar`). |
 | 2026-07-17 | C2 Calculadora gratificación entregada (`/herramientas/gratificacion` + `/usar`). |
+| 2026-07-23 | Roadmap ampliado: sprints E–G (liquidación, horas extras, AFP/ONP, calendario SUNAT, utilidades, etc.). **Consulta RUC descartada** (ya pública en SUNAT). |
+| 2026-07-23 | **Sprint D ampliado:** Kit PDF con 7 categorías en orden de producto (Ordenar → Optimizar → Convertir a PDF → Convertir desde PDF → Editar → Seguridad → Intelligence). Hub `/herramientas/pdf` + app por herramienta. |
+| 2026-07-23 | **D0 Hub PDF entregado:** `/herramientas/pdf` con catálogo completo, badges disponible/próximamente/siguiente (Unir), FAQ privacidad, SEO + hub FactoTips. |
 
 ---
 
 ## Próximo paso inmediato
 
-**Sprint D1 — Kit PDF** (landing `/herramientas/pdf` + app `/usar`).
+**Sprint D1 — Unir PDF** (`/herramientas/pdf/unir` + `/usar`, client-side `pdf-lib`).  
+Seguir el catálogo: resto de Ordenar → Optimizar → Convertir a/desde → Editar → Seguridad → Intelligence.  
+Después del kit (o en paralelo por oleadas): **E1 Liquidación / vacaciones** → E2 Horas extras → E3 AFP vs ONP.

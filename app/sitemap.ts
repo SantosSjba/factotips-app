@@ -13,19 +13,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
-    ...tools.flatMap((tool) => [
-      {
+    ...tools.flatMap((tool) => {
+      const landing = {
         url: absoluteUrl(tool.landingPath),
         lastModified: now,
         changeFrequency: "weekly" as const,
         priority: 0.95,
-      },
-      {
-        url: absoluteUrl(tool.appPath),
-        lastModified: now,
-        changeFrequency: "weekly" as const,
-        priority: 0.8,
-      },
-    ]),
+      };
+      if (tool.appPath === tool.landingPath) return [landing];
+      return [
+        landing,
+        {
+          url: absoluteUrl(tool.appPath),
+          lastModified: now,
+          changeFrequency: "weekly" as const,
+          priority: 0.8,
+        },
+      ];
+    }),
   ];
 }

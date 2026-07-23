@@ -43,6 +43,12 @@ export const TOOL_ROUTES = {
     landingPath: "/herramientas/gratificacion",
     appPath: "/herramientas/gratificacion/usar",
   },
+  pdf: {
+    id: "pdf",
+    landingPath: "/herramientas/pdf",
+    /** Hub hasta que Unir (u otra) esté disponible; entonces apunta a `/usar`. */
+    appPath: "/herramientas/pdf",
+  },
 } as const;
 
 export type ToolId = keyof typeof TOOL_ROUTES;
@@ -303,12 +309,44 @@ export const TOOL_SEO = {
       ogTitle: "Calcular gratificación | FactoTips",
     } satisfies PageSeo,
   },
+  pdf: {
+    landing: {
+      title: "Herramientas PDF online gratis",
+      description:
+        "Kit PDF de FactoTips: unir, dividir, comprimir, convertir y más. Procesamos en tu navegador cuando es posible — sin subir tus archivos al servidor.",
+      path: TOOL_ROUTES.pdf.landingPath,
+      keywords: [
+        "unir PDF",
+        "comprimir PDF online",
+        "juntar PDF gratis",
+        "PDF sin subir archivos",
+        "herramientas PDF gratis",
+        "editar PDF online",
+        "dividir PDF",
+        "convertir PDF",
+      ],
+      ogTitle: "Herramientas PDF online gratis | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Kit PDF",
+      description:
+        "Catálogo de herramientas PDF: ordenar, optimizar, convertir, editar y proteger. Privacidad primero.",
+      path: TOOL_ROUTES.pdf.appPath,
+      keywords: [
+        "kit PDF",
+        "herramientas PDF",
+        "unir PDF online",
+        "PDF privado",
+      ],
+      ogTitle: "Kit PDF | FactoTips",
+    } satisfies PageSeo,
+  },
 } as const;
 
 export const HUB_SEO = {
   title: `Herramientas útiles — ${SITE_BRAND}`,
   description:
-    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, honorarios, CTS, gratificación, convierte UIT, genera QR y compara precios DIGEMID.",
+    "FactoTips es el hub de herramientas de utilidad de Factosys Perú. Calcula IGV, sueldo neto, honorarios, CTS, gratificación, convierte UIT, genera QR, usa el kit PDF y compara precios DIGEMID.",
   path: "/",
   keywords: [
     "herramientas útiles",
@@ -321,6 +359,8 @@ export const HUB_SEO = {
     "calculadora gratificación",
     "UIT 2026",
     "generador QR",
+    "herramientas PDF",
+    "unir PDF",
     "comparar precios medicamentos",
     "DIGEMID",
   ],
@@ -474,6 +514,16 @@ export function gratificacionSoftwareJsonLd() {
     description: seo.description,
     path: seo.path,
     applicationCategory: "FinanceApplication",
+  });
+}
+
+export function pdfSoftwareJsonLd() {
+  const seo = TOOL_SEO.pdf.landing;
+  return softwareJsonLd({
+    name: "Kit PDF — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "UtilitiesApplication",
   });
 }
 

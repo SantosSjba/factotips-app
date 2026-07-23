@@ -14,7 +14,8 @@ export type HubToolMeta = {
     | "toolSueldoNetoTitle"
     | "toolHonorariosTitle"
     | "toolCtsTitle"
-    | "toolGratificacionTitle";
+    | "toolGratificacionTitle"
+    | "toolPdfTitle";
   descKey:
     | "toolPreciosDesc"
     | "toolIgvDesc"
@@ -23,7 +24,8 @@ export type HubToolMeta = {
     | "toolSueldoNetoDesc"
     | "toolHonorariosDesc"
     | "toolCtsDesc"
-    | "toolGratificacionDesc";
+    | "toolGratificacionDesc"
+    | "toolPdfDesc";
   shortKey:
     | "toolPreciosShort"
     | "toolIgvShort"
@@ -32,7 +34,8 @@ export type HubToolMeta = {
     | "toolSueldoNetoShort"
     | "toolHonorariosShort"
     | "toolCtsShort"
-    | "toolGratificacionShort";
+    | "toolGratificacionShort"
+    | "toolPdfShort";
 };
 
 export const HUB_TOOLS: readonly HubToolMeta[] = [
@@ -108,6 +111,15 @@ export const HUB_TOOLS: readonly HubToolMeta[] = [
     descKey: "toolGratificacionDesc",
     shortKey: "toolGratificacionShort",
   },
+  {
+    id: "pdf",
+    icon: "mdi:file-pdf-box",
+    landingPath: TOOL_ROUTES.pdf.landingPath,
+    appPath: TOOL_ROUTES.pdf.appPath,
+    titleKey: "toolPdfTitle",
+    descKey: "toolPdfDesc",
+    shortKey: "toolPdfShort",
+  },
 ] as const;
 
 /** Herramientas relacionadas por afinidad de uso. */
@@ -115,11 +127,12 @@ export const RELATED_TOOLS: Record<ToolId, readonly ToolId[]> = {
   precios: ["igv", "qr", "uit"],
   igv: ["uit", "honorarios", "sueldo-neto"],
   uit: ["igv", "sueldo-neto", "honorarios"],
-  qr: ["precios", "igv", "uit"],
+  qr: ["pdf", "precios", "igv"],
   "sueldo-neto": ["cts", "gratificacion", "honorarios"],
   honorarios: ["sueldo-neto", "igv", "uit"],
   cts: ["sueldo-neto", "gratificacion", "honorarios"],
   gratificacion: ["sueldo-neto", "cts", "honorarios"],
+  pdf: ["qr", "igv", "precios"],
 };
 
 export function getHubTool(id: ToolId): HubToolMeta {

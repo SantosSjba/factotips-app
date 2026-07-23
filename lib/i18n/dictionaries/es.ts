@@ -1,7 +1,7 @@
 export const es = {
   footer: {
     tagline:
-      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR, sueldo neto, honorarios, CTS y gratificación.",
+      "Hub de herramientas útiles de Factosys Perú: precios DIGEMID, IGV, UIT, QR, kit PDF, sueldo neto, honorarios, CTS y gratificación.",
     toolsTitle: "Herramientas",
     notesTitle: "Avisos",
     linkPrecios: "Precios DIGEMID",
@@ -18,7 +18,7 @@ export const es = {
     noSell:
       "FactoTips no vende medicamentos ni intermedia operaciones comerciales.",
     orientative:
-      "IGV, UIT, sueldo neto, honorarios, CTS, gratificación y QR son orientativos. Verifica siempre fuentes oficiales (SUNAT, MEF, MTPE, etc.).",
+      "IGV, UIT, sueldo neto, honorarios, CTS, gratificación, QR y PDF son orientativos. Verifica siempre fuentes oficiales (SUNAT, MEF, MTPE, etc.).",
     rights: "Todos los derechos reservados.",
     viewTools: "Ver herramientas",
     byOwner: "Un producto de",
@@ -40,7 +40,7 @@ export const es = {
     brandEyebrow: "Factosys Perú",
     headline: "FactoTips",
     subtitle:
-      "Herramientas útiles: calcula IGV, sueldo neto, honorarios, CTS y gratificación, convierte UIT, genera QR y compara precios de medicamentos.",
+      "Herramientas útiles: calcula IGV, sueldo neto, honorarios, CTS y gratificación, convierte UIT, genera QR, usa el kit PDF y compara precios de medicamentos.",
     ctaCompare: "Comparar precios",
     ctaTools: "Ver herramientas",
     ctaOpenTool: "Abrir herramienta",
@@ -49,7 +49,7 @@ export const es = {
     heroNext: "Herramienta siguiente",
     toolsTitle: "Herramientas",
     toolsSubtitle:
-      "Comparador DIGEMID, IGV, UIT, QR, sueldo neto, honorarios, CTS y gratificación.",
+      "Comparador DIGEMID, IGV, UIT, QR, kit PDF, sueldo neto, honorarios, CTS y gratificación.",
     openTool: "Abrir herramienta",
     comingSoon: "Próximamente",
     toolPreciosTitle: "Comparador de precios de medicamentos",
@@ -84,6 +84,10 @@ export const es = {
     toolGratificacionShort: "Gratificación",
     toolGratificacionDesc:
       "Julio o diciembre más bonificación Essalud 9% o EPS 6.75%.",
+    toolPdfTitle: "Kit PDF",
+    toolPdfShort: "PDF",
+    toolPdfDesc:
+      "Unir, dividir, comprimir, convertir y más. Cuando es posible, todo ocurre en tu navegador.",
     toolSoon1Title: "Más herramientas en camino",
     toolSoon1Desc:
       "FactoTips crecerá con nuevas utilidades prácticas para el día a día.",
@@ -94,7 +98,7 @@ export const es = {
       "Tres pasos para usar cualquier herramienta de FactoTips, sin registro.",
     step1Title: "Elige la herramienta",
     step1Text:
-      "Precios DIGEMID, IGV, UIT, QR, sueldo neto, honorarios, CTS o gratificación.",
+      "Precios DIGEMID, IGV, UIT, QR, kit PDF, sueldo neto, honorarios, CTS o gratificación.",
     step2Title: "Completa tus datos",
     step2Text:
       "Ingresa montos, ubicación o contenido. Casi todo se calcula en tu dispositivo.",
@@ -108,7 +112,7 @@ export const es = {
     disclaimerObs:
       "Observatorio de Precios de Medicamentos — DIGEMID / MINSA",
     disclaimerSuffix:
-      ". Las calculadoras y el QR son orientativos; verifica siempre fuentes oficiales.",
+      ". Las calculadoras, el QR y el kit PDF son orientativos; verifica siempre fuentes oficiales.",
   },
   preciosLanding: {
     eyebrow: "FactoTips · DIGEMID / MINSA",
@@ -989,6 +993,95 @@ export const es = {
     rule4: "No cubre todos los regímenes especiales ni retenciones judiciales.",
     disclaimer:
       "Herramienta orientativa de FactoTips. No es MTPE ni liquidación oficial. Verifica tu régimen, conceptos computables y retenciones en fuentes oficiales o con un asesor laboral.",
+  },
+  pdfLanding: {
+    eyebrow: "FactoTips · Kit PDF",
+    headline: "Herramientas PDF sin subir tus archivos",
+    subtitle:
+      "Unir, dividir, comprimir, convertir y más. Cuando la herramienta es 100% cliente, tus PDFs no salen de tu dispositivo.",
+    ctaPrimary: "Ver Unir PDF",
+    ctaSecondary: "Ver catálogo",
+    privacyBanner:
+      "Privacidad primero: en flujos client-side tus archivos no se suben al servidor de FactoTips.",
+    catalogTitle: "Catálogo de herramientas",
+    catalogSubtitle:
+      "Siete categorías en orden. Empezamos por Unir PDF; el resto se irá activando.",
+    available: "Disponible",
+    comingSoon: "Próximamente",
+    nextUp: "Siguiente",
+    openTool: "Abrir",
+    categories: {
+      ordenar: "Ordenar PDF",
+      optimizar: "Optimizar PDF",
+      "convertir-a": "Convertir a PDF",
+      "convertir-desde": "Convertir desde PDF",
+      editar: "Editar PDF",
+      seguridad: "Seguridad de PDF",
+      intelligence: "PDF Intelligence",
+    },
+    tools: {
+      unir: "Unir PDF",
+      dividir: "Dividir PDF",
+      "eliminar-paginas": "Eliminar páginas",
+      "extraer-paginas": "Extraer páginas",
+      ordenar: "Ordenar PDF",
+      escanear: "Escanea a PDF",
+      comprimir: "Comprimir PDF",
+      reparar: "Reparar PDF",
+      ocr: "OCR PDF",
+      "jpg-a-pdf": "JPG a PDF",
+      "word-a-pdf": "WORD a PDF",
+      "powerpoint-a-pdf": "POWERPOINT a PDF",
+      "excel-a-pdf": "EXCEL a PDF",
+      "html-a-pdf": "HTML a PDF",
+      "pdf-a-jpg": "PDF a JPG",
+      "pdf-a-word": "PDF a WORD",
+      "pdf-a-powerpoint": "PDF a POWERPOINT",
+      "pdf-a-excel": "PDF a EXCEL",
+      "pdf-a-pdfa": "PDF a PDF/A",
+      rotar: "Rotar PDF",
+      "numeros-pagina": "Insertar números de página",
+      "marca-agua": "Insertar marca de agua",
+      recortar: "Recortar PDF",
+      editar: "Editar PDF",
+      formularios: "Formularios PDF",
+      desbloquear: "Desbloquear PDF",
+      proteger: "Proteger PDF",
+      firmar: "Firmar PDF",
+      censurar: "Censurar PDF",
+      comparar: "Comparar PDF",
+      "resumir-ia": "Resumir con IA",
+      traducir: "Traducir PDF",
+      "pdf-a-markdown": "PDF a Markdown",
+    },
+    howTitle: "Cómo usamos tus archivos",
+    howSubtitle: "Tres reglas claras de privacidad.",
+    step1Title: "Eliges la herramienta",
+    step1Text: "Unir, comprimir, convertir u otra del catálogo.",
+    step2Title: "Procesas en el navegador",
+    step2Text:
+      "Si la herramienta es client-side, el PDF se lee y genera en tu dispositivo.",
+    step3Title: "Descargas el resultado",
+    step3Text:
+      "Nadie guarda tu archivo en FactoTips. Si alguna tool usa API (p. ej. IA), lo avisamos antes.",
+    faqTitle: "Privacidad y preguntas",
+    faq1Q: "¿Mis PDFs se suben a un servidor?",
+    faq1A:
+      "En las herramientas client-side, no. El archivo se procesa en tu navegador. Si una función necesita servidor o IA, lo indicamos claramente antes de continuar.",
+    faq2Q: "¿Guardan o revisan mis documentos?",
+    faq2A:
+      "No. FactoTips no almacena tus PDFs en base de datos ni los usa para entrenamiento. Preferimos flujos locales siempre que sea posible.",
+    faq3Q: "¿Qué sale primero?",
+    faq3A:
+      "Unir PDF es la primera herramienta del catálogo. Luego dividir, eliminar/extraer páginas, ordenar y el resto en el orden publicado.",
+    faq4Q: "¿Es gratis?",
+    faq4A:
+      "Sí. El kit PDF de FactoTips es gratuito y sin registro en esta versión.",
+    finalTitle: "Empieza por Unir PDF",
+    finalText:
+      "La primera herramienta del kit. Mientras la activamos, explora el catálogo completo.",
+    finalCta: "Ir a Unir PDF",
+    backHub: "Volver a FactoTips",
   },
   precios: {
     back: "Volver al comparador",

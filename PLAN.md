@@ -407,14 +407,18 @@ No incluir en el MVP salvo decisión explícita:
 
 Ideas para el hub (detalle y sprints en [`PLAN-HERRAMIENTAS.md`](./PLAN-HERRAMIENTAS.md)):
 
-- [ ] Calculadoras PE: IGV, UIT, sueldo neto, honorarios, CTS, gratificación
-- [ ] Generador QR / kit PDF (client-side)
+- [x] Calculadoras PE: IGV, UIT, sueldo neto, honorarios, CTS, gratificación
+- [x] Generador QR (client-side)
+- [ ] Kit PDF completo (Sprint D): hub D0 ✅ · Ordenar → Optimizar → Convertir a/desde → Editar → Seguridad → Intelligence — ver [`PLAN-HERRAMIENTAS.md`](./PLAN-HERRAMIENTAS.md)
+- [ ] Liquidación / vacaciones, horas extras, AFP vs ONP — Sprint E
+- [ ] Calendario SUNAT, utilidades laborales — Sprint F
 - [ ] Analytics anónimas de uso (qué se busca más)
 - [ ] Rate limit Redis/Upstash por defecto
 - [ ] Guardar búsquedas favoritas (requeriría auth) — historial anónimo ya existe; favoritos pinneados + cross-device con login
 - [ ] PWA / share de resultados
 - [ ] Login: asociar `search_history` anónimo vía `claimAnonymousHistory(ft_uid, userId)`
-- [ ] Consulta RUC (solo API pública + rate limit; opcional)
+
+**Fuera de alcance:** consulta RUC (SUNAT ya la ofrece al público).
 
 ---
 
