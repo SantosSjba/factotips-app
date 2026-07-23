@@ -79,7 +79,7 @@ export const PDF_CATEGORIES: readonly PdfCategoryMeta[] = [
         id: "unir",
         slug: "unir",
         icon: "mdi:call-merge",
-        available: false,
+        available: true,
         featured: true,
       },
       {

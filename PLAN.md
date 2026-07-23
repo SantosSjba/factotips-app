@@ -409,7 +409,7 @@ Ideas para el hub (detalle y sprints en [`PLAN-HERRAMIENTAS.md`](./PLAN-HERRAMIE
 
 - [x] Calculadoras PE: IGV, UIT, sueldo neto, honorarios, CTS, gratificación
 - [x] Generador QR (client-side)
-- [ ] Kit PDF completo (Sprint D): hub D0 ✅ · Ordenar → Optimizar → Convertir a/desde → Editar → Seguridad → Intelligence — ver [`PLAN-HERRAMIENTAS.md`](./PLAN-HERRAMIENTAS.md)
+- [ ] Kit PDF (Sprint D): hub D0 ✅ · Unir ✅ (factotips-py) · resto Ordenar → Optimizar → Convertir → Editar → Seguridad → Intelligence — ver [`PLAN-HERRAMIENTAS.md`](./PLAN-HERRAMIENTAS.md)
 - [ ] Liquidación / vacaciones, horas extras, AFP vs ONP — Sprint E
 - [ ] Calendario SUNAT, utilidades laborales — Sprint F
 - [ ] Analytics anónimas de uso (qué se busca más)

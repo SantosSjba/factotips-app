@@ -46,8 +46,7 @@ export const TOOL_ROUTES = {
   pdf: {
     id: "pdf",
     landingPath: "/herramientas/pdf",
-    /** Hub hasta que Unir (u otra) esté disponible; entonces apunta a `/usar`. */
-    appPath: "/herramientas/pdf",
+    appPath: "/herramientas/pdf/unir/usar",
   },
 } as const;
 
@@ -313,7 +312,7 @@ export const TOOL_SEO = {
     landing: {
       title: "Herramientas PDF online gratis",
       description:
-        "Kit PDF de FactoTips: unir, dividir, comprimir, convertir y más. Procesamos en tu navegador cuando es posible — sin subir tus archivos al servidor.",
+        "Kit PDF de FactoTips: unir, dividir, comprimir, convertir y más. Unir PDF ya disponible; procesamiento temporal y sin almacenamiento permanente.",
       path: TOOL_ROUTES.pdf.landingPath,
       keywords: [
         "unir PDF",
@@ -328,17 +327,45 @@ export const TOOL_SEO = {
       ogTitle: "Herramientas PDF online gratis | FactoTips",
     } satisfies PageSeo,
     app: {
-      title: "Kit PDF",
+      title: "Unir PDF",
       description:
-        "Catálogo de herramientas PDF: ordenar, optimizar, convertir, editar y proteger. Privacidad primero.",
+        "Junta varios PDF en uno solo. Sube tus archivos, ordena el orden y descarga el resultado. Procesamiento temporal vía FactoTips.",
       path: TOOL_ROUTES.pdf.appPath,
       keywords: [
-        "kit PDF",
-        "herramientas PDF",
-        "unir PDF online",
-        "PDF privado",
+        "unir PDF",
+        "juntar PDF",
+        "merge PDF online",
+        "combinar PDF gratis",
       ],
-      ogTitle: "Kit PDF | FactoTips",
+      ogTitle: "Unir PDF | FactoTips",
+    } satisfies PageSeo,
+  },
+} as const;
+
+/** SEO de herramientas PDF anidadas (hub + tool). */
+export const PDF_TOOL_SEO = {
+  unir: {
+    landing: {
+      title: "Unir PDF online gratis",
+      description:
+        "Junta varios archivos PDF en uno solo, en el orden que elijas. Procesamos de forma temporal y no guardamos tus documentos.",
+      path: "/herramientas/pdf/unir",
+      keywords: [
+        "unir PDF",
+        "juntar PDF gratis",
+        "combinar PDF online",
+        "merge PDF",
+        "unir PDF Perú",
+      ],
+      ogTitle: "Unir PDF online gratis | FactoTips",
+    } satisfies PageSeo,
+    app: {
+      title: "Unir PDF",
+      description:
+        "Sube 2 o más PDF, ordena las páginas y descarga un solo archivo unido.",
+      path: "/herramientas/pdf/unir/usar",
+      keywords: ["unir PDF", "juntar PDF", "combinar PDF"],
+      ogTitle: "Unir PDF | FactoTips",
     } satisfies PageSeo,
   },
 } as const;
@@ -521,6 +548,16 @@ export function pdfSoftwareJsonLd() {
   const seo = TOOL_SEO.pdf.landing;
   return softwareJsonLd({
     name: "Kit PDF — FactoTips",
+    description: seo.description,
+    path: seo.path,
+    applicationCategory: "UtilitiesApplication",
+  });
+}
+
+export function pdfUnirSoftwareJsonLd() {
+  const seo = PDF_TOOL_SEO.unir.landing;
+  return softwareJsonLd({
+    name: "Unir PDF — FactoTips",
     description: seo.description,
     path: seo.path,
     applicationCategory: "UtilitiesApplication",

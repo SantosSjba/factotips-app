@@ -44,8 +44,12 @@ Ver `.env.example`:
 | `DIGEMID_ORIGIN` | Origin/Referer oficiales |
 | `NEXT_PUBLIC_SITE_URL` | URL pública (Open Graph / metadata) |
 | `DATABASE_URL` | PostgreSQL Coolify FACTOSYS PERU (`postgresql-db:5433` → `factotips_db`) |
+| `FACTOTIPS_PY_URL` | Base URL del servicio PDF (`factotips-py`), ej. `http://127.0.0.1:8000` |
+| `FACTOTIPS_PY_API_KEY` | Misma clave que `API_KEY` en factotips-py (opcional en local) |
 
 Opcional (multi-instancia): `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` — aún no cableado; el rate limit v1 es en memoria.
+
+**Kit PDF:** el browser llama a Next (`/api/pdf/*`); Next proxya a [factotips-py](../factotips-py) (no exponer py a internet).
 
 Las respuestas DIGEMID se cachean en Postgres (`digemid_cache`) según TTL: buscar 6h, detalle 12h, autocomplete 24h, ubigeo 7d. Si la fila no ha expirado, no se vuelve a llamar a DIGEMID.
 
@@ -56,8 +60,11 @@ Las respuestas DIGEMID se cachean en Postgres (`digemid_cache`) según TTL: busc
 | `/` | Landing hub FactoTips |
 | `/herramientas/precios` | Landing SEO del comparador |
 | `/herramientas/precios/consultar` | App del comparador DIGEMID |
+| `/herramientas/pdf` | Hub del kit PDF |
+| `/herramientas/pdf/unir` · `/usar` | Unir PDF (vía factotips-py) |
 | `/api/health` | Healthcheck |
 | `/api/precios/*` | Proxy DIGEMID + rate limit |
+| `/api/pdf/merge` | Proxy merge → factotips-py |
 | `/sitemap.xml` | Sitemap SEO |
 | `/robots.txt` | Robots SEO |
 

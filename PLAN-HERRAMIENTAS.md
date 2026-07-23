@@ -38,7 +38,7 @@ Marca avance con `- [x]`. Implementar **una herramienta completa** antes de pasa
 |------|---------|
 | Calculadoras (IGV, UIT, sueldo…) | 100% client-side; constantes UIT/RMV en `lib/pe/` |
 | QR | Client-side (`qrcode` / similar) |
-| PDF | Preferir client-side (`pdf-lib` / WASM); conversiones Office, OCR e IA pueden requerir worker o API documentada |
+| PDF | **Unir / split / compress:** servicio `factotips-py` vía proxy Next (`FACTOTIPS_PY_URL`); otras tools pueden ser client-side / WASM / API |
 | Consultas externas | Solo APIs oficiales/públicas + rate limit + caché Postgres si aplica |
 
 ---
@@ -241,11 +241,11 @@ Sprint G (nice-to-have)   → Tipo de cambio · Multas UIT · TEA/TCEA
 
 > Hub tipo iLovePDF: **landing catálogo** + **una app por herramienta**.  
 > Orden de categorías y herramientas = orden de producto (no reordenar).  
-> Regla: cuando sea posible, **procesar en el navegador**; si hace falta servidor/WASM/API, documentarlo en la landing y preferir no persistir archivos.
+> Regla: **no persistir archivos**. Unir/dividir/comprimir van a **factotips-py** (proxy Next). Otras tools pueden ser client-side; documentar en cada landing.
 
 **Slug hub:** `pdf`  
 **Demanda:** muy alta (global + negocios PE)  
-**Tipo:** client-side primero (`pdf-lib` + workers); excepciones abajo
+**Backend PDF:** `factotips-py` → `POST /v1/pdf/*` (merge, split, extract, compress)
 
 ### Rutas
 
@@ -283,16 +283,16 @@ Sprint G (nice-to-have)   → Tipo de cambio · Multas UIT · TEA/TCEA
 
 | # | Herramienta | Slug | Notas |
 |---|-------------|------|-------|
-| 1 | Unir PDF | `unir` | Prioridad v1 — `pdf-lib` |
-| 2 | Dividir PDF | `dividir` | Por rangos / cada N páginas |
+| 1 | Unir PDF | `unir` | UI Archivos/Páginas (reordenar, rotar, eliminar); armado con `pdf-lib` en cliente. Proxy py `/api/pdf/merge` queda para flujos simples/servidor |
+| 2 | Dividir PDF | `dividir` | `POST /v1/pdf/split` (ZIP) |
 | 3 | Eliminar páginas | `eliminar-paginas` | Selección de páginas |
-| 4 | Extraer páginas | `extraer-paginas` | Nuevo PDF con páginas elegidas |
+| 4 | Extraer páginas | `extraer-paginas` | `POST /v1/pdf/extract` |
 | 5 | Ordenar PDF | `ordenar` | Reordenar / drag & drop páginas |
 | 6 | Escanea a PDF | `escanear` | Cámara / imágenes → PDF |
 
 Checklist:
 
-- [ ] Unir PDF
+- [x] Unir PDF — landing `/herramientas/pdf/unir` + app `/usar` + proxy Next → py
 - [ ] Dividir PDF
 - [ ] Eliminar páginas
 - [ ] Extraer páginas
@@ -427,7 +427,7 @@ Implementar **en este orden de categorías** (D1 → D7). Dentro de cada categor
 
 Prioridad técnica realista para primeros releases (sin romper el orden del catálogo en UI):
 
-1. **D0 hub** + **D1 Unir** (primera usable)
+1. **D0 hub** + **D1 Unir** (primera usable) ✅
 2. Resto de **D1** (dividir → escanear)
 3. **D2** Comprimir → OCR
 4. **D3** JPG a PDF primero; Office después
@@ -654,11 +654,12 @@ app/sitemap.ts                                # rutas nuevas
 | 2026-07-23 | Roadmap ampliado: sprints E–G (liquidación, horas extras, AFP/ONP, calendario SUNAT, utilidades, etc.). **Consulta RUC descartada** (ya pública en SUNAT). |
 | 2026-07-23 | **Sprint D ampliado:** Kit PDF con 7 categorías en orden de producto (Ordenar → Optimizar → Convertir a PDF → Convertir desde PDF → Editar → Seguridad → Intelligence). Hub `/herramientas/pdf` + app por herramienta. |
 | 2026-07-23 | **D0 Hub PDF entregado:** `/herramientas/pdf` con catálogo completo, badges disponible/próximamente/siguiente (Unir), FAQ privacidad, SEO + hub FactoTips. |
+| 2026-07-23 | **D1 Unir PDF:** proxy `POST /api/pdf/merge` → factotips-py `/v1/pdf/merge`; landing + app; UI ordenar/descargar. Env `FACTOTIPS_PY_URL` / `FACTOTIPS_PY_API_KEY`. |
 
 ---
 
 ## Próximo paso inmediato
 
-**Sprint D1 — Unir PDF** (`/herramientas/pdf/unir` + `/usar`, client-side `pdf-lib`).  
-Seguir el catálogo: resto de Ordenar → Optimizar → Convertir a/desde → Editar → Seguridad → Intelligence.  
+**Sprint D1 — Dividir PDF** (`/herramientas/pdf/dividir` + proxy a `/v1/pdf/split`).  
+Seguir: eliminar/extraer → ordenar → escanear → D2 Optimizar…  
 Después del kit (o en paralelo por oleadas): **E1 Liquidación / vacaciones** → E2 Horas extras → E3 AFP vs ONP.

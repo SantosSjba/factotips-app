@@ -9,14 +9,14 @@ import {
   getPrimaryPdfCtaHref,
   getPrimaryPdfTool,
   PDF_CATEGORIES,
-  pdfToolAppPath,
+  pdfToolLandingPath,
   type PdfToolMeta,
 } from "@/lib/pdf/tools";
 import { cn } from "@/lib/utils";
 
 function toolHref(tool: PdfToolMeta): string | null {
-  if (tool.available) return pdfToolAppPath(tool.slug);
-  return null;
+  if (!tool.available) return null;
+  return pdfToolLandingPath(tool.slug);
 }
 
 export function PdfLanding() {
