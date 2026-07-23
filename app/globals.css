@@ -100,8 +100,39 @@ body {
   animation-delay: 270ms;
 }
 
+@keyframes hero-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-slide {
+  animation: hero-slide-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-hero-progress {
+  transform-origin: left center;
+  animation: hero-progress 5.5s linear both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
+  .animate-hero-slide,
+  .animate-hero-progress,
   .hero-atmosphere::before {
     animation: none !important;
   }

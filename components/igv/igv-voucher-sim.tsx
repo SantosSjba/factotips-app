@@ -2,6 +2,7 @@
 
 import { useId, useState, type HTMLAttributes } from "react";
 import { Icon } from "@/components/ui/icon";
+import { fieldControlClass } from "@/components/ui/select";
 import {
   calcularIgv,
   formatPen,
@@ -54,6 +55,8 @@ export type IgvVoucherLabels = {
   copied: string;
   previewEmpty: string;
   configHint: string;
+  demoEmitter: string;
+  demoItem: string;
 };
 
 type LineItem = {
@@ -140,13 +143,13 @@ function computeLines(
 export function IgvVoucherSim({ mode, rateKey, locale, labels }: Props) {
   const formId = useId();
   const [kind, setKind] = useState<VoucherKind>("boleta");
-  const [emitter, setEmitter] = useState("Mi Negocio Demo S.A.C.");
+  const [emitter, setEmitter] = useState(labels.demoEmitter);
   const [ruc, setRuc] = useState("20123456789");
   const [client, setClient] = useState("");
   const [clientDoc, setClientDoc] = useState("");
   const [items, setItems] = useState<LineItem[]>([
     newLine({
-      description: "Producto / servicio de ejemplo",
+      description: labels.demoItem,
       qty: "1",
       unitPrice: "100",
     }),
@@ -343,7 +346,7 @@ export function IgvVoucherSim({ mode, rateKey, locale, labels }: Props) {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="mt-1 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-brand"
+            className={cn(fieldControlClass, "mt-1")}
           />
         </label>
       </div>
@@ -603,8 +606,8 @@ function Field({
           placeholder={placeholder}
           inputMode={inputMode}
           className={cn(
-            "h-10 w-full rounded-lg border border-border bg-background text-sm text-foreground outline-none focus:border-brand",
-            prefix ? "pl-8 pr-3" : "px-3",
+            fieldControlClass,
+            prefix ? "pl-8 pr-3" : undefined,
           )}
           autoComplete="off"
         />

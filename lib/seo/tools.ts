@@ -146,12 +146,15 @@ export const TOOL_SEO = {
     landing: {
       title: "Generador de código QR gratis",
       description:
-        "Crea QR personalizados con tu logo, colores y estilos. URL, WhatsApp, WiFi o texto. Se genera en tu dispositivo; descarga PNG o SVG.",
+        "Crea QR personalizados con logo, colores y estilos. Enlace, WhatsApp, Wi‑Fi, vCard, email, SMS, evento o redes. Se genera en tu dispositivo; descarga PNG o SVG.",
       path: TOOL_ROUTES.qr.landingPath,
       keywords: [
         "generar código QR",
         "QR gratis",
         "crear QR WhatsApp",
+        "QR WiFi",
+        "QR vCard",
+        "QR email",
         "QR para negocio",
         "QR con logo",
         "generador QR Perú",
@@ -162,13 +165,15 @@ export const TOOL_SEO = {
     app: {
       title: "Crear código QR",
       description:
-        "Personaliza tu QR con logo, colores y forma. Exporta PNG o SVG sin subir archivos a un servidor.",
+        "Personaliza tu QR con logo, colores y forma. Enlace, WhatsApp, Wi‑Fi, vCard y más. Exporta PNG o SVG sin subir archivos a un servidor.",
       path: TOOL_ROUTES.qr.appPath,
       keywords: [
         "crear QR online",
         "QR con logo",
         "descargar QR PNG",
         "QR WiFi",
+        "QR WhatsApp",
+        "QR vCard",
       ],
       ogTitle: "Crear código QR | FactoTips",
     } satisfies PageSeo,

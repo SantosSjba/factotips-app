@@ -50,6 +50,7 @@ import type {
 } from "@/lib/types/precios";
 import { findEmail } from "@/lib/contact/phone";
 import { useI18n } from "@/lib/i18n/provider";
+import { TOOL_ROUTES } from "@/lib/seo/tools";
 import { cn } from "@/lib/utils";
 import { DetailModal } from "./detail-modal";
 import { LocationPickerModal } from "./location-picker-modal";
@@ -295,15 +296,16 @@ export function PreciosTool() {
 
     if (!dept) {
       setLocationMsg(
-        `Detectamos “${geo.departamento || "ubicación"}”, pero no pudimos mapearlo. Selecciona el departamento manualmente.`,
+        t.precios.locationUnmapped.replace(
+          "{place}",
+          geo.departamento || t.precios.locationFallback,
+        ),
       );
       return;
     }
 
     await applyResolvedPlaces(dept, geo.provincia, geo.distrito);
-    setLocationMsg(
-      "Ubicación aplicada. Puedes ajustar provincia o distrito si hace falta.",
-    );
+    setLocationMsg(t.precios.locationApplied);
   };
 
   const applyResolvedPlaces = async (
@@ -595,11 +597,9 @@ export function PreciosTool() {
             ? payload.retryAfter
             : 60;
         startCountdown(wait);
+        const rateMsg = t.precios.rateLimitWait.replace("{n}", String(wait));
         setErrorMsg(
-          !payload.success
-            ? (payload.message ??
-                `Puedes hacer 1 consulta por minuto. Intenta de nuevo en ${wait}s.`)
-            : `Puedes hacer 1 consulta por minuto. Intenta de nuevo en ${wait}s.`,
+          !payload.success ? (payload.message ?? rateMsg) : rateMsg,
         );
         return;
       }
@@ -609,10 +609,10 @@ export function PreciosTool() {
         startCountdown(60);
         void refreshHistorial();
       } else {
-        setErrorMsg(payload.message ?? "Error al consultar DIGEMID.");
+        setErrorMsg(payload.message ?? t.precios.errorDigemid);
       }
     } catch {
-      setErrorMsg("Error de conexión. Intenta nuevamente.");
+      setErrorMsg(t.precios.errorConnection);
     } finally {
       setLoadingPrecios(false);
       setBuscado(true);
@@ -764,10 +764,10 @@ export function PreciosTool() {
         setDetalle(payload.data);
         cacheContact(String(item.codEstab), payload.data);
       } else {
-        setErrorDetalle(payload.message ?? "No se pudo obtener el detalle.");
+        setErrorDetalle(payload.message ?? t.precios.errorDetail);
       }
     } catch {
-      setErrorDetalle("Error de conexión al obtener el detalle.");
+      setErrorDetalle(t.precios.errorDetailConnection);
     } finally {
       setLoadingDetalle(false);
     }
@@ -783,7 +783,7 @@ export function PreciosTool() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <Link
-        href="/herramientas/precios"
+        href={TOOL_ROUTES.precios.landingPath}
         className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-brand"
       >
         <Icon icon="mdi:arrow-left" className="h-4 w-4" />
@@ -811,9 +811,9 @@ export function PreciosTool() {
       </div>
 
       <p className="mt-4 rounded-xl border border-border bg-surface px-4 py-3 text-xs leading-relaxed text-muted sm:text-sm">
-        Fuente oficial DIGEMID / MINSA. FactoTips no vende medicamentos. Límite:{" "}
+        {t.precios.disclaimer}{" "}
         <strong className="font-semibold text-foreground">
-          1 consulta por minuto
+          {t.precios.limit}
         </strong>
         .
       </p>
@@ -828,13 +828,13 @@ export function PreciosTool() {
             <Icon icon="mdi:clock-outline" className="h-6 w-6" />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold">Próxima consulta disponible en</p>
+            <p className="text-sm font-semibold">{t.precios.nextQueryIn}</p>
             <p className="mt-0.5 font-display text-3xl font-semibold tabular-nums tracking-tight">
               {String(Math.floor(retryAfter / 60)).padStart(2, "0")}:
               {String(retryAfter % 60).padStart(2, "0")}
             </p>
             <p className="mt-1 text-xs text-amber-800/80">
-              Tras cada búsqueda hay que esperar 1 minuto.
+              {t.precios.nextQueryHint}
             </p>
           </div>
         </div>
@@ -844,14 +844,14 @@ export function PreciosTool() {
         <section className="mt-6">
           <div className="mb-3 flex items-center justify-between gap-3">
             <h2 className="font-display text-base font-semibold text-foreground">
-              Búsquedas recientes
+              {t.precios.recentSearches}
             </h2>
             <button
               type="button"
               onClick={() => void onLimpiarHistorial()}
               className="text-xs font-medium text-muted underline-offset-2 hover:text-foreground hover:underline"
             >
-              Borrar todas
+              {t.precios.clearHistory}
             </button>
           </div>
           <ul className="flex flex-col gap-2">
@@ -870,15 +870,17 @@ export function PreciosTool() {
                     {item.concent ? ` ${item.concent}` : ""}
                   </p>
                   <p className="mt-0.5 truncate text-xs text-muted">
-                    {item.ubicacionLabel || "Sin ubicación"}
+                    {item.ubicacionLabel || t.precios.noLocation}
                     {" · "}
-                    {item.resultCount} resultado
-                    {item.resultCount === 1 ? "" : "s"}
+                    {(item.resultCount === 1
+                      ? t.precios.resultsCount
+                      : t.precios.resultsCountPlural
+                    ).replace("{n}", String(item.resultCount))}
                   </p>
                 </button>
                 <button
                   type="button"
-                  aria-label="Quitar del historial"
+                  aria-label={t.precios.removeFromHistory}
                   onClick={() => void onBorrarHistorialItem(item.id)}
                   className="shrink-0 px-3 text-muted hover:text-danger"
                 >
@@ -887,10 +889,7 @@ export function PreciosTool() {
               </li>
             ))}
           </ul>
-          <p className="mt-2 text-[11px] text-muted">
-            Guardadas en este dispositivo (anónimo). Con login podrán
-            sincronizarse a tu cuenta.
-          </p>
+          <p className="mt-2 text-[11px] text-muted">{t.precios.historyHint}</p>
         </section>
       ) : null}
 
@@ -902,7 +901,7 @@ export function PreciosTool() {
           onClick={() => setFiltersOpen((v) => !v)}
         >
           <h2 className="font-display text-lg font-semibold text-foreground">
-            Filtros de búsqueda
+            {t.precios.filters}
           </h2>
           <Icon icon="mdi:chevron-down" className={cn(
               "h-5 w-5 text-muted transition-transform md:hidden",
@@ -921,7 +920,7 @@ export function PreciosTool() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-foreground">
-                  Tu ubicación
+                  {t.precios.yourLocation}
                 </p>
                 <p className="mt-1 text-sm text-muted">
                   {locationLabel ? (
@@ -931,13 +930,13 @@ export function PreciosTool() {
                       </span>
                       <span className="text-muted">
                         {" "}
-                        — puedes ajustar provincia o distrito abajo
+                        {t.precios.locationHintAdjust}
                       </span>
                     </>
                   ) : locationHydrated ? (
-                    "Usa tu GPS o elige departamento / provincia / distrito."
+                    t.precios.locationHintEmpty
                   ) : (
-                    "Cargando ubicación guardada..."
+                    t.precios.locationLoading
                   )}
                 </p>
               </div>
@@ -948,7 +947,7 @@ export function PreciosTool() {
                 className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-brand/30 bg-surface px-4 text-sm font-semibold text-brand-dark transition hover:bg-brand-soft disabled:opacity-55"
               >
                 <Icon icon="mdi:map-marker" className="h-4 w-4" />
-                Usar mi ubicación
+                {t.precios.useMyLocation}
               </button>
             </div>
             {locationMsg ? (
@@ -959,7 +958,7 @@ export function PreciosTool() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div ref={productRef} className="relative lg:col-span-2">
             <label className={labelClass} htmlFor="producto">
-              Producto / principio activo <span className="text-danger">*</span>
+              {t.precios.product} <span className="text-danger">*</span>
             </label>
             <div className="relative">
               <input
@@ -988,7 +987,7 @@ export function PreciosTool() {
                     if (item) seleccionarProducto(item);
                   }
                 }}
-                placeholder="Ej: PARACETAMOL, IBUPROFENO..."
+                placeholder={t.precios.productPlaceholder}
                 className={cn(fieldClass, "pr-10")}
                 autoComplete="off"
               />
@@ -1030,10 +1029,10 @@ export function PreciosTool() {
             {sinResultadosProducto ? (
               <div className="absolute z-30 mt-1 w-full rounded-xl border border-amber-200 bg-amber-50 p-4">
                 <p className="text-sm font-semibold text-amber-800">
-                  No se encontró &quot;{productoQuery}&quot;
+                  {t.precios.noProduct} &quot;{productoQuery}&quot;
                 </p>
                 <p className="mt-1 text-xs text-amber-700">
-                  Intenta con el nombre genérico.
+                  {t.precios.tryGeneric}
                 </p>
               </div>
             ) : null}
@@ -1049,7 +1048,7 @@ export function PreciosTool() {
                   className="inline-flex min-h-9 items-center gap-1 text-xs text-muted hover:text-danger"
                 >
                   <Icon icon="mdi:close" className="h-3.5 w-3.5" />
-                  Cambiar
+                  {t.precios.change}
                 </button>
               </div>
             ) : null}
@@ -1057,23 +1056,23 @@ export function PreciosTool() {
 
           <FieldSelect
             id="tipo"
-            label="Tipo establecimiento"
+            label={t.precios.establishmentType}
             value={codTipoEstablecimiento}
             onChange={setCodTipoEstablecimiento}
           >
-            <option value="">Todos</option>
-            <option value="1">Privado</option>
-            <option value="2">Público</option>
+            <option value="">{t.precios.all}</option>
+            <option value="1">{t.precios.private}</option>
+            <option value="2">{t.precios.public}</option>
           </FieldSelect>
 
           <FieldSelect
             id="departamento"
-            label="Departamento *"
+            label={`${t.precios.department} *`}
             value={codigoDepartamento}
             onChange={(v) => void onDepartamentoChange(v)}
             required
           >
-            <option value="">— Seleccionar —</option>
+            <option value="">{t.precios.select}</option>
             {departamentos.map((d) => (
               <option key={d.codigo} value={d.codigo}>
                 {d.nombre}
@@ -1083,12 +1082,12 @@ export function PreciosTool() {
 
           <FieldSelect
             id="provincia"
-            label="Provincia"
+            label={t.precios.province}
             value={codigoProvincia}
             onChange={(v) => void onProvinciaChange(v)}
             disabled={!codigoDepartamento || loadingProvincias}
           >
-            <option value="">— Seleccionar —</option>
+            <option value="">{t.precios.select}</option>
             {provincias.map((p) => (
               <option key={p.codigo} value={p.codigo}>
                 {p.descripcion}
@@ -1098,12 +1097,12 @@ export function PreciosTool() {
 
           <FieldSelect
             id="distrito"
-            label="Distrito"
+            label={t.precios.district}
             value={codigoUbigeo}
             onChange={onDistritoChange}
             disabled={!codigoProvincia || loadingDistritos}
           >
-            <option value="">— Todos —</option>
+            <option value="">{t.precios.allDistricts}</option>
             {distritos.map((d) => (
               <option key={d.codigo} value={d.codigo}>
                 {d.descripcion}
@@ -1113,27 +1112,27 @@ export function PreciosTool() {
 
           <div>
             <label className={labelClass} htmlFor="laboratorio">
-              Laboratorio
+              {t.precios.lab}
             </label>
             <input
               id="laboratorio"
               className={fieldClass}
               value={nombreLaboratorio}
               onChange={(e) => setNombreLaboratorio(e.target.value)}
-              placeholder="Nombre laboratorio..."
+              placeholder={t.precios.labPlaceholder}
             />
           </div>
 
           <div>
             <label className={labelClass} htmlFor="farmacia">
-              Farmacia / Botica
+              {t.precios.pharmacy}
             </label>
             <input
               id="farmacia"
               className={fieldClass}
               value={nombreEstablecimiento}
               onChange={(e) => setNombreEstablecimiento(e.target.value)}
-              placeholder="Nombre establecimiento..."
+              placeholder={t.precios.pharmacyPlaceholder}
             />
           </div>
         </div>
@@ -1157,23 +1156,23 @@ export function PreciosTool() {
               <Icon icon="mdi:magnify" className="h-4 w-4" />
             )}
             {loadingPrecios
-              ? "Consultando..."
+              ? t.precios.searching
               : rateLimited
-                ? `Espera ${retryAfter}s`
-                : "Consultar precios"}
+                ? t.precios.waitSeconds.replace("{n}", String(retryAfter))
+                : t.precios.search}
           </button>
           <button
             type="button"
             onClick={limpiarFiltros}
             className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border bg-background px-5 text-sm font-semibold text-foreground hover:bg-brand-soft"
           >
-            Limpiar
+            {t.precios.clear}
           </button>
         </div>
 
         {!puedeConsultar ? (
           <p className="mt-3 text-xs text-amber-700">
-            Selecciona un producto del autocomplete y un departamento.
+            {t.precios.needProductDept}
           </p>
         ) : null}
       </section>
@@ -1192,10 +1191,10 @@ export function PreciosTool() {
             <Icon icon="mdi:magnify" className="h-4 w-4" />
           )}
           {rateLimited
-            ? `Espera ${retryAfter}s`
+            ? t.precios.waitSeconds.replace("{n}", String(retryAfter))
             : loadingPrecios
-              ? "Consultando..."
-              : "Consultar precios"}
+              ? t.precios.searching
+              : t.precios.search}
         </button>
       </div>
 
@@ -1214,19 +1213,19 @@ export function PreciosTool() {
           {resultados.length > 0 ? (
             <>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                <StatCard label="Total registros" value={String(stats.count)} />
+                <StatCard label={t.precios.totalRecords} value={String(stats.count)} />
                 <StatCard
-                  label="Precio mínimo"
+                  label={t.precios.minPrice}
                   value={formatSol(stats.min)}
                   tone="good"
                 />
                 <StatCard
-                  label="Precio máximo"
+                  label={t.precios.maxPrice}
                   value={formatSol(stats.max)}
                   tone="warn"
                 />
                 <StatCard
-                  label="Precio promedio"
+                  label={t.precios.avgPrice}
                   value={formatSol(stats.avg)}
                   tone="info"
                 />
@@ -1240,8 +1239,8 @@ export function PreciosTool() {
                     setBusquedaTabla(e.target.value);
                     setPaginaActual(1);
                   }}
-                  placeholder="Filtrar por farmacia o laboratorio..."
-                  aria-label="Filtrar tabla"
+                  placeholder={t.precios.filterTable}
+                  aria-label={t.precios.filterTableAria}
                 />
                 <Select
                   wrapperClassName="w-full min-w-[8rem] sm:w-auto"
@@ -1251,11 +1250,11 @@ export function PreciosTool() {
                     setFiltroTabla(e.target.value);
                     setPaginaActual(1);
                   }}
-                  aria-label="Tipo"
+                  aria-label={t.precios.type}
                 >
-                  <option value="">Todos los tipos</option>
-                  <option value="Privado">Privado</option>
-                  <option value="Público">Público</option>
+                  <option value="">{t.precios.allTypes}</option>
+                  <option value="Privado">{t.precios.private}</option>
+                  <option value="Público">{t.precios.public}</option>
                 </Select>
                 <Select
                   wrapperClassName="w-full min-w-[10rem] sm:w-auto"
@@ -1265,10 +1264,10 @@ export function PreciosTool() {
                     setOrdenPrecio(e.target.value as "asc" | "desc");
                     setPaginaActual(1);
                   }}
-                  aria-label="Ordenar"
+                  aria-label={t.precios.sort}
                 >
-                  <option value="asc">Menor precio primero</option>
-                  <option value="desc">Mayor precio primero</option>
+                  <option value="asc">{t.precios.sortAsc}</option>
+                  <option value="desc">{t.precios.sortDesc}</option>
                 </Select>
                 <Select
                   wrapperClassName="w-full min-w-[8rem] sm:w-auto"
@@ -1278,11 +1277,17 @@ export function PreciosTool() {
                     setPorPagina(Number(e.target.value));
                     setPaginaActual(1);
                   }}
-                  aria-label="Por página"
+                  aria-label={t.precios.perPageLabel}
                 >
-                  <option value={10}>10 por página</option>
-                  <option value={20}>20 por página</option>
-                  <option value={50}>50 por página</option>
+                  <option value={10}>
+                    {t.precios.perPage.replace("{n}", "10")}
+                  </option>
+                  <option value={20}>
+                    {t.precios.perPage.replace("{n}", "20")}
+                  </option>
+                  <option value={50}>
+                    {t.precios.perPage.replace("{n}", "50")}
+                  </option>
                 </Select>
                 <button
                   type="button"
@@ -1290,13 +1295,16 @@ export function PreciosTool() {
                   className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 px-3 text-xs font-semibold text-emerald-800 hover:bg-emerald-100"
                 >
                   <Icon icon="mdi:download" className="h-3.5 w-3.5" />
-                  Exportar Excel
+                  {t.precios.exportExcel}
                 </button>
                 <span className="w-full text-xs text-muted sm:ml-auto sm:w-auto">
                   <strong className="text-foreground">
                     {resultadosFiltrados.length}
                   </strong>{" "}
-                  de {resultados.length} resultados
+                  {t.precios.ofResults.replace(
+                    "{total}",
+                    String(resultados.length),
+                  )}
                 </span>
               </div>
 
@@ -1625,7 +1633,14 @@ function StatCard({
 }
 
 function TipoBadge({ tipo }: { tipo?: string | null }) {
+  const { t } = useI18n();
   const privado = tipo === "Privado";
+  const label =
+    tipo === "Privado"
+      ? t.precios.private
+      : tipo === "Público"
+        ? t.precios.public
+        : (tipo ?? "—");
   return (
     <span
       className={cn(
@@ -1635,7 +1650,7 @@ function TipoBadge({ tipo }: { tipo?: string | null }) {
           : "bg-emerald-100 text-emerald-800",
       )}
     >
-      {tipo ?? "—"}
+      {label}
     </span>
   );
 }
@@ -1653,13 +1668,17 @@ function Pagination({
   perPage: number;
   onPage: (p: number) => void;
 }) {
+  const { t } = useI18n();
   const from = totalItems === 0 ? 0 : (page - 1) * perPage + 1;
   const to = Math.min(page * perPage, totalItems);
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3 text-xs text-muted">
       <p>
-        Mostrando {from}–{to} de {totalItems} resultados
+        {t.precios.showing
+          .replace("{from}", String(from))
+          .replace("{to}", String(to))
+          .replace("{total}", String(totalItems))}
       </p>
       <div className="flex items-center gap-2">
         <button
@@ -1668,7 +1687,7 @@ function Pagination({
           onClick={() => onPage(page - 1)}
           className="inline-flex min-h-10 items-center rounded-lg border border-border px-3 font-semibold disabled:opacity-40"
         >
-          Anterior
+          {t.precios.prev}
         </button>
         <span className="font-medium text-foreground">
           {page} / {totalPages}
@@ -1679,7 +1698,7 @@ function Pagination({
           onClick={() => onPage(page + 1)}
           className="inline-flex min-h-10 items-center rounded-lg border border-border px-3 font-semibold disabled:opacity-40"
         >
-          Siguiente
+          {t.precios.next}
         </button>
       </div>
     </div>

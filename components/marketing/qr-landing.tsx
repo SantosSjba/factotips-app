@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { HeroParticles } from "@/components/marketing/hero-particles";
+import { RelatedTools } from "@/components/marketing/related-tools";
 import { Icon } from "@/components/ui/icon";
 import { useI18n } from "@/lib/i18n/provider";
 import { TOOL_ROUTES } from "@/lib/seo/tools";
@@ -172,6 +173,8 @@ export function QrLanding() {
           </Link>
         </div>
       </section>
+
+      <RelatedTools toolId="qr" />
     </div>
   );
 }

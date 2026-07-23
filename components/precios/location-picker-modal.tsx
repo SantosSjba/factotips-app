@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { MapView } from "@/components/map/map-view";
+import { useI18n } from "@/lib/i18n/provider";
 import {
   PERU_DEFAULT_CENTER,
   getBrowserPosition,
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
+  const { t } = useI18n();
   const [lat, setLat] = useState(PERU_DEFAULT_CENTER.lat);
   const [lon, setLon] = useState(PERU_DEFAULT_CENTER.lon);
   const [ready, setReady] = useState(false);
@@ -33,24 +35,27 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
   const [error, setError] = useState("");
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const resolvePoint = useCallback(async (nextLat: number, nextLon: number) => {
-    setResolving(true);
-    setError("");
-    try {
-      const geo = await reverseGeocode(nextLat, nextLon);
-      if (!geo.ok) {
+  const resolvePoint = useCallback(
+    async (nextLat: number, nextLon: number) => {
+      setResolving(true);
+      setError("");
+      try {
+        const geo = await reverseGeocode(nextLat, nextLon);
+        if (!geo.ok) {
+          setPreview(null);
+          setError(geo.message);
+          return;
+        }
+        setPreview(geo.data);
+      } catch {
         setPreview(null);
-        setError(geo.message);
-        return;
+        setError(t.precios.locationPickerReadError);
+      } finally {
+        setResolving(false);
       }
-      setPreview(geo.data);
-    } catch {
-      setPreview(null);
-      setError("No se pudo leer la dirección de ese punto.");
-    } finally {
-      setResolving(false);
-    }
-  }, []);
+    },
+    [t.precios.locationPickerReadError],
+  );
 
   const moveTo = useCallback(
     (nextLat: number, nextLon: number) => {
@@ -77,10 +82,10 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
           : 0;
       setError(
         code === 1
-          ? "Permiso de ubicación denegado. Puedes mover el pin en el mapa."
+          ? t.precios.locationPickerDenied
           : err instanceof Error
             ? err.message
-            : "No se pudo obtener tu GPS. Mueve el pin manualmente.",
+            : t.precios.locationPickerGpsError,
       );
       // Igual mostramos mapa centrado en Lima
       void resolvePoint(PERU_DEFAULT_CENTER.lat, PERU_DEFAULT_CENTER.lon);
@@ -88,7 +93,12 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
       setLocating(false);
       setReady(true);
     }
-  }, [moveTo, resolvePoint]);
+  }, [
+    moveTo,
+    resolvePoint,
+    t.precios.locationPickerDenied,
+    t.precios.locationPickerGpsError,
+  ]);
 
   useEffect(() => {
     if (!open) return;
@@ -128,7 +138,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
       await onConfirm({ lat, lon, geo: preview });
       onClose();
     } catch {
-      setError("No se pudo aplicar la ubicación.");
+      setError(t.precios.locationPickerApplyError);
     } finally {
       setConfirming(false);
     }
@@ -139,7 +149,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
       <button
         type="button"
         className="absolute inset-0 bg-black/55 backdrop-blur-sm"
-        aria-label="Cerrar"
+        aria-label={t.common.close}
         onClick={onClose}
       />
       <div
@@ -154,17 +164,17 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
               id="ubicacion-titulo"
               className="font-display text-lg font-semibold text-foreground"
             >
-              Elige tu ubicación
+              {t.precios.locationPickerTitle}
             </h3>
             <p className="mt-1 text-xs text-muted sm:text-sm">
-              Arrastra el pin o toca el mapa para ajustar. Luego confirma.
+              {t.precios.locationPickerHint}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="rounded-xl p-2 text-muted hover:bg-background hover:text-foreground"
-            aria-label="Cerrar"
+            aria-label={t.common.close}
           >
             <Icon icon="mdi:close" className="h-5 w-5" />
           </button>
@@ -183,7 +193,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
           ) : (
             <div className="flex h-full min-h-[280px] items-center justify-center gap-2 text-sm text-muted sm:min-h-[360px]">
               <Icon icon="mdi:loading" className="h-5 w-5 animate-spin text-brand" />
-              Obteniendo tu ubicación...
+              {t.precios.locationPickerLocating}
             </div>
           )}
         </div>
@@ -193,7 +203,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
             {resolving ? (
               <p className="flex items-center gap-2 text-muted">
                 <Icon icon="mdi:loading" className="h-4 w-4 animate-spin" />
-                Resolviendo dirección...
+                {t.precios.locationPickerResolving}
               </p>
             ) : preview ? (
               <div className="flex gap-2">
@@ -202,7 +212,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
                   <p className="font-medium text-foreground">
                     {[preview.distrito, preview.provincia, preview.departamento]
                       .filter(Boolean)
-                      .join(" · ") || "Ubicación detectada"}
+                      .join(" · ") || t.precios.locationPickerDetected}
                   </p>
                   <p className="mt-0.5 truncate text-xs text-muted">
                     {preview.displayName}
@@ -210,9 +220,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
                 </div>
               </div>
             ) : (
-              <p className="text-muted">
-                Mueve el pin para ver la dirección aproximada.
-              </p>
+              <p className="text-muted">{t.precios.locationPickerMoveHint}</p>
             )}
             {error ? (
               <p className="mt-2 text-xs text-danger">{error}</p>
@@ -231,7 +239,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
               ) : (
                 <Icon icon="mdi:crosshairs-gps" className="h-4 w-4" />
               )}
-              Recentrar en GPS
+              {t.precios.locationPickerRecenter}
             </button>
             <button
               type="button"
@@ -242,7 +250,7 @@ export function LocationPickerModal({ open, onClose, onConfirm }: Props) {
               {confirming ? (
                 <Icon icon="mdi:loading" className="h-4 w-4 animate-spin" />
               ) : null}
-              Confirmar ubicación
+              {t.precios.locationPickerConfirm}
             </button>
           </div>
         </div>

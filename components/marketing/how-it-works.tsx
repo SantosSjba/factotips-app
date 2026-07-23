@@ -8,17 +8,17 @@ export function HowItWorks() {
 
   const steps = [
     {
-      icon: "mdi:magnify",
+      icon: "mdi:apps",
       title: t.landing.step1Title,
       text: t.landing.step1Text,
     },
     {
-      icon: "mdi:map-marker-radius",
+      icon: "mdi:form-textbox",
       title: t.landing.step2Title,
       text: t.landing.step2Text,
     },
     {
-      icon: "mdi:scale-balance",
+      icon: "mdi:check-decagram-outline",
       title: t.landing.step3Title,
       text: t.landing.step3Text,
     },

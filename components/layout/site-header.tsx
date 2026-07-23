@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { Icon } from "@/components/ui/icon";
+import { HUB_TOOLS } from "@/lib/hub-tools";
 import { useI18n } from "@/lib/i18n/provider";
-import { FACTOSYS_URL } from "@/lib/seo/site";
-import { TOOL_ROUTES } from "@/lib/seo/tools";
+import { FACTOSYS_URL, SITE_BRAND } from "@/lib/seo/site";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -17,28 +17,10 @@ export function SiteHeader() {
   const toolsMenuRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const tools = [
-    { href: TOOL_ROUTES.precios.landingPath, label: t.footer.linkPrecios },
-    { href: TOOL_ROUTES.igv.landingPath, label: t.footer.linkIgv },
-    { href: TOOL_ROUTES.uit.landingPath, label: t.footer.linkUit },
-    { href: TOOL_ROUTES.qr.landingPath, label: t.footer.linkQr },
-    {
-      href: TOOL_ROUTES["sueldo-neto"].landingPath,
-      label: t.footer.linkSueldoNeto,
-    },
-    {
-      href: TOOL_ROUTES.honorarios.landingPath,
-      label: t.footer.linkHonorarios,
-    },
-    {
-      href: TOOL_ROUTES.cts.landingPath,
-      label: t.footer.linkCts,
-    },
-    {
-      href: TOOL_ROUTES.gratificacion.landingPath,
-      label: t.footer.linkGratificacion,
-    },
-  ] as const;
+  const tools = HUB_TOOLS.map((tool) => ({
+    href: tool.landingPath,
+    label: t.landing[tool.shortKey],
+  }));
 
   function clearCloseTimer() {
     if (closeTimer.current) {
@@ -101,7 +83,7 @@ export function SiteHeader() {
           </a>
         </div>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-1 md:flex" aria-label={t.nav.ariaMain}>
           <Link
             href="/"
             className="rounded-lg px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-brand-soft/60 hover:text-brand"
@@ -163,8 +145,8 @@ export function SiteHeader() {
           <div className="ml-3 flex items-center gap-3">
             <LanguageSwitcher />
             <Link
-              href={TOOL_ROUTES.igv.appPath}
-              className="inline-flex h-10 items-center rounded-lg bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+              href="/#herramientas"
+              className="inline-flex h-10 items-center rounded-xl bg-brand px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
             >
               {t.nav.ctaTool}
             </Link>
@@ -179,7 +161,12 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => {
+              setOpen((v) => {
+                if (v) setToolsOpenMobile(false);
+                return !v;
+              });
+            }}
           >
             <Icon icon={open ? "mdi:close" : "mdi:menu"} className="h-5 w-5" />
           </button>
@@ -195,7 +182,7 @@ export function SiteHeader() {
       >
         <nav
           className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3"
-          aria-label="Móvil"
+          aria-label={t.nav.ariaMobile}
         >
           <Link
             href="/"
@@ -244,11 +231,11 @@ export function SiteHeader() {
             className="rounded-lg px-3 py-3 text-sm font-medium text-foreground hover:bg-brand-soft"
             onClick={() => setOpen(false)}
           >
-            Factosys Perú
+            {SITE_BRAND}
           </a>
           <Link
-            href={TOOL_ROUTES.igv.appPath}
-            className="mt-1 rounded-lg bg-brand px-3 py-3 text-center text-sm font-semibold text-white hover:bg-brand-dark"
+            href="/#herramientas"
+            className="mt-1 rounded-xl bg-brand px-3 py-3 text-center text-sm font-semibold text-white hover:bg-brand-dark"
             onClick={() => setOpen(false)}
           >
             {t.nav.ctaTool}

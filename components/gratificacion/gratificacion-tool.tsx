@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
+import { fieldControlClass } from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n/provider";
 import { formatPen } from "@/lib/pe/igv";
 import {
@@ -181,7 +182,10 @@ export function GratificacionTool() {
                 inputMode="decimal"
                 value={sueldo}
                 onChange={(e) => setSueldo(e.target.value)}
-                className="h-12 w-full rounded-xl border border-border bg-background pl-14 pr-4 text-lg font-semibold tabular-nums outline-none focus:border-brand focus:ring-4 focus:ring-brand/15"
+                className={cn(
+                  fieldControlClass,
+                  "h-12 pl-14 pr-4 text-lg font-semibold tabular-nums focus:ring-4 focus:ring-brand/15",
+                )}
                 autoComplete="off"
               />
             </div>
@@ -246,7 +250,7 @@ export function GratificacionTool() {
               inputMode="decimal"
               value={otros}
               onChange={(e) => setOtros(e.target.value)}
-              className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
+              className={cn(fieldControlClass, "mt-1")}
             />
             <span className="mt-1 block text-[10px] leading-snug text-muted">
               {c.otrosHint}
@@ -263,7 +267,7 @@ export function GratificacionTool() {
                 inputMode="numeric"
                 value={meses}
                 onChange={(e) => setMeses(e.target.value)}
-                className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
+                className={cn(fieldControlClass, "mt-1")}
               />
             </label>
             <label className="block">
@@ -275,7 +279,7 @@ export function GratificacionTool() {
                 inputMode="numeric"
                 value={dias}
                 onChange={(e) => setDias(e.target.value)}
-                className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
+                className={cn(fieldControlClass, "mt-1")}
               />
             </label>
           </div>

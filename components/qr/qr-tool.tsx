@@ -4,30 +4,36 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { Options as QrOptions } from "qr-code-styling";
 import { Icon } from "@/components/ui/icon";
+import { Select, fieldControlClass } from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n/provider";
 import {
   buildQrPayload,
+  QR_CONTENT_TYPES,
   QR_SIZES,
   type QrContentType,
   type QrCornerStyle,
   type QrDotStyle,
+  type SocialNetwork,
   type WifiSecurity,
 } from "@/lib/qr/payload";
 import { TOOL_ROUTES } from "@/lib/seo/tools";
 import { cn } from "@/lib/utils";
 
 type QrInstance = {
-  update: (opts: Partial<QrOptions>) => void;
+  update: (opts: Partial<QrOptions>) => void | Promise<void>;
   append: (el: HTMLElement) => void;
-  download: (opts?: { name?: string; extension?: "png" | "jpeg" | "webp" | "svg" }) => void;
+  download: (opts?: {
+    name?: string;
+    extension?: "png" | "jpeg" | "webp" | "svg";
+  }) => void | Promise<void>;
 };
 
 const PRESET_COLORS = [
-  { fg: "#0d6e63", bg: "#ffffff", label: "Marca" },
-  { fg: "#0f1f1c", bg: "#ffffff", label: "Clásico" },
-  { fg: "#1a1a1a", bg: "#f4f8f7", label: "Suave" },
-  { fg: "#c45c26", bg: "#fff8f3", label: "Acento" },
-  { fg: "#ffffff", bg: "#0d6e63", label: "Invertido" },
+  { id: "brand" as const, fg: "#0d6e63", bg: "#ffffff" },
+  { id: "classic" as const, fg: "#0f1f1c", bg: "#ffffff" },
+  { id: "soft" as const, fg: "#1a1a1a", bg: "#f4f8f7" },
+  { id: "accent" as const, fg: "#c45c26", bg: "#fff8f3" },
+  { id: "inverted" as const, fg: "#ffffff", bg: "#0d6e63" },
 ] as const;
 
 const DOT_STYLES: QrDotStyle[] = [
@@ -39,6 +45,19 @@ const DOT_STYLES: QrDotStyle[] = [
   "classy-rounded",
 ];
 
+const TYPE_ICONS: Record<QrContentType, string> = {
+  url: "mdi:link-variant",
+  text: "mdi:text",
+  email: "mdi:email-outline",
+  phone: "mdi:phone",
+  sms: "mdi:message-text-outline",
+  vcard: "mdi:card-account-details-outline",
+  whatsapp: "mdi:whatsapp",
+  wifi: "mdi:wifi",
+  event: "mdi:calendar-month-outline",
+  social: "mdi:share-variant-outline",
+};
+
 export function QrTool() {
   const { t } = useI18n();
   const c = t.qr;
@@ -47,13 +66,34 @@ export function QrTool() {
   const [ready, setReady] = useState(false);
 
   const [contentType, setContentType] = useState<QrContentType>("url");
-  const [url, setUrl] = useState("https://factosysperu.com");
+  const [url, setUrl] = useState("");
   const [text, setText] = useState("");
-  const [waPhone, setWaPhone] = useState("51999999999");
-  const [waMessage, setWaMessage] = useState("Hola, vi tu QR de FactoTips");
+  const [emailTo, setEmailTo] = useState("");
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailBody, setEmailBody] = useState("");
+  const [phone, setPhone] = useState("");
+  const [smsPhone, setSmsPhone] = useState("");
+  const [smsBody, setSmsBody] = useState("");
+  const [vcardFirstName, setVcardFirstName] = useState("");
+  const [vcardLastName, setVcardLastName] = useState("");
+  const [vcardOrg, setVcardOrg] = useState("");
+  const [vcardPhone, setVcardPhone] = useState("");
+  const [vcardEmail, setVcardEmail] = useState("");
+  const [vcardUrl, setVcardUrl] = useState("");
+  const [waPhone, setWaPhone] = useState("");
+  const [waMessage, setWaMessage] = useState("");
   const [wifiSsid, setWifiSsid] = useState("");
   const [wifiPassword, setWifiPassword] = useState("");
   const [wifiSecurity, setWifiSecurity] = useState<WifiSecurity>("WPA");
+  const [wifiHidden, setWifiHidden] = useState(false);
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventStart, setEventStart] = useState("");
+  const [eventEnd, setEventEnd] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [socialNetwork, setSocialNetwork] = useState<SocialNetwork>("instagram");
+  const [socialHandle, setSocialHandle] = useState("");
+  const [socialUrl, setSocialUrl] = useState("");
 
   const [fg, setFg] = useState("#0d6e63");
   const [bg, setBg] = useState("#ffffff");
@@ -64,15 +104,38 @@ export function QrTool() {
   const [logoDataUrl, setLogoDataUrl] = useState<string | null>(null);
   const [logoSize, setLogoSize] = useState(0.22);
   const [logoName, setLogoName] = useState<string | null>(null);
+  const [logoError, setLogoError] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
   const payload = buildQrPayload(contentType, {
     text,
     url,
+    emailTo,
+    emailSubject,
+    emailBody,
+    phone,
+    smsPhone,
+    smsBody,
+    vcardFirstName,
+    vcardLastName,
+    vcardOrg,
+    vcardPhone,
+    vcardEmail,
+    vcardUrl,
     waPhone,
     waMessage,
     wifiSsid,
     wifiPassword,
     wifiSecurity,
+    wifiHidden,
+    eventTitle,
+    eventLocation,
+    eventStart,
+    eventEnd,
+    eventDescription,
+    socialNetwork,
+    socialHandle,
+    socialUrl,
   });
   const canGenerate = payload.length > 0;
 
@@ -146,35 +209,65 @@ export function QrTool() {
     if (!file) {
       setLogoDataUrl(null);
       setLogoName(null);
+      setLogoError(null);
       return;
     }
-    if (!file.type.startsWith("image/")) return;
-    if (file.size > 2 * 1024 * 1024) return;
+    if (!file.type.startsWith("image/")) {
+      setLogoError(c.logoErrorType);
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setLogoError(c.logoErrorSize);
+      return;
+    }
     const reader = new FileReader();
     reader.onload = () => {
       setLogoDataUrl(String(reader.result));
       setLogoName(file.name);
+      setLogoError(null);
+    };
+    reader.onerror = () => {
+      setLogoError(c.logoErrorType);
     };
     reader.readAsDataURL(file);
   }
 
   async function download(ext: "png" | "svg") {
-    if (!qrRef.current || !canGenerate) return;
-    // Render at chosen export size temporarily
-    qrRef.current.update({ width: size, height: size });
-    qrRef.current.download({ name: "factotips-qr", extension: ext });
-    // Restore preview size
-    window.setTimeout(() => {
-      qrRef.current?.update({ width: 280, height: 280 });
-    }, 100);
+    const qr = qrRef.current;
+    if (!qr || !canGenerate || downloading) return;
+    setDownloading(true);
+    try {
+      await Promise.resolve(qr.update({ width: size, height: size }));
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      });
+      await Promise.resolve(
+        qr.download({ name: "factotips-qr", extension: ext }),
+      );
+    } finally {
+      await Promise.resolve(qr.update({ width: 280, height: 280 }));
+      setDownloading(false);
+    }
   }
 
-  const typeTabs: { id: QrContentType; label: string; icon: string }[] = [
-    { id: "url", label: c.typeUrl, icon: "mdi:link-variant" },
-    { id: "text", label: c.typeText, icon: "mdi:text" },
-    { id: "whatsapp", label: c.typeWhatsapp, icon: "mdi:whatsapp" },
-    { id: "wifi", label: c.typeWifi, icon: "mdi:wifi" },
-  ];
+  const typeLabels: Record<QrContentType, string> = {
+    url: c.typeUrl,
+    text: c.typeText,
+    email: c.typeEmail,
+    phone: c.typePhone,
+    sms: c.typeSms,
+    vcard: c.typeVcard,
+    whatsapp: c.typeWhatsapp,
+    wifi: c.typeWifi,
+    event: c.typeEvent,
+    social: c.typeSocial,
+  };
+
+  const typeTabs = QR_CONTENT_TYPES.map((id) => ({
+    id,
+    label: typeLabels[id],
+    icon: TYPE_ICONS[id],
+  }));
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
@@ -206,20 +299,20 @@ export function QrTool() {
         <div className="space-y-5 animate-fade-up animation-delay-1">
           <section className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
             <h2 className="text-sm font-semibold text-foreground">{c.contentTitle}</h2>
-            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
               {typeTabs.map((tab) => (
                 <button
                   key={tab.id}
                   type="button"
                   onClick={() => setContentType(tab.id)}
                   className={cn(
-                    "inline-flex items-center justify-center gap-1.5 rounded-xl border px-3 py-2.5 text-sm font-semibold transition-all",
+                    "inline-flex flex-col items-center justify-center gap-1.5 rounded-xl border px-2 py-3 text-xs font-semibold transition-all sm:text-sm",
                     contentType === tab.id
-                      ? "border-brand bg-brand text-white"
+                      ? "border-brand bg-brand text-white shadow-sm"
                       : "border-border bg-background hover:border-brand/40",
                   )}
                 >
-                  <Icon icon={tab.icon} className="h-4 w-4" />
+                  <Icon icon={tab.icon} className="h-5 w-5" />
                   {tab.label}
                 </button>
               ))}
@@ -231,7 +324,7 @@ export function QrTool() {
                   label={c.urlLabel}
                   value={url}
                   onChange={setUrl}
-                  placeholder="https://tu-negocio.com"
+                  placeholder={c.urlPlaceholder}
                 />
               ) : null}
               {contentType === "text" ? (
@@ -242,9 +335,112 @@ export function QrTool() {
                     onChange={(e) => setText(e.target.value)}
                     rows={4}
                     placeholder={c.textPlaceholder}
-                    className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-brand"
+                    className={cn(fieldControlClass, "mt-1")}
+                    autoComplete="off"
                   />
                 </label>
+              ) : null}
+              {contentType === "email" ? (
+                <>
+                  <Field
+                    label={c.emailToLabel}
+                    value={emailTo}
+                    onChange={setEmailTo}
+                    placeholder={c.emailToPlaceholder}
+                  />
+                  <Field
+                    label={c.emailSubjectLabel}
+                    value={emailSubject}
+                    onChange={setEmailSubject}
+                    placeholder={c.emailSubjectPlaceholder}
+                  />
+                  <label className="block">
+                    <span className="text-xs font-semibold text-muted">
+                      {c.emailBodyLabel}
+                    </span>
+                    <textarea
+                      value={emailBody}
+                      onChange={(e) => setEmailBody(e.target.value)}
+                      rows={3}
+                      className={cn(fieldControlClass, "mt-1")}
+                    />
+                  </label>
+                </>
+              ) : null}
+              {contentType === "phone" ? (
+                <Field
+                  label={c.phoneLabel}
+                  value={phone}
+                  onChange={setPhone}
+                  placeholder={c.phonePlaceholder}
+                  hint={c.phoneHint}
+                />
+              ) : null}
+              {contentType === "sms" ? (
+                <>
+                  <Field
+                    label={c.smsPhoneLabel}
+                    value={smsPhone}
+                    onChange={setSmsPhone}
+                    placeholder={c.phonePlaceholder}
+                    hint={c.phoneHint}
+                  />
+                  <label className="block">
+                    <span className="text-xs font-semibold text-muted">
+                      {c.smsBodyLabel}
+                    </span>
+                    <textarea
+                      value={smsBody}
+                      onChange={(e) => setSmsBody(e.target.value)}
+                      rows={3}
+                      className={cn(fieldControlClass, "mt-1")}
+                    />
+                  </label>
+                </>
+              ) : null}
+              {contentType === "vcard" ? (
+                <>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Field
+                      label={c.vcardFirstNameLabel}
+                      value={vcardFirstName}
+                      onChange={setVcardFirstName}
+                      placeholder={c.vcardFirstNamePlaceholder}
+                    />
+                    <Field
+                      label={c.vcardLastNameLabel}
+                      value={vcardLastName}
+                      onChange={setVcardLastName}
+                      placeholder={c.vcardLastNamePlaceholder}
+                    />
+                  </div>
+                  <Field
+                    label={c.vcardOrgLabel}
+                    value={vcardOrg}
+                    onChange={setVcardOrg}
+                    placeholder={c.vcardOrgPlaceholder}
+                  />
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Field
+                      label={c.vcardPhoneLabel}
+                      value={vcardPhone}
+                      onChange={setVcardPhone}
+                      placeholder={c.phonePlaceholder}
+                    />
+                    <Field
+                      label={c.vcardEmailLabel}
+                      value={vcardEmail}
+                      onChange={setVcardEmail}
+                      placeholder={c.vcardEmailPlaceholder}
+                    />
+                  </div>
+                  <Field
+                    label={c.vcardUrlLabel}
+                    value={vcardUrl}
+                    onChange={setVcardUrl}
+                    placeholder={c.urlPlaceholder}
+                  />
+                </>
               ) : null}
               {contentType === "whatsapp" ? (
                 <>
@@ -252,7 +448,7 @@ export function QrTool() {
                     label={c.waPhoneLabel}
                     value={waPhone}
                     onChange={setWaPhone}
-                    placeholder="51999999999"
+                    placeholder={c.waPhonePlaceholder}
                     hint={c.waPhoneHint}
                   />
                   <Field
@@ -269,30 +465,143 @@ export function QrTool() {
                     label={c.wifiSsidLabel}
                     value={wifiSsid}
                     onChange={setWifiSsid}
-                    placeholder="Mi_Red_WiFi"
+                    placeholder={c.wifiSsidPlaceholder}
                   />
-                  <Field
-                    label={c.wifiPassLabel}
-                    value={wifiPassword}
-                    onChange={setWifiPassword}
-                    placeholder="••••••••"
-                  />
-                  <label className="block">
-                    <span className="text-xs font-semibold text-muted">
+                  <div>
+                    <label
+                      className="text-xs font-semibold text-muted"
+                      htmlFor="qr-wifi-security"
+                    >
                       {c.wifiSecurityLabel}
-                    </span>
-                    <select
+                    </label>
+                    <Select
+                      id="qr-wifi-security"
+                      className="mt-1"
                       value={wifiSecurity}
                       onChange={(e) =>
                         setWifiSecurity(e.target.value as WifiSecurity)
                       }
-                      className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
                     >
                       <option value="WPA">WPA / WPA2</option>
                       <option value="WEP">WEP</option>
                       <option value="nopass">{c.wifiOpen}</option>
-                    </select>
+                    </Select>
+                  </div>
+                  {wifiSecurity !== "nopass" ? (
+                    <Field
+                      label={c.wifiPassLabel}
+                      value={wifiPassword}
+                      onChange={setWifiPassword}
+                      placeholder="••••••••"
+                      hint={
+                        !wifiPassword.trim() ? c.wifiPassRequired : undefined
+                      }
+                    />
+                  ) : null}
+                  <label className="flex items-center gap-2 text-sm text-foreground">
+                    <input
+                      type="checkbox"
+                      checked={wifiHidden}
+                      onChange={(e) => setWifiHidden(e.target.checked)}
+                      className="h-4 w-4 accent-[var(--brand)]"
+                    />
+                    {c.wifiHiddenLabel}
                   </label>
+                </>
+              ) : null}
+              {contentType === "event" ? (
+                <>
+                  <Field
+                    label={c.eventTitleLabel}
+                    value={eventTitle}
+                    onChange={setEventTitle}
+                    placeholder={c.eventTitlePlaceholder}
+                  />
+                  <Field
+                    label={c.eventLocationLabel}
+                    value={eventLocation}
+                    onChange={setEventLocation}
+                    placeholder={c.eventLocationPlaceholder}
+                  />
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <label className="block">
+                      <span className="text-xs font-semibold text-muted">
+                        {c.eventStartLabel}
+                      </span>
+                      <input
+                        type="datetime-local"
+                        value={eventStart}
+                        onChange={(e) => setEventStart(e.target.value)}
+                        className={cn(fieldControlClass, "mt-1")}
+                      />
+                    </label>
+                    <label className="block">
+                      <span className="text-xs font-semibold text-muted">
+                        {c.eventEndLabel}
+                      </span>
+                      <input
+                        type="datetime-local"
+                        value={eventEnd}
+                        onChange={(e) => setEventEnd(e.target.value)}
+                        className={cn(fieldControlClass, "mt-1")}
+                      />
+                    </label>
+                  </div>
+                  <label className="block">
+                    <span className="text-xs font-semibold text-muted">
+                      {c.eventDescriptionLabel}
+                    </span>
+                    <textarea
+                      value={eventDescription}
+                      onChange={(e) => setEventDescription(e.target.value)}
+                      rows={3}
+                      className={cn(fieldControlClass, "mt-1")}
+                    />
+                  </label>
+                </>
+              ) : null}
+              {contentType === "social" ? (
+                <>
+                  <div>
+                    <label
+                      className="text-xs font-semibold text-muted"
+                      htmlFor="qr-social-network"
+                    >
+                      {c.socialNetworkLabel}
+                    </label>
+                    <Select
+                      id="qr-social-network"
+                      className="mt-1"
+                      value={socialNetwork}
+                      onChange={(e) =>
+                        setSocialNetwork(e.target.value as SocialNetwork)
+                      }
+                    >
+                      <option value="instagram">{c.socialInstagram}</option>
+                      <option value="facebook">{c.socialFacebook}</option>
+                      <option value="tiktok">{c.socialTiktok}</option>
+                      <option value="x">{c.socialX}</option>
+                      <option value="linkedin">{c.socialLinkedin}</option>
+                      <option value="youtube">{c.socialYoutube}</option>
+                      <option value="other">{c.socialOther}</option>
+                    </Select>
+                  </div>
+                  {socialNetwork === "other" ? (
+                    <Field
+                      label={c.socialUrlLabel}
+                      value={socialUrl}
+                      onChange={setSocialUrl}
+                      placeholder={c.urlPlaceholder}
+                    />
+                  ) : (
+                    <Field
+                      label={c.socialHandleLabel}
+                      value={socialHandle}
+                      onChange={setSocialHandle}
+                      placeholder={c.socialHandlePlaceholder}
+                      hint={c.socialHandleHint}
+                    />
+                  )}
                 </>
               ) : null}
             </div>
@@ -305,23 +614,34 @@ export function QrTool() {
               {c.presetsLabel}
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
-              {PRESET_COLORS.map((p) => (
-                <button
-                  key={p.label}
-                  type="button"
-                  onClick={() => {
-                    setFg(p.fg);
-                    setBg(p.bg);
-                  }}
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-brand/40"
-                >
-                  <span
-                    className="h-4 w-4 rounded-full border border-black/10"
-                    style={{ background: `linear-gradient(135deg, ${p.fg} 50%, ${p.bg} 50%)` }}
-                  />
-                  {p.label}
-                </button>
-              ))}
+              {PRESET_COLORS.map((p) => {
+                const presetLabels = {
+                  brand: c.presetBrand,
+                  classic: c.presetClassic,
+                  soft: c.presetSoft,
+                  accent: c.presetAccent,
+                  inverted: c.presetInverted,
+                } as const;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => {
+                      setFg(p.fg);
+                      setBg(p.bg);
+                    }}
+                    className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-brand/40"
+                  >
+                    <span
+                      className="h-4 w-4 rounded-full border border-black/10"
+                      style={{
+                        background: `linear-gradient(135deg, ${p.fg} 50%, ${p.bg} 50%)`,
+                      }}
+                    />
+                    {presetLabels[p.id]}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -338,7 +658,7 @@ export function QrTool() {
                     type="text"
                     value={fg}
                     onChange={(e) => setFg(e.target.value)}
-                    className="h-10 flex-1 rounded-xl border border-border bg-background px-3 font-mono text-sm outline-none focus:border-brand"
+                    className={cn(fieldControlClass, "font-mono")}
                   />
                 </div>
               </label>
@@ -355,7 +675,7 @@ export function QrTool() {
                     type="text"
                     value={bg}
                     onChange={(e) => setBg(e.target.value)}
-                    className="h-10 flex-1 rounded-xl border border-border bg-background px-3 font-mono text-sm outline-none focus:border-brand"
+                    className={cn(fieldControlClass, "font-mono")}
                   />
                 </div>
               </label>
@@ -410,20 +730,26 @@ export function QrTool() {
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <label className="block">
-                <span className="text-xs font-semibold text-muted">{c.sizeLabel}</span>
-                <select
+              <div>
+                <label
+                  className="text-xs font-semibold text-muted"
+                  htmlFor="qr-export-size"
+                >
+                  {c.sizeLabel}
+                </label>
+                <Select
+                  id="qr-export-size"
+                  className="mt-1"
                   value={size}
                   onChange={(e) => setSize(Number(e.target.value))}
-                  className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
                 >
                   {QR_SIZES.map((s) => (
                     <option key={s} value={s}>
                       {s}×{s} px
                     </option>
                   ))}
-                </select>
-              </label>
+                </Select>
+              </div>
               <label className="block">
                 <span className="text-xs font-semibold text-muted">
                   {c.marginLabel}: {margin}
@@ -466,6 +792,11 @@ export function QrTool() {
                 </button>
               ) : null}
             </div>
+            {logoError ? (
+              <p className="mt-2 text-xs font-medium text-danger" role="alert">
+                {logoError}
+              </p>
+            ) : null}
             {logoName ? (
               <p className="mt-2 text-xs text-muted">{logoName}</p>
             ) : null}
@@ -488,7 +819,6 @@ export function QrTool() {
           </section>
         </div>
 
-        {/* Preview sticky */}
         <aside className="animate-fade-up animation-delay-2 lg:sticky lg:top-24">
           <div className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
             <h2 className="text-sm font-semibold text-foreground">{c.previewTitle}</h2>
@@ -513,7 +843,7 @@ export function QrTool() {
             <div className="mt-4 grid grid-cols-2 gap-2">
               <button
                 type="button"
-                disabled={!canGenerate || !ready}
+                disabled={!canGenerate || !ready || downloading}
                 onClick={() => download("png")}
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
               >
@@ -522,7 +852,7 @@ export function QrTool() {
               </button>
               <button
                 type="button"
-                disabled={!canGenerate || !ready}
+                disabled={!canGenerate || !ready || downloading}
                 onClick={() => download("svg")}
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border text-sm font-semibold text-foreground transition-colors hover:border-brand/40 disabled:cursor-not-allowed disabled:opacity-50"
               >
@@ -560,7 +890,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
+        className={cn(fieldControlClass, "mt-1")}
         autoComplete="off"
       />
       {hint ? <span className="mt-1 block text-[11px] text-muted">{hint}</span> : null}

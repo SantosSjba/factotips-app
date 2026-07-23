@@ -5,6 +5,7 @@ import { useState } from "react";
 import { IgvDonutChart, IgvStackedBar } from "@/components/igv/igv-chart";
 import { IgvVoucherSim } from "@/components/igv/igv-voucher-sim";
 import { Icon } from "@/components/ui/icon";
+import { fieldControlClass } from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n/provider";
 import {
   buildIgvSummary,
@@ -101,6 +102,8 @@ export function IgvTool() {
     copied: c.copied,
     previewEmpty: c.voucherEmpty,
     configHint: c.voucherConfigHint,
+    demoEmitter: c.voucherDemoEmitter,
+    demoItem: c.voucherDemoItem,
   };
 
   return (
@@ -251,7 +254,10 @@ export function IgvTool() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder={c.amountPlaceholder}
-                className="h-12 w-full rounded-xl border border-border bg-surface pl-10 pr-4 text-base text-foreground outline-none transition-colors focus:border-brand"
+                className={cn(
+                  fieldControlClass,
+                  "h-12 pl-10 pr-4 text-base",
+                )}
                 autoComplete="off"
               />
             </div>

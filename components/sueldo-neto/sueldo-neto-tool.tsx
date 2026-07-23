@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
+import { Select, fieldControlClass } from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n/provider";
 import { formatPen } from "@/lib/pe/igv";
 import {
@@ -145,7 +146,10 @@ export function SueldoNetoTool() {
                 inputMode="decimal"
                 value={bruto}
                 onChange={(e) => setBruto(e.target.value)}
-                className="h-12 w-full rounded-xl border border-border bg-background pl-14 pr-4 text-lg font-semibold tabular-nums outline-none focus:border-brand focus:ring-4 focus:ring-brand/15"
+                className={cn(
+                  fieldControlClass,
+                  "h-12 pl-14 pr-4 text-lg font-semibold tabular-nums focus:ring-4 focus:ring-brand/15",
+                )}
                 autoComplete="off"
               />
             </div>
@@ -239,14 +243,18 @@ export function SueldoNetoTool() {
                 </div>
               </fieldset>
 
-              <label className="block">
-                <span className="text-xs font-semibold text-muted">
+              <div>
+                <label
+                  className="text-xs font-semibold text-muted"
+                  htmlFor="sueldo-afp"
+                >
                   {c.afpLabel}
-                </span>
-                <select
+                </label>
+                <Select
+                  id="sueldo-afp"
+                  className="mt-1"
                   value={afpId}
                   onChange={(e) => setAfpId(e.target.value)}
-                  className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
                 >
                   {AFP_COMISIONES.map((a) => (
                     <option key={a.id} value={a.id}>
@@ -255,8 +263,8 @@ export function SueldoNetoTool() {
                       {formatPctAfp(a.comisionSaldoAnual)}
                     </option>
                   ))}
-                </select>
-              </label>
+                </Select>
+              </div>
 
               {afpTipo === "saldo" ? (
                 <p className="rounded-lg bg-brand-soft/40 px-2.5 py-1.5 text-[11px] leading-relaxed text-muted">
@@ -307,7 +315,7 @@ export function SueldoNetoTool() {
                 inputMode="decimal"
                 value={otros}
                 onChange={(e) => setOtros(e.target.value)}
-                className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
+                className={cn(fieldControlClass, "mt-1")}
               />
             </label>
             <label className="block">
@@ -319,7 +327,7 @@ export function SueldoNetoTool() {
                 inputMode="decimal"
                 value={gastos}
                 onChange={(e) => setGastos(e.target.value)}
-                className="mt-1 h-10 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-brand"
+                className={cn(fieldControlClass, "mt-1")}
               />
               <span className="mt-1 block text-[10px] leading-snug text-muted">
                 {c.gastosHint.replace(

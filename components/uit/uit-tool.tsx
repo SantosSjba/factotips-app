@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui/icon";
+import { fieldControlClass } from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n/provider";
 import { formatPen } from "@/lib/pe/igv";
 import {
@@ -95,7 +96,7 @@ export function UitTool() {
       : 0;
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
+    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
       <Link
         href={TOOL_ROUTES.uit.landingPath}
         className="inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-brand"
@@ -235,7 +236,8 @@ export function UitTool() {
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder={c.amountPlaceholder}
                 className={cn(
-                  "h-14 w-full rounded-2xl border border-border bg-background pr-4 text-xl font-semibold tabular-nums text-foreground outline-none transition-all focus:border-brand focus:ring-4 focus:ring-brand/15",
+                  fieldControlClass,
+                  "h-14 rounded-2xl pr-4 text-xl font-semibold tabular-nums focus:ring-4 focus:ring-brand/15",
                   mode === "uit-a-soles" ? "pl-[4.25rem]" : "pl-14",
                 )}
                 autoComplete="off"
